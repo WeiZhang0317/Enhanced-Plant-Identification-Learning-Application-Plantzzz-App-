@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import studentImage from './images/student.png';
-import teacherImage from './images/teacher.png';
-import homeIcon from './images/home.png'; 
+import studentImage from '../images/student.png';
+import teacherImage from '../images/teacher.png';
+import homeIcon from '../images/home.png'; 
 
 function RegisterPage() {
   const navigate = useNavigate();
