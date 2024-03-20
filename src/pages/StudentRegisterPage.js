@@ -8,6 +8,8 @@ function StudentRegisterPage() {
     name: '',
     email: '',
     password: '',
+    enrollmentYear: '',
+    studentId: '',
   });
 
   // This function updates the state with the user's input
@@ -26,6 +28,20 @@ function StudentRegisterPage() {
 
   const handleGoHome = () => {
     navigate('/');
+  };
+
+  const formStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '40px',
+    marginTop: '20px',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+    borderRadius: '8px',
+    backgroundColor: 'white',
+    width: '100%',
+    maxWidth: '400px',
   };
 
   const navStyle = {
@@ -49,6 +65,27 @@ function StudentRegisterPage() {
     transition: 'background-color 0.3s',
   };
 
+  const inputStyle = {
+    width: '100%',
+    padding: '10px',
+    marginBottom: '20px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+  };
+
+  
+  const buttonStyle = {
+    width: '100%',
+    padding: '10px',
+    backgroundColor: '#4CAF50',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+  };
+
+
   return (
     <div style={{ backgroundColor: '#F0F2F5', minHeight: '100vh' }}>
       <nav style={navStyle}>
@@ -58,24 +95,16 @@ function StudentRegisterPage() {
         </button>
       </nav>
       <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <h1>Student Registration</h1>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: '300px' }}>
-          <label htmlFor="name" style={{ marginBottom: '10px' }}>
-            Name:
-            <input type="text" id="name" name="name" value={studentData.name} onChange={handleChange} required style={{ marginLeft: '10px' }} />
-          </label>
-          <label htmlFor="email" style={{ marginBottom: '10px' }}>
-            Email:
-            <input type="email" id="email" name="email" value={studentData.email} onChange={handleChange} required style={{ marginLeft: '10px' }} />
-          </label>
-          <label htmlFor="password" style={{ marginBottom: '10px' }}>
-            Password:
-            <input type="password" id="password" name="password" value={studentData.password} onChange={handleChange} required style={{ marginLeft: '10px' }} />
-          </label>
-          <button type="submit" style={{ marginTop: '20px', cursor: 'pointer', padding: '10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px' }}>
-            Register
-          </button>
-        </form>
+       <h1 style={{ color: '#333' }}>Student Registration</h1>
+
+        <form onSubmit={handleSubmit} style={formStyle}>
+        <input style={inputStyle} type="text" id="name" name="name" placeholder="Name" value={studentData.name} onChange={handleChange} required />
+        <input style={inputStyle} type="email" id="email" name="email" placeholder="Email" value={studentData.email} onChange={handleChange} required />
+        <input style={inputStyle} type="password" id="password" name="password" placeholder="Password" value={studentData.password} onChange={handleChange} required />
+        <input style={inputStyle} type="text" id="studentId" name="studentId" placeholder="Student ID" value={studentData.studentId} onChange={handleChange} required />
+        <input style={inputStyle} type="text" id="enrollmentYear" name="enrollmentYear" placeholder="Enrollment Year" value={studentData.enrollmentYear} onChange={handleChange} required />
+        <button type="submit" style={buttonStyle}>Register</button>
+      </form>
       </div>
     </div>
   );
