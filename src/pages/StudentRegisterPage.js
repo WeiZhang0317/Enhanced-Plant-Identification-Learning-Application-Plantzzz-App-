@@ -1,110 +1,200 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import homeIcon from '../images/home.png'; // Ensure the path is correct for your project structure
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Navigation from "../components/Navigation";
 
 function StudentRegisterPage() {
   const navigate = useNavigate();
+  const currentYear = new Date().getFullYear();
   const [studentData, setStudentData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    enrollmentYear: '',
-    studentId: '',
+    name: "",
+    email: "",
+    password: "",
+    enrollmentYear: `${currentYear}`,
+    studentId: "",
   });
 
-  // This function updates the state with the user's input
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setStudentData({ ...studentData, [name]: value });
+    setError(""); // Clear error message on new input
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here, you can add the logic to submit the form data, for example, sending data to a server
+    if (
+      !studentData.name ||
+      !studentData.email ||
+      !studentData.password ||
+      !studentData.enrollmentYear ||
+      !studentData.studentId
+    ) {
+      setError("All fields must be filled out");
+      return;
+    }
     console.log(studentData);
-    // After submitting, navigate to a thank-you page or a dashboard
-    navigate('/thank-you'); // Ensure you have a route and a component for '/thank-you'
+    navigate("/thank-you");
   };
 
-  const handleGoHome = () => {
-    navigate('/');
+  const formFieldStyle = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    margin: "10px 0",
+    width: "100%",
   };
 
-  const formStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '40px',
-    marginTop: '20px',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-    borderRadius: '8px',
-    backgroundColor: 'white',
-    width: '100%',
-    maxWidth: '400px',
-  };
-
-  const navStyle = {
-    backgroundColor: '#4CAF50', 
-    padding: '10px 0',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
-
-  const navButtonStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    margin: '0 20px',
-    backgroundColor: 'transparent',
-    border: 'none',
-    color: 'white',
-    padding: '10px 20px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
+  const labelStyle = {
+    marginBottom: "8px",
+    fontWeight: "bold",
+    color: "#4CAF50",
   };
 
   const inputStyle = {
-    width: '100%',
-    padding: '10px',
-    marginBottom: '20px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
+    padding: "12px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    marginBottom: "8px",
+    width: "100%",
   };
-
-  
-  const buttonStyle = {
-    width: '100%',
-    padding: '10px',
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+  const hintStyle = {
+    fontSize: "0.75rem",
+    color: "#6c757d",
+    width: "100%",
   };
-
 
   return (
-    <div style={{ backgroundColor: '#F0F2F5', minHeight: '100vh' }}>
-      <nav style={navStyle}>
-        <button onClick={handleGoHome} style={navButtonStyle} onMouseOver={e => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)'} onMouseOut={e => e.currentTarget.style.backgroundColor = 'transparent'}>
-          <img src={homeIcon} alt="Home" style={{ width: '20px', marginRight: '5px' }} />
-          Home
-        </button>
-      </nav>
-      <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-       <h1 style={{ color: '#333' }}>Student Registration</h1>
+    <div style={{ backgroundColor: "#F0F2F5", minHeight: "100vh" }}>
+      <Navigation />
+      <div
+        style={{
+          padding: "20px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <h1 style={{ color: "#4CAF50" }}>Student Registration</h1>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "40px",
+            marginTop: "20px",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            borderRadius: "8px",
+            backgroundColor: "white",
+            width: "100%",
+            maxWidth: "500px", // Adjusted for better layout
+          }}
+        >
+          <div style={formFieldStyle}>
+            <label htmlFor="name" style={labelStyle}>
+              Name:
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Name"
+              value={studentData.name}
+              onChange={handleChange}
+              style={inputStyle}
+            />
+          </div>
+          <div style={formFieldStyle}>
+            <label htmlFor="email" style={labelStyle}>
+              Email:
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
+              value={studentData.email}
+              onChange={handleChange}
+              style={inputStyle}
+            />
+          </div>
+          <div style={formFieldStyle}>
+            <label htmlFor="password" style={labelStyle}>
+              Password:
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              value={studentData.password}
+              onChange={handleChange}
+              style={inputStyle}
+              pattern="(?=.*\d)(?=.*[a-zA-Z]).{5,}"
+              title="Password must be at least 5 characters long and include both letters and numbers"
+            />
+            <div style={hintStyle}>
+              Include letters and numbers, at least 5 chars.
+            </div>
+          </div>
 
-        <form onSubmit={handleSubmit} style={formStyle}>
-        <input style={inputStyle} type="text" id="name" name="name" placeholder="Name" value={studentData.name} onChange={handleChange} required />
-        <input style={inputStyle} type="email" id="email" name="email" placeholder="Email" value={studentData.email} onChange={handleChange} required />
-        <input style={inputStyle} type="password" id="password" name="password" placeholder="Password" value={studentData.password} onChange={handleChange} required />
-        <input style={inputStyle} type="text" id="studentId" name="studentId" placeholder="Student ID" value={studentData.studentId} onChange={handleChange} required />
-        <input style={inputStyle} type="text" id="enrollmentYear" name="enrollmentYear" placeholder="Enrollment Year" value={studentData.enrollmentYear} onChange={handleChange} required />
-        <button type="submit" style={buttonStyle}>Register</button>
-      </form>
+          <div style={formFieldStyle}>
+            <label htmlFor="studentId" style={labelStyle}>
+              Student ID:
+            </label>
+            <input
+              type="text" // Keep as text to allow leading zeros
+              id="studentId"
+              name="studentId"
+              placeholder="Student ID"
+              value={studentData.studentId}
+              onChange={handleChange}
+              style={inputStyle}
+              pattern="\d*" // Pattern to match a string of digits
+              title="Student ID must be a number" // Tooltip for pattern mismatch
+            />
+          </div>
+          <div style={formFieldStyle}>
+            <label htmlFor="enrollmentYear" style={labelStyle}>
+              Year:
+            </label>
+            <select
+              id="enrollmentYear"
+              name="enrollmentYear"
+              value={studentData.enrollmentYear}
+              onChange={handleChange}
+              style={inputStyle}
+            >
+              {Array.from(
+                { length: currentYear - 1999 },
+                (_, index) => 2000 + index
+              ).map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            style={{
+              width: "100%",
+              padding: "10px",
+              backgroundColor: "#4CAF50",
+              color: "white",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+              boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              marginTop: "10px",
+            }}
+          >
+            Register
+          </button>
+        </form>
       </div>
     </div>
   );
