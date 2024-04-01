@@ -1,3 +1,5 @@
+cd C:\Users\Fernanda\Documents\GitHub\plantzzz\frontend
+
 cd C:\Users\zhang\Documents\GitHub\plantzzz\frontend
 
 set NODE_OPTIONS=--openssl-legacy-provider
