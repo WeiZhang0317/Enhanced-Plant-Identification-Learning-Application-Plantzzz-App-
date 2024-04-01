@@ -35,24 +35,36 @@ function StudentRegisterPage() {
     }
   
     
-    fetch('http://localhost:5000/student/register/student',  {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(studentData),
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      navigate("/thank-you");
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      setError('Failed to register');
-    });
-  };
-  
+    fetch('http://localhost:5000/student/register/student', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(studentData),
+  })
+  .then(response => {
+    if (!response.ok) { 
+      if (response.status === 409) {
+     
+        return response.json().then(data => {
+          throw new Error(data.message || 'There is a conflict with the existing data.');
+        });
+      } else {
+        
+        throw new Error('Failed to register. Please try again later.');
+      }
+    }
+    return response.json(); 
+  })
+  .then(data => {
+    console.log(data);
+    navigate("/thank-you");
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    setError(error.message); 
+  });
+};
 
   const formFieldStyle = {
     display: "flex",
