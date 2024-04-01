@@ -1,3 +1,4 @@
+pip install flask-cors
 cd C:\Users\Fernanda\Documents\GitHub\plantzzz\frontend
 
 cd C:\Users\zhang\Documents\GitHub\plantzzz\frontend
