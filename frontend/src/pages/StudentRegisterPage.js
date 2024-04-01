@@ -66,6 +66,20 @@ function StudentRegisterPage() {
   });
 };
 
+const errorMessageStyle = {
+  color: "#721c24", 
+  backgroundColor: "#f8d7da", 
+  borderColor: "#f5c6cb",
+  padding: "10px",
+  borderRadius: "4px",
+  margin: "10px 0 20px", 
+  border: "1px solid transparent",
+  width: "100%", 
+  textAlign: "center",
+  fontWeight: "600", 
+  boxShadow: "0 0 5px rgba(0,0,0,0.2)", 
+};
+
   const formFieldStyle = {
     display: "flex",
     flexDirection: "column",
@@ -105,7 +119,7 @@ function StudentRegisterPage() {
         }}
       >
         <h1 style={{ color: "#4CAF50" }}>Student Registration</h1>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <div style={errorMessageStyle}>{error}</div>}
         <form
           onSubmit={handleSubmit}
           style={{
