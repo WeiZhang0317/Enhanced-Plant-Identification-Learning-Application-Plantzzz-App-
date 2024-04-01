@@ -33,9 +33,26 @@ function StudentRegisterPage() {
       setError("All fields must be filled out");
       return;
     }
-    console.log(studentData);
-    navigate("/thank-you");
+  
+    
+    fetch('http://localhost:5000/student/register/student',  {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(studentData),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      navigate("/thank-you");
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      setError('Failed to register');
+    });
   };
+  
 
   const formFieldStyle = {
     display: "flex",

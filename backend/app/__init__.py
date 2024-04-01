@@ -1,14 +1,19 @@
-import logging
 from flask import Flask
+from flask_cors import CORS
 from .student import student_blueprint
+from .teacher import teacher_blueprint
+
 
 def create_app():
     app = Flask(__name__)
-    logging.basicConfig(level=logging.DEBUG)
-
-    app.config.from_pyfile('config.py')
+    
+   
+    CORS(app)
 
  
-    app.register_blueprint(student_blueprint)
+    app.register_blueprint(student_blueprint, url_prefix='/student')
+    app.register_blueprint(teacher_blueprint, url_prefix='/teacher')
+ 
 
+  
     return app
