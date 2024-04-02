@@ -6,7 +6,7 @@ function HomePage() {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    alert("Login");
+    navigate("/login"); 
   };
 
   const handleRegisterClick = () => {
