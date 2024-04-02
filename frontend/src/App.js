@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
 import StudentRegisterPage from './pages/StudentRegisterPage';
-import ThankYouPage from './pages/ThankYouPage'; // Import the new component
+import TeacherRegisterPage from './pages/TeacherRegisterPage'; // Import the new component
+import ThankYouPage from './pages/ThankYouPage';
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/register/student" element={<StudentRegisterPage />} />
-        <Route path="/thank-you" element={<ThankYouPage />} /> {/* New route for the Thank You page */}
+        <Route path="/register/teacher" element={<TeacherRegisterPage />} /> 
+        <Route path="/thank-you" element={<ThankYouPage />} />
       </Routes>
     </Router>
   );
