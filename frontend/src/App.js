@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { UserProvider } from './contexts/UserContext';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage'; // Import the new component
 import RegisterPage from './pages/RegisterPage';
@@ -11,6 +12,7 @@ import StudentDashboard from './pages/StudentDashboard';
 
 function App() {
   return (
+    <UserProvider>
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -23,6 +25,7 @@ function App() {
         <Route path="/student/dashboard" element={<StudentDashboard />} />
       </Routes>
     </Router>
+    </UserProvider>
   );
 }
 
