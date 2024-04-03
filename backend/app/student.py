@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_cors import CORS
 import mysql.connector
 from mysql.connector import Error
+from werkzeug.security import generate_password_hash
 import connect
 
 student_blueprint = Blueprint('student', __name__)
@@ -27,35 +28,37 @@ def register_student():
     try:
         cursor = get_cursor(connection, dictionary_cursor=True)
 
-        # Check if the email is already taken in Users table
         cursor.execute("SELECT * FROM Users WHERE Email = %s", (data['email'],))
         if cursor.fetchone():
             return jsonify({"message": "Email already exists"}), 409
 
-        # Check if the student ID is already taken in Students table
+     
         cursor.execute("SELECT * FROM Students WHERE StudentID = %s", (data['studentId'],))
         if cursor.fetchone():
             return jsonify({"message": "Student ID already exists"}), 409
 
-        # Insert new user into Users table
+       
+        hashed_password = generate_password_hash(data['password'], method='pbkdf2:sha256')
+
+       
         cursor.execute("""
             INSERT INTO Users (Username, Password, Email, UserType)
             VALUES (%s, %s, %s, 'student')
-        """, (data['name'], data['password'], data['email']))
+        """, (data['name'], hashed_password, data['email']))
         user_id = cursor.lastrowid
 
-        # Insert new student into Students table using the provided StudentID
+ 
         cursor.execute("""
             INSERT INTO Students (StudentID, UserID, EnrollmentYear)
             VALUES (%s, %s, %s)
         """, (data['studentId'], user_id, data['enrollmentYear']))
 
-        # Commit the transaction
+       
         connection.commit()
         return jsonify({"message": "Student registered successfully"}), 201
 
     except Error as e:
-        connection.rollback()
+        connection.rollback()  
         return jsonify({"message": str(e)}), 500
 
     finally:

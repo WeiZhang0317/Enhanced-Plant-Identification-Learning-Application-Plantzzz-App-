@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 function LoginPage() {
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
@@ -10,6 +13,7 @@ function LoginPage() {
   });
 
   const [error, setError] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,21 +21,47 @@ function LoginPage() {
     setError(""); // Clear error message on new input
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!loginData.email || !loginData.password) {
       setError("All fields must be filled out");
       return;
     }
-
-    // Simulate login process (replace with actual login logic)
-    if (loginData.email === "example@example.com" && loginData.password === "password") {
-      // Successful login
-      navigate("/dashboard"); // Redirect to dashboard or any other page after successful login
-    } else {
-      // Failed login
-      setError("Invalid email or password");
+  
+    try {
+      const response = await fetch('http://localhost:5000/user/login', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: loginData.email,
+          password: loginData.password,
+        }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        // 根据用户类型导航到相应的仪表盘
+        if (data.userType === "teacher") {
+          navigate("/teacher/dashboard");
+        } else if (data.userType === "student") {
+          navigate("/student/dashboard");
+        } else {
+          setError("Invalid user type");
+        }
+      } else {
+        setError("Invalid email or password");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("Failed to login. Please try again later.");
     }
+  };
+  
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
   };
 
   const errorMessageStyle = {
@@ -70,6 +100,17 @@ function LoginPage() {
     width: "100%",
   };
 
+  const toggleVisibilityButtonStyle = {
+    position: 'absolute',
+    right: '10px',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    border: 'none',
+    background: 'none',
+    cursor: 'pointer',
+    color: '#4CAF50',
+  };
+
   return (
     <div style={{ backgroundColor: "#F0F2F5", minHeight: "100vh" }}>
       <Navigation />
@@ -95,7 +136,7 @@ function LoginPage() {
             borderRadius: "8px",
             backgroundColor: "white",
             width: "100%",
-            maxWidth: "500px", // Adjusted for better layout
+            maxWidth: "500px",
           }}
         >
           <div style={formFieldStyle}>
@@ -112,12 +153,12 @@ function LoginPage() {
               style={inputStyle}
             />
           </div>
-          <div style={formFieldStyle}>
+          <div style={{ ...formFieldStyle, position: 'relative' }}>
             <label htmlFor="password" style={labelStyle}>
               Password:
             </label>
             <input
-              type="password"
+              type={isPasswordVisible ? "text" : "password"}
               id="password"
               name="password"
               placeholder="Password"
@@ -125,6 +166,9 @@ function LoginPage() {
               onChange={handleChange}
               style={inputStyle}
             />
+            <button onClick={togglePasswordVisibility} type="button" style={toggleVisibilityButtonStyle}>
+              <FontAwesomeIcon icon={isPasswordVisible ? faEyeSlash : faEye} />
+            </button>
           </div>
 
           <button
@@ -137,7 +181,6 @@ function LoginPage() {
               border: "none",
               borderRadius: "5px",
               cursor: "pointer",
-              boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
               marginTop: "10px",
             }}
           >

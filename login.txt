@@ -1,0 +1,23 @@
+-- Insert student users
+INSERT INTO Users (Username, Password, Email, UserType) VALUES 
+('StudentOne', 'plaintext_password', 'student1@example.com', 'student'),
+('StudentTwo', 'plaintext_password', 'student2@example.com', 'student'),
+('StudentThree', 'plaintext_password', 'student3@example.com', 'student');
+
+-- Insert teacher users
+INSERT INTO Users (Username, Password, Email, UserType) VALUES 
+('TeacherOne', 'plaintext_password', 'teacher1@example.com', 'teacher'),
+('TeacherTwo', 'plaintext_password', 'teacher2@example.com', 'teacher'),
+('TeacherThree', 'plaintext_password', 'teacher3@example.com', 'teacher');
+
+-- Assuming the UserIDs for students are 1, 2, and 3
+INSERT INTO Students (StudentID, UserID, EnrollmentYear) VALUES 
+(1001, 1, YEAR(CURRENT_DATE)),
+(1002, 2, YEAR(CURRENT_DATE)),
+(1003, 3, YEAR(CURRENT_DATE));
+
+-- Assuming the UserIDs for teachers are 4, 5, and 6
+INSERT INTO Teachers (TeacherID, UserID, Title) VALUES 
+(2001, 4, 'teacher'),
+(2002, 5, 'tutor'),
+(2003, 6, 'tutor');
