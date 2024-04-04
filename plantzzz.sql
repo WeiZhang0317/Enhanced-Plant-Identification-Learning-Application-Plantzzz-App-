@@ -28,21 +28,6 @@ CREATE TABLE Teachers (
     FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
-CREATE TABLE Quizzes (
-    QuizID INT AUTO_INCREMENT PRIMARY KEY,
-    Semester VARCHAR(255) NOT NULL,
-    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE Questions (
-    QuestionID INT AUTO_INCREMENT PRIMARY KEY,
-    QuizID INT,
-    QuestionType VARCHAR(255),
-    QuestionText VARCHAR(1000),
-    PlantName VARCHAR(255),
-    CorrectAnswer VARCHAR(255),
-    FOREIGN KEY (QuizID) REFERENCES Quizzes(QuizID) ON DELETE CASCADE
-);
 
 
 CREATE TABLE PlantNames (
@@ -74,6 +59,36 @@ CREATE TABLE PlantImages (
     FOREIGN KEY (PlantID) REFERENCES PlantNames(PlantID) ON DELETE CASCADE
 );
 
+
+CREATE TABLE Quizzes (
+    QuizID INT AUTO_INCREMENT PRIMARY KEY,
+    QuizName VARCHAR(255) NOT NULL,
+    SemesterID INT,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (SemesterID) REFERENCES semesters_info(semester_id)
+);
+
+
+CREATE TABLE Questions (
+    QuestionID INT AUTO_INCREMENT PRIMARY KEY,
+    QuizID INT,
+    QuestionType VARCHAR(255), 
+    QuestionText VARCHAR(1000),
+    CorrectAnswer VARCHAR(255),
+    FOREIGN KEY (QuizID) REFERENCES Quizzes(QuizID) ON DELETE CASCADE
+);
+
+
+CREATE TABLE QuestionOptions (
+    OptionID INT AUTO_INCREMENT PRIMARY KEY,
+    QuestionID INT,
+    OptionText VARCHAR(255), 
+    IsCorrect BOOLEAN DEFAULT FALSE, 
+    FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID) ON DELETE CASCADE
+);
+
+
+
 -- Insert student users
 INSERT INTO Users (Username, Password, Email, UserType) VALUES 
 ('StudentOne', 'password123', 'student1@example.com', 'student'),
@@ -97,6 +112,9 @@ INSERT INTO Teachers (TeacherID, UserID, Title) VALUES
 (2001, 4, 'teacher'),
 (2002, 5, 'tutor'),
 (2003, 6, 'tutor');
+
+
+
 
 
 INSERT INTO `plantnames` (`PlantID`, `LatinName`, `CommonName`) VALUES
@@ -313,3 +331,277 @@ VALUES
 
 INSERT INTO plants_semesters (plant_id, semester_id) 
 VALUES (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 1), (13, 1), (14, 1), (15, 1), (16, 1), (17, 1), (18, 1), (19, 1), (20, 1), (21, 1), (22, 1), (23, 1), (24, 1), (25, 1), (26, 1), (27, 1), (28, 1), (29, 1), (30, 1), (31, 1), (32, 1), (33, 1), (34, 1), (35, 1), (36, 1), (37, 1), (38, 1), (39, 1), (40, 1), (41, 1), (42, 1), (43, 1), (44, 1), (45, 1), (46, 1), (47, 1), (48, 1), (49, 1), (50, 1), (51, 2), (52, 2), (53, 2), (54, 2), (55, 2), (56, 2), (57, 2), (58, 2), (59, 2), (60, 2), (61, 2), (62, 2), (63, 2), (64, 2), (65, 2), (66, 2), (67, 2), (68, 2), (69, 2), (70, 2), (71, 2), (72, 2), (73, 2), (74, 2), (75, 2), (76, 2), (77, 2), (78, 2), (79, 2), (80, 2), (81, 2), (82, 2), (83, 2), (84, 2), (85, 2), (86, 2), (87, 2), (88, 2), (89, 2), (90, 2), (91, 2), (92, 2), (93, 2), (94, 2), (95, 2), (96, 2), (97, 2), (98, 2), (99, 2), (100, 2), (101, 3), (102, 3), (103, 3), (104, 3), (105, 3), (106, 3), (107, 3), (108, 3), (109, 3), (110, 3), (111, 3), (112, 3), (113, 3), (114, 3), (115, 3), (116, 3), (117, 3), (118, 3), (119, 3), (120, 3), (121, 3), (122, 3), (123, 3), (124, 3), (125, 3), (126, 3), (127, 3), (128, 3), (129, 3), (130, 3), (131, 3), (132, 3), (133, 3), (134, 3), (135, 3), (136, 3), (137, 3), (138, 3), (139, 3), (140, 3), (141, 3), (142, 3), (143, 3), (144, 3), (145, 3), (146, 3), (147, 3), (148, 3), (149, 3), (150, 3), (151, 4), (152, 4), (153, 4), (154, 4), (155, 4), (156, 4), (157, 4), (158, 4), (159, 4), (160, 4), (161, 4), (162, 4), (163, 4), (164, 4), (165, 4), (166, 4), (167, 4), (168, 4), (169, 4), (170, 4), (171, 4), (172, 4), (173, 4), (174, 4), (175, 4), (176, 4), (177, 4), (178, 4), (179, 4), (180, 4), (181, 4), (182, 4), (183, 4), (184, 4), (185, 4), (186, 4), (187, 4), (188, 4), (189, 4), (190, 4), (191, 4), (192, 4), (193, 4), (194, 4), (195, 4), (196, 4), (197, 4), (198, 4), (199, 4),(200, 4);
+
+INSERT INTO Quizzes (QuizName, SemesterID, CreatedAt) 
+VALUES ('Semester 1 Plant Quiz', 1, NOW());
+
+
+-- t or flase
+
+-- PlantID 1: Alectryon excelsus (titoki)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the Latin name of titoki "Alectryon excelsus"?', 'True');
+
+-- PlantID 2: Aucuba japonica (spotted or Japanese laurel)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the spotted or Japanese laurel known scientifically as "Azara microphylla"?', 'False');
+
+-- PlantID 3: Azara microphylla (vanilla tree)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Azara microphylla" the correct Latin name for the vanilla tree?', 'True');
+
+-- PlantID 4: Banksia integrifolia (coastal banksia)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the coastal banksia known scientifically as "Carpinus betulus"?', 'False');
+
+-- PlantID 5: Brachyglottis greyi (NZ daisy bush)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the NZ daisy bush correctly identified as "Brachyglottis greyi"?', 'True');
+
+-- PlantID 6: Carmichaelia williamsii (NZ giant flowering broom)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Carmichaelia williamsii" known as the coastal banksia?', 'False');
+
+-- PlantID 7: Carpinus betulus (European hornbeam)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the European hornbeam known scientifically as "Carpinus betulus"?', 'True');
+
+-- PlantID 8: Celmisia sp. (mountain daisy)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Does the mountain daisy belong to the genus "Aucuba"?', 'False');
+
+-- PlantID 9: Chionochloa flavicans (miniature toetoe)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Chionochloa flavicans" the correct Latin name for miniature toetoe?', 'True');
+
+-- PlantID 10: Coleonema pulchrum 'Sunset Gold' (confetti bush)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the confetti bush known scientifically as "Dacrydium cupressinum"?', 'False');
+
+-- PlantID 11: Coprosma repens (mirror bush or taupata)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the mirror bush or taupata known scientifically as "Coprosma repens"?', 'True');
+
+-- PlantID 12: Coprosma X kirkii (groundcover coprosma)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Coprosma X kirkii" the correct Latin name for the coastal banksia?', 'False');
+
+-- PlantID 13: Cornus alba (Siberian dogwood)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the Siberian dogwood known scientifically as "Cornus alba"?', 'True');
+
+-- PlantID 14: Corokia X virgata 'Bronze King' (bronze corokia)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Corokia X virgata \'Bronze King\'" the correct Latin name for the vanilla tree?', 'False');
+
+-- PlantID 15: Cytisus proliferus (tree lucerne or tagasaste)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the tree lucerne or tagasaste correctly identified as "Cytisus proliferus"?', 'True');
+
+-- PlantID 16: Dianella sp. 'Little Rev' (dianella)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Dianella sp. \'Little Rev\'" known as the European hornbeam?', 'False');
+
+-- PlantID 17: Dodonaea viscosa 'Purpurea' (akeake or hopbush)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the akeake or hopbush known scientifically as "Dodonaea viscosa \'Purpurea\'"?', 'True');
+
+-- PlantID 18: Eucalyptus viminalis (manna gum)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Does the manna gum belong to the genus "Eucalyptus"?', 'True');
+
+-- PlantID 19: Fagus sylvatica (common or English beech)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Fagus sylvatica" the correct Latin name for the common or English beech?', 'True');
+
+-- PlantID 20: Festuca actae (Banks Peninsula blue tussock)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the Banks Peninsula blue tussock known scientifically as "Festuca actae"?', 'True');
+
+-- PlantID 21: Griselinia littoralis (broadleaf or kapuka)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the broadleaf or kapuka known scientifically as "Griselinia littoralis"?', 'True');
+
+-- PlantID 22: Hoheria angustifolia (narrow leaved lacebark)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Hoheria angustifolia" the correct Latin name for the narrow leaved lacebark?', 'True');
+
+-- PlantID 23: Hoheria sexstylosa (lacebark or houhere)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the lacebark or houhere known scientifically as "Dacrydium cupressinum"?', 'False');
+
+-- PlantID 24: Laurus nobilis (bay tree)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Does the bay tree belong to the species "Laurus nobilis"?', 'True');
+
+-- PlantID 25: Leonohebe cupressoides (fragrant hebe)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Leonohebe cupressoides" known as the fragrant hebe?', 'True');
+
+-- PlantID 26: Lomandra longifolia (basket grass)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the basket grass correctly identified as "Lomandra longifolia"?', 'True');
+
+-- PlantID 27: Magnolia liliflora 'Nigra' (deciduous magnolia)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Magnolia liliflora \'Nigra\'" the correct Latin name for the deciduous magnolia?', 'True');
+
+-- PlantID 28: Muehlenbeckia astonii (shrubby tororaro)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the shrubby tororaro known scientifically as "Muehlenbeckia astonii"?', 'True');
+
+-- PlantID 29: Myoporum laetum (ngaio)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Does the ngaio belong to the genus "Myoporum"?', 'True');
+
+-- PlantID 30: Myosotidium hortensia (Chatham Island forget-me-not)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the Chatham Island forget-me-not known scientifically as "Myosotidium hortensia"?', 'True');
+
+-- PlantID 31: Olea europaea (olive tree)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the olive tree known scientifically as "Olea europaea"?', 'True');
+
+-- PlantID 32: Olearia lineata (twiggy tree daisy)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Olearia lineata" the correct Latin name for the twiggy tree daisy?', 'True');
+
+-- PlantID 33: Phebalium squameum (satinwood)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the satinwood known scientifically as "Phebalium squameum"?', 'True');
+
+-- PlantID 34: Photinia X fraseri 'Robusta' (photinia)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Does the photinia belong to the species "Photinia X fraseri \'Robusta\'"?', 'True');
+
+-- PlantID 35: Phormium cookianum (wharariki or mountain flax)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Phormium cookianum" known as the wharariki or mountain flax?', 'True');
+
+-- PlantID 36: Phormium tenax (harakeke or NZ flax)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the harakeke or NZ flax correctly identified as "Phormium tenax"?', 'True');
+
+-- PlantID 37: Piper excelsum (kawakawa)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the kawakawa known scientifically as "Piper excelsum"?', 'True');
+
+-- PlantID 38: Plagianthus divaricatus (swamp ribbonwood)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Does the swamp ribbonwood belong to the species "Plagianthus divaricatus"?', 'True');
+
+-- PlantID 39: Platanus orientalis 'Digitata' (cut leaf plane)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Platanus orientalis \'Digitata\'" the correct Latin name for the cut leaf plane?', 'True');
+
+-- PlantID 40: Polystichum vestitum (prickly shield fern or puniu)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the prickly shield fern or puniu known scientifically as "Polystichum vestitum"?', 'True');
+
+-- PlantID 41: Pratia angulata (panakenake)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the panakenake known scientifically as "Polystichum vestitum"?', 'False');
+
+-- PlantID 42: Rosmarinus officinalis (rosemary)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Rosmarinus officinalis" the correct Latin name for the kawakawa?', 'False');
+
+-- PlantID 43: Skimmia japonica (Japanese skimmia)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the Japanese skimmia correctly identified as "Skimmia japonica"?', 'True');
+
+-- PlantID 44: Sophora prostrata (prostrate kowhai)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the prostrate kowhai known scientifically as "Dacrydium cupressinum"?', 'False');
+
+-- PlantID 45: Teucridium parvifolium (teucridium)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Does the teucridium belong to the species "Teucridium parvifolium"?', 'True');
+
+-- PlantID 46: Tilia cordata (lime tree)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the lime tree correctly identified as "Tilia cordata"?', 'True');
+
+-- PlantID 47: Ulmus carpinifolia 'Variegata' (variegated elm)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Ulmus carpinifolia \'Variegata\'" known as the NZ daisy bush?', 'False');
+
+-- PlantID 48: Veronica speciosa (large leaved hebe)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Does the large leaved hebe belong to the species "Veronica speciosa"?', 'True');
+
+-- PlantID 49: Veronica topiaria (topiary hebe)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is the topiary hebe known scientifically as "Veronica topiaria"?', 'True');
+
+-- PlantID 50: Viburnum tinus (laurustinus)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'true_false', 'Is "Viburnum tinus" the correct Latin name for the manna gum?', 'False');
+
+
+
+-- multi choice
+
+-- PlantID 2: Aucuba japonica (spotted or Japanese laurel)
+INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(1, 'multiple_choice', 'What is the Latin name of the spotted or Japanese laurel?', 'A');
+
+
+
+INSERT INTO QuestionOptions (QuestionID, OptionText, IsCorrect) 
+VALUES 
+(2, 'Aucuba japonica', TRUE),
+(2, 'Alectryon excelsus', FALSE),
+(2, 'Azara microphylla', FALSE),
+(2, 'Banksia integrifolia', FALSE);
