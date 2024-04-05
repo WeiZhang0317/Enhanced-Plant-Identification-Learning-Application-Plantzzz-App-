@@ -2722,3 +2722,102 @@ INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VAL
 (369, 'B', 'Anemanthele lessoniana', FALSE),
 (369, 'C', 'Dodonaea viscosa', FALSE),
 (369, 'D', 'Ficus pumila', TRUE);
+
+-- Question for PlantID 170 (Creeping Fuchsia)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 170, 'multiple_choice', 'What is the Latin name of "creeping fuchsia"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(370, 'A', 'Fuchsia procumbens', TRUE),
+(370, 'B', 'Sophora tetraptera', FALSE),
+(370, 'C', 'Pseudopanax crassifolius', FALSE),
+(370, 'D', 'Leptospermum scoparium', FALSE);
+
+-- Question for PlantID 171 (Black Beech)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 171, 'multiple_choice', 'What is the Latin name of "black beech"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(371, 'A', 'Pittosporum tenuifolium', FALSE),
+(371, 'B', 'Fuscospora solandri', TRUE),
+(371, 'C', 'Melicytus ramiflorus', FALSE),
+(371, 'D', 'Metrosideros excelsa', FALSE);
+
+-- Question for PlantID 172 (Lenten Rose)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 172, 'multiple_choice', 'What is the Latin name of "lenten rose"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(372, 'A', 'Dacrydium cupressinum', FALSE),
+(372, 'B', 'Hebe stricta', FALSE),
+(372, 'C', 'Helleborus orientalis', TRUE),
+(372, 'D', 'Ficus carica', FALSE);
+
+-- Question for PlantID 173 (Mophead Hydrangea)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 173, 'multiple_choice', 'What is the Latin name of "mophead hydrangea"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(373, 'A', 'Hydrangea macrophylla', TRUE),
+(373, 'B', 'Lophomyrtus bullata', FALSE),
+(373, 'C', 'Phormium tenax', FALSE),
+(373, 'D', 'Corynocarpus laevigatus', FALSE);
+
+-- Question for PlantID 174 (Panicled Hydrangea)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 174, 'multiple_choice', 'What is the Latin name of "panicled hydrangea"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(374, 'A', 'Nothofagus solandri', FALSE),
+(374, 'B', 'Rhododendron arboreum', FALSE),
+(374, 'C', 'Kunzea ericoides', FALSE),
+(374, 'D', 'Hydrangea paniculata', TRUE);
+
+-- Question for PlantID 175 (Giant Club Rush)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 175, 'multiple_choice', 'What is the Latin name of "giant club rush"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(375, 'A', 'Acaena inermis', FALSE),
+(375, 'B', 'Juncus pallidus', TRUE),
+(375, 'C', 'Gratiola sexdentata', FALSE),
+(375, 'D', 'Euphorbia lathyris', FALSE);
+
+-- Question for PlantID 176 (Rohutu or NZ Myrtle)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 176, 'multiple_choice', 'What is the Latin name of "rohutu or NZ myrtle"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(376, 'A', 'Griselinia lucida', FALSE),
+(376, 'B', 'Coprosma repens', FALSE),
+(376, 'C', 'Lophomyrtus obcordata', TRUE),
+(376, 'D', 'Melicope ternata', FALSE);
+
+-- Question for PlantID 177 (Hybrid Lophomyrtus or NZ Myrtle)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 177, 'multiple_choice', 'What is the Latin name of "hybrid lophomyrtus or NZ myrtle"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(377, 'A', 'Lophomyrtus x ralphii', TRUE),
+(377, 'B', 'Cordyline australis', FALSE),
+(377, 'C', 'Pseudopanax lessonii', FALSE),
+(377, 'D', 'Rhopalostylis sapida', FALSE);
+
+-- Question for PlantID 178 (Mahoe or Whiteywood)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 178, 'multiple_choice', 'What is the Latin name of "mahoe or whiteywood"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(378, 'A', 'Sophora microphylla', FALSE),
+(378, 'B', 'Metrosideros excelsa', FALSE),
+(378, 'C', 'Hoheria populnea', FALSE),
+(378, 'D', 'Melicytus ramiflorus', TRUE);
+
+-- Question for PlantID 179 (Bush Rice Grass)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 179, 'multiple_choice', 'What is the Latin name of "bush rice grass"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(379, 'A', 'Poa cita', FALSE),
+(379, 'B', 'Microleana avenacea', TRUE),
+(379, 'C', 'Carex virgata', FALSE),
+(379, 'D', 'Chionochloa rubra', FALSE);
+
+-- Question for PlantID 180 (Small Leaved Pohuehue)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 180, 'multiple_choice', 'What is the Latin name of "small leaved pohuehue"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(380, 'A', 'Muehlenbeckia complexa', TRUE),
+(380, 'B', 'Hebe salicifolia', FALSE),
+(380, 'C', 'Pittosporum eugenioides', FALSE),
+(380, 'D', 'Carmichaelia australis', FALSE);
