@@ -82,10 +82,10 @@ CREATE TABLE Questions (
     FOREIGN KEY (PlantID) REFERENCES PlantNames(PlantID) ON DELETE CASCADE
 );
 
-
 CREATE TABLE QuestionOptions (
     OptionID INT AUTO_INCREMENT PRIMARY KEY,
     QuestionID INT,
+    OptionLabel CHAR(1),
     OptionText VARCHAR(255), 
     IsCorrect BOOLEAN DEFAULT FALSE, 
     FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID) ON DELETE CASCADE
@@ -337,10 +337,12 @@ INSERT INTO plants_semesters (plant_id, semester_id)
 VALUES (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 1), (13, 1), (14, 1), (15, 1), (16, 1), (17, 1), (18, 1), (19, 1), (20, 1), (21, 1), (22, 1), (23, 1), (24, 1), (25, 1), (26, 1), (27, 1), (28, 1), (29, 1), (30, 1), (31, 1), (32, 1), (33, 1), (34, 1), (35, 1), (36, 1), (37, 1), (38, 1), (39, 1), (40, 1), (41, 1), (42, 1), (43, 1), (44, 1), (45, 1), (46, 1), (47, 1), (48, 1), (49, 1), (50, 1), (51, 2), (52, 2), (53, 2), (54, 2), (55, 2), (56, 2), (57, 2), (58, 2), (59, 2), (60, 2), (61, 2), (62, 2), (63, 2), (64, 2), (65, 2), (66, 2), (67, 2), (68, 2), (69, 2), (70, 2), (71, 2), (72, 2), (73, 2), (74, 2), (75, 2), (76, 2), (77, 2), (78, 2), (79, 2), (80, 2), (81, 2), (82, 2), (83, 2), (84, 2), (85, 2), (86, 2), (87, 2), (88, 2), (89, 2), (90, 2), (91, 2), (92, 2), (93, 2), (94, 2), (95, 2), (96, 2), (97, 2), (98, 2), (99, 2), (100, 2), (101, 3), (102, 3), (103, 3), (104, 3), (105, 3), (106, 3), (107, 3), (108, 3), (109, 3), (110, 3), (111, 3), (112, 3), (113, 3), (114, 3), (115, 3), (116, 3), (117, 3), (118, 3), (119, 3), (120, 3), (121, 3), (122, 3), (123, 3), (124, 3), (125, 3), (126, 3), (127, 3), (128, 3), (129, 3), (130, 3), (131, 3), (132, 3), (133, 3), (134, 3), (135, 3), (136, 3), (137, 3), (138, 3), (139, 3), (140, 3), (141, 3), (142, 3), (143, 3), (144, 3), (145, 3), (146, 3), (147, 3), (148, 3), (149, 3), (150, 3), (151, 4), (152, 4), (153, 4), (154, 4), (155, 4), (156, 4), (157, 4), (158, 4), (159, 4), (160, 4), (161, 4), (162, 4), (163, 4), (164, 4), (165, 4), (166, 4), (167, 4), (168, 4), (169, 4), (170, 4), (171, 4), (172, 4), (173, 4), (174, 4), (175, 4), (176, 4), (177, 4), (178, 4), (179, 4), (180, 4), (181, 4), (182, 4), (183, 4), (184, 4), (185, 4), (186, 4), (187, 4), (188, 4), (189, 4), (190, 4), (191, 4), (192, 4), (193, 4), (194, 4), (195, 4), (196, 4), (197, 4), (198, 4), (199, 4),(200, 4);
 
 INSERT INTO Quizzes (QuizName, SemesterID, CreatedAt) 
-VALUES ('Semester 1 Plant Quiz', 1, NOW());
+VALUES 
+('LASC206 Plant Quiz 1', 1, NOW()),
+('LASC206 Plant Quiz 2', 2, NOW());
 
 
--- t or flase
+-- PLANT ID 1-50 TRUE or FALSE
 
 -- PlantID 1: Alectryon excelsus (titoki)
 INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
@@ -594,18 +596,648 @@ VALUES
 
 
 
--- multi choice
+-- PLANT ID 1-50 multi choice
 
--- PlantID 2: Aucuba japonica (spotted or Japanese laurel)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+-- Question 51 for PlantID 1
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 1, 'multiple_choice', 'What is the Latin name of "titoki"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(51, 'A', 'Banksia integrifolia', FALSE),
+(51, 'B', 'Carpinus betulus', FALSE),
+(51, 'C', 'Coleonema pulchrum', FALSE),
+(51, 'D', 'Alectryon excelsus', TRUE);
+
+-- Question 52 for PlantID 2
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 2, 'multiple_choice', 'What is the Latin name of "spotted or Japanese laurel"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(52, 'A', 'Aucuba japonica', TRUE),
+(52, 'B', 'Dodonaea viscosa', FALSE),
+(52, 'C', 'Azara microphylla', FALSE),
+(52, 'D', 'Brachyglottis greyi', FALSE);
+
+-- Question 53 for PlantID 3
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 3, 'multiple_choice', 'What is the Latin name of "vanilla tree"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(53, 'A', 'Carpinus betulus', FALSE),
+(53, 'B', 'Azara microphylla', TRUE),
+(53, 'C', 'Chionochloa flavicans', FALSE),
+(53, 'D', 'Dodonaea viscosa', FALSE);
+
+-- Question 54 for PlantID 4
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 4, 'multiple_choice', 'What is the Latin name of "coastal banksia"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(54, 'A', 'Coleonema pulchrum', FALSE),
+(54, 'B', 'Alectryon excelsus', FALSE),
+(54, 'C', 'Banksia integrifolia', TRUE),
+(54, 'D', 'Azara microphylla', FALSE);
+
+-- Question 55 for PlantID 5
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 5, 'multiple_choice', 'What is the Latin name of "NZ daisy bush"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(55, 'A', 'Dodonaea viscosa', FALSE),
+(55, 'B', 'Carpinus betulus', FALSE),
+(55, 'C', 'Aucuba japonica', FALSE),
+(55, 'D', 'Brachyglottis greyi', TRUE);
+
+-- Question 56 for PlantID 6
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 6, 'multiple_choice', 'What is the Latin name of "NZ giant flowering broom"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(56, 'A', 'Carmichaelia williamsii', TRUE),
+(56, 'B', 'Azara microphylla', FALSE),
+(56, 'C', 'Banksia integrifolia', FALSE),
+(56, 'D', 'Coleonema pulchrum', FALSE);
+
+-- Question 57 for PlantID 7
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 7, 'multiple_choice', 'What is the Latin name of "European hornbeam"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(57, 'A', 'Dodonaea viscosa', FALSE),
+(57, 'B', 'Carpinus betulus', TRUE),
+(57, 'C', 'Brachyglottis greyi', FALSE),
+(57, 'D', 'Aucuba japonica', FALSE);
+
+-- Question 58 for PlantID 8
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 8, 'multiple_choice', 'What is the Latin name of "mountain daisy"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(58, 'A', 'Azara microphylla', FALSE),
+(58, 'B', 'Banksia integrifolia', FALSE),
+(58, 'C', 'Celmisia sp.', TRUE),
+(58, 'D', 'Dodonaea viscosa', FALSE);
+
+-- Question 59 for PlantID 9
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 9, 'multiple_choice', 'What is the Latin name of "miniature toetoe"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(59, 'A', 'Aucuba japonica', FALSE),
+(59, 'B', 'Carpinus betulus', FALSE),
+(59, 'C', 'Brachyglottis greyi', FALSE),
+(59, 'D', 'Chionochloa flavicans', TRUE);
+
+-- Question 60 for PlantID 10
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 10, 'multiple_choice', 'What is the Latin name of "confetti bush"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(60, 'A', 'Coleonema pulchrum', TRUE),
+(60, 'B', 'Carmichaelia williamsii', FALSE),
+(60, 'C', 'Celmisia sp.', FALSE),
+(60, 'D', 'Chionochloa flavicans', FALSE);
+
+-- Question 61 for PlantID 11
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 11, 'multiple_choice', 'What is the Latin name of "mirror bush or taupata"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(61, 'A', 'Dodonaea viscosa', FALSE),
+(61, 'B', 'Banksia integrifolia', FALSE),
+(61, 'C', 'Coprosma repens', TRUE),
+(61, 'D', 'Carpinus betulus', FALSE);
+
+-- Question 62 for PlantID 12
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 12, 'multiple_choice', 'What is the Latin name of "groundcover coprosma"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(62, 'A', 'Celmisia sp.', FALSE),
+(62, 'B', 'Chionochloa flavicans', FALSE),
+(62, 'C', 'Coleonema pulchrum', FALSE),
+(62, 'D', 'Coprosma X kirkii', TRUE);
+
+
+-- Question 63 for PlantID 13
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 13, 'multiple_choice', 'What is the Latin name of "Siberian dogwood"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(63, 'A', 'Cornus alba', TRUE),
+(63, 'B', 'Dodonaea viscosa', FALSE),
+(63, 'C', 'Carpinus betulus', FALSE),
+(63, 'D', 'Coprosma repens', FALSE);
+
+-- Question 64 for PlantID 14
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 14, 'multiple_choice', 'What is the Latin name of "bronze corokia"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(64, 'A', 'Coprosma X kirkii', FALSE),
+(64, 'B', 'Corokia X virgata ''Bronze King''', TRUE),
+(64, 'C', 'Celmisia sp.', FALSE),
+(64, 'D', 'Chionochloa flavicans', FALSE);
+
+-- Question 65 for PlantID 15
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 15, 'multiple_choice', 'What is the Latin name of "tree lucerne or tagasaste"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(65, 'A', 'Dodonaea viscosa', FALSE),
+(65, 'B', 'Coprosma repens', FALSE),
+(65, 'C', 'Cytisus proliferus', TRUE),
+(65, 'D', 'Cornus alba', FALSE);
+
+-- Question 66 for PlantID 16
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 16, 'multiple_choice', 'What is the Latin name of "dianella"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(66, 'A', 'Corokia X virgata ''Bronze King''', FALSE),
+(66, 'B', 'Celmisia sp.', FALSE),
+(66, 'C', 'Chionochloa flavicans', FALSE),
+(66, 'D', 'Dianella sp. ''Little Rev''', TRUE);
+
+-- Question 67 for PlantID 17
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 17, 'multiple_choice', 'What is the Latin name of "akeake or hopbush"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(67, 'A', 'Dodonaea viscosa ''Purpurea''', TRUE),
+(67, 'B', 'Cytisus proliferus', FALSE),
+(67, 'C', 'Cornus alba', FALSE),
+(67, 'D', 'Coprosma X kirkii', FALSE);
+
+-- Question 68 for PlantID 18
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 18, 'multiple_choice', 'What is the Latin name of "manna gum"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(68, 'A', 'Corokia X virgata ''Bronze King''', FALSE),
+(68, 'B', 'Eucalyptus viminalis', TRUE),
+(68, 'C', 'Dianella sp. ''Little Rev''', FALSE),
+(68, 'D', 'Dodonaea viscosa ''Purpurea''', FALSE);
+
+-- Question 69 for PlantID 19
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 19, 'multiple_choice', 'What is the Latin name of "common or English beech"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(69, 'A', 'Dianella sp. ''Little Rev''', FALSE),
+(69, 'B', 'Eucalyptus viminalis', FALSE),
+(69, 'C', 'Fagus sylvatica', TRUE),
+(69, 'D', 'Dodonaea viscosa ''Purpurea''', FALSE);
+
+-- Question 70 for PlantID 20
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 20, 'multiple_choice', 'What is the Latin name of "Banks Peninsula blue tussock"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(70, 'A', 'Eucalyptus viminalis', FALSE),
+(70, 'B', 'Fagus sylvatica', FALSE),
+(70, 'C', 'Dodonaea viscosa ''Purpurea''', FALSE),
+(70, 'D', 'Festuca actae', TRUE);
+
+-- Question 71 for PlantID 21
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 21, 'multiple_choice', 'What is the Latin name of "broadleaf or kapuka"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(71, 'A', 'Griselinia littoralis', TRUE),
+(71, 'B', 'Fagus sylvatica', FALSE),
+(71, 'C', 'Dodonaea viscosa ''Purpurea''', FALSE),
+(71, 'D', 'Eucalyptus viminalis', FALSE);
+
+-- Question 72 for PlantID 22
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 22, 'multiple_choice', 'What is the Latin name of "narrow leaved lacebark"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(72, 'A', 'Hoheria angustifolia', TRUE),
+(72, 'B', 'Festuca actae', FALSE),
+(72, 'C', 'Eucalyptus viminalis', FALSE),
+(72, 'D', 'Fagus sylvatica', FALSE);
+
+-- Question 73 for PlantID 23
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 23, 'multiple_choice', 'What is the Latin name of "lacebark or houhere"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(73, 'A', 'Festuca actae', FALSE),
+(73, 'B', 'Hoheria sexstylosa', TRUE),
+(73, 'C', 'Griselinia littoralis', FALSE),
+(73, 'D', 'Hoheria angustifolia', FALSE);
+
+
+
+-- Question 74 for PlantID 24
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 24, 'multiple_choice', 'What is the Latin name of "bay tree"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(74, 'A', 'Hoheria sexstylosa', FALSE),
+(74, 'B', 'Festuca actae', FALSE),
+(74, 'C', 'Laurus nobilis', TRUE),
+(74, 'D', 'Hoheria angustifolia', FALSE);
+
+-- Question 75 for PlantID 25
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 25, 'multiple_choice', 'What is the Latin name of "frangrant hebe"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(75, 'A', 'Hoheria angustifolia', FALSE),
+(75, 'B', 'Griselinia littoralis', FALSE),
+(75, 'C', 'Festuca actae', FALSE),
+(75, 'D', 'Leonohebe cupressoides', TRUE);
+
+-- Question 76 for PlantID 26
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 26, 'multiple_choice', 'What is the Latin name of "basket grass"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(76, 'A', 'Lomandra longifolia', TRUE),
+(76, 'B', 'Leonohebe cupressoides', FALSE),
+(76, 'C', 'Laurus nobilis', FALSE),
+(76, 'D', 'Hoheria sexstylosa', FALSE);
+
+-- Question 77 for PlantID 27
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 27, 'multiple_choice', 'What is the Latin name of "deciduous magnolia"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(77, 'A', 'Leonohebe cupressoides', FALSE),
+(77, 'B', 'Magnolia liliflora ''Nigra''', TRUE),
+(77, 'C', 'Lomandra longifolia', FALSE),
+(77, 'D', 'Laurus nobilis', FALSE);
+
+-- Question 78 for PlantID 28
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 28, 'multiple_choice', 'What is the Latin name of "shrubby tororaro"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(78, 'A', 'Lomandra longifolia', FALSE),
+(78, 'B', 'Leonohebe cupressoides', FALSE),
+(78, 'C', 'Muehlenbeckia astonii', TRUE),
+(78, 'D', 'Magnolia liliflora ''Nigra''', FALSE);
+
+-- Question 79 for PlantID 29
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 29, 'multiple_choice', 'What is the Latin name of "ngaio"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(79, 'A', 'Magnolia liliflora ''Nigra''', FALSE),
+(79, 'B', 'Lomandra longifolia', FALSE),
+(79, 'C', 'Leonohebe cupressoides', FALSE),
+(79, 'D', 'Myoporum laetum', TRUE);
+
+-- Question 80 for PlantID 30
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 30, 'multiple_choice', 'What is the Latin name of "Chatham Island forget me not"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(80, 'A', 'Myosotidium hortensia', TRUE),
+(80, 'B', 'Muehlenbeckia astonii', FALSE),
+(80, 'C', 'Magnolia liliflora ''Nigra''', FALSE),
+(80, 'D', 'Lomandra longifolia', FALSE);
+
+-- Question 81 for PlantID 31
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 31, 'multiple_choice', 'What is the Latin name of "olive tree"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(81, 'A', 'Myosotidium hortensia', FALSE),
+(81, 'B', 'Olea europaea', TRUE),
+(81, 'C', 'Myoporum laetum', FALSE),
+(81, 'D', 'Muehlenbeckia astonii', FALSE);
+
+-- Question 82 for PlantID 32
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 32, 'multiple_choice', 'What is the Latin name of "twiggy tree daisy"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(82, 'A', 'Myosotidium hortensia', FALSE),
+(82, 'B', 'Olea europaea', FALSE),
+(82, 'C', 'Olearia lineata', TRUE),
+(82, 'D', 'Myoporum laetum', FALSE);
+
+-- Question 83 for PlantID 33
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 33, 'multiple_choice', 'What is the Latin name of "satinwood"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(83, 'A', 'Phebalium squameum', TRUE),
+(83, 'B', 'Olearia lineata', FALSE),
+(83, 'C', 'Olea europaea', FALSE),
+(83, 'D', 'Myosotidium hortensia', FALSE);
+
+-- Question 84 for PlantID 34
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 34, 'multiple_choice', 'What is the Latin name of "photinia"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(84, 'A', 'Olearia lineata', FALSE),
+(84, 'B', 'Phebalium squameum', FALSE),
+(84, 'C', 'Olea europaea', FALSE),
+(84, 'D', 'Photinia X fraseri ''Robusta''', TRUE);
+
+
+-- Question 85 for PlantID 35
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 35, 'multiple_choice', 'What is the Latin name of "wharariki or mountain Flax"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(85, 'A', 'Photinia X fraseri ''Robusta''', FALSE),
+(85, 'B', 'Phormium cookianum', TRUE),
+(85, 'C', 'Phebalium squameum', FALSE),
+(85, 'D', 'Olearia lineata', FALSE);
+
+-- Question 86 for PlantID 36
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 36, 'multiple_choice', 'What is the Latin name of "harakeke or NZ flax"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(86, 'A', 'Olea europaea', FALSE),
+(86, 'B', 'Photinia X fraseri ''Robusta''', FALSE),
+(86, 'C', 'Phormium tenax', TRUE),
+(86, 'D', 'Phormium cookianum', FALSE);
+
+-- Question 87 for PlantID 37
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 37, 'multiple_choice', 'What is the Latin name of "kawakawa"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(87, 'A', 'Piper excelsum', TRUE),
+(87, 'B', 'Phormium tenax', FALSE),
+(87, 'C', 'Photinia X fraseri ''Robusta''', FALSE),
+(87, 'D', 'Phormium cookianum', FALSE);
+
+-- Question 88 for PlantID 38
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 38, 'multiple_choice', 'What is the Latin name of "swamp ribbonwood"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(88, 'A', 'Photinia X fraseri ''Robusta''', FALSE),
+(88, 'B', 'Phormium tenax', FALSE),
+(88, 'C', 'Piper excelsum', FALSE),
+(88, 'D', 'Plagianthus divaricatus', TRUE);
+
+-- Question 89 for PlantID 39
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 39, 'multiple_choice', 'What is the Latin name of "cut leaf plane"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(89, 'A', 'Phormium cookianum', FALSE),
+(89, 'B', 'Platanus orientalis ''Digitata''', TRUE),
+(89, 'C', 'Piper excelsum', FALSE),
+(89, 'D', 'Plagianthus divaricatus', FALSE);
+
+-- Question 90 for PlantID 40
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 40, 'multiple_choice', 'What is the Latin name of "prickly shield fern or puniu"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(90, 'A', 'Plagianthus divaricatus', FALSE),
+(90, 'B', 'Platanus orientalis ''Digitata''', FALSE),
+(90, 'C', 'Polystichum vestitum', TRUE),
+(90, 'D', 'Piper excelsum', FALSE);
+
+
+-- Question 91 for PlantID 41
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 41, 'multiple_choice', 'What is the Latin name of "panakenake"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(91, 'A', 'Pratia angulata', TRUE),
+(91, 'B', 'Polystichum vestitum', FALSE),
+(91, 'C', 'Piper excelsum', FALSE),
+(91, 'D', 'Plagianthus divaricatus', FALSE);
+
+-- Question 92 for PlantID 42
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 42, 'multiple_choice', 'What is the Latin name of "rosemary"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(92, 'A', 'Platanus orientalis ''Digitata''', FALSE),
+(92, 'B', 'Rosmarinus officinalis', TRUE),
+(92, 'C', 'Pratia angulata', FALSE),
+(92, 'D', 'Polystichum vestitum', FALSE);
+
+-- Question 93 for PlantID 43
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 43, 'multiple_choice', 'What is the Latin name of "Japanese skimmia"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(93, 'A', 'Pratia angulata', FALSE),
+(93, 'B', 'Rosmarinus officinalis', FALSE),
+(93, 'C', 'Skimmia japonica', TRUE),
+(93, 'D', 'Rosmarinus officinalis', FALSE);
+
+-- Question 94 for PlantID 44
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 44, 'multiple_choice', 'What is the Latin name of "prostrate kowhai"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(94, 'A', 'Pratia angulata', FALSE),
+(94, 'B', 'Piper excelsum', FALSE),
+(94, 'C', 'Plagianthus divaricatus', FALSE),
+(94, 'D', 'Sophora prostrata', TRUE);
+
+-- Question 95 for PlantID 45
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 45, 'multiple_choice', 'What is the Latin name of "teucridium"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(95, 'A', 'Teucridium parvifolium', TRUE),
+(95, 'B', 'Skimmia japonica', FALSE),
+(95, 'C', 'Sophora prostrata', FALSE),
+(95, 'D', 'Rosmarinus officinalis', FALSE);
+
+-- Question 96 for PlantID 46
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 46, 'multiple_choice', 'What is the Latin name of "lime tree"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(96, 'A', 'Teucridium parvifolium', FALSE),
+(96, 'B', 'Tilia cordata', TRUE),
+(96, 'C', 'Teucridium parvifolium', FALSE),
+(96, 'D', 'Skimmia japonica', FALSE);
+
+-- Question 97 for PlantID 47
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 47, 'multiple_choice', 'What is the Latin name of "variegated elm"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(97, 'A', 'Sophora prostrata', FALSE),
+(97, 'B', 'Skimmia japonica', FALSE),
+(97, 'C', 'Ulmus carpinifolia ''Variegata''', TRUE),
+(97, 'D', 'Tilia cordata', FALSE);
+
+-- Question 98 for PlantID 48
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 48, 'multiple_choice', 'What is the Latin name of "large leaved hebe"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(98, 'A', 'Tilia cordata', FALSE),
+(98, 'B', 'Teucridium parvifolium', FALSE),
+(98, 'C', 'Sophora prostrata', FALSE),
+(98, 'D', 'Veronica speciosa', TRUE);
+
+-- Question 99 for PlantID 49
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(1, 49, 'multiple_choice', 'What is the Latin name of "topiary hebe"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(99, 'A', 'Veronica topiaria', TRUE),
+(99, 'B', 'Ulmus carpinifolia ''Variegata''', FALSE),
+(99, 'C', 'Tilia cordata', FALSE),
+(99, 'D', 'Veronica speciosa', FALSE);
+
+-- Question 100 for PlantID 50
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES (1, 50, 'multiple_choice', 'What is the Latin name of "laurustinus"?', 'B');
+
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(100, 'A', 'Veronica topiaria', FALSE),
+(100, 'B', 'Viburnum tinus', TRUE),
+(100, 'C', 'Ulmus carpinifolia ''Variegata''', FALSE),
+(100, 'D', 'Teucridium parvifolium', FALSE);
+
+-- plant ID 51 to 100 true or false
+-- PlantID 51: Acca sellowiana (feijoa)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'multiple_choice', 'What is the Latin name of the spotted or Japanese laurel?', 'A');
+(2, 51, 'true_false', 'Is "Acca sellowiana" the correct Latin name for the coastal banksia?', 'False');
 
-
-
-INSERT INTO QuestionOptions (QuestionID, OptionText, IsCorrect) 
+-- PlantID 52: Acer palmatum (Japanese maple)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(2, 'Aucuba japonica', TRUE),
-(2, 'Alectryon excelsus', FALSE),
-(2, 'Azara microphylla', FALSE),
-(2, 'Banksia integrifolia', FALSE);
+(2, 52, 'true_false', 'Is "Acer palmatum" known as the spotted or Japanese laurel?', 'False');
+
+-- PlantID 53: Aesculus hippocastanum (common horse chestnut)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(2, 53, 'true_false', 'Does the common horse chestnut belong to the species "Acer palmatum"?', 'False');
+
+-- PlantID 54: Agave sp. (agave)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(2, 54, 'true_false', 'Is "Agave sp." the correct Latin name for the kangaroo paw?', 'False');
+
+-- PlantID 55: Anigozanthos flavidus (kangaroo paw)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(2, 55, 'true_false', 'Is "Anigozanthos flavidus" the correct Latin name for the strawberry tree?', 'False');
+
+-- PlantID 56: Arbutus unedo (strawberry tree)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(2, 56, 'true_false', 'Is the strawberry tree known scientifically as "Aristotelia serrata"?', 'False');
+
+-- PlantID 57: Aristotelia serrata (winberry or makomako)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(2, 57, 'true_false', 'Is "Aristotelia serrata" the correct Latin name for the winberry or makomako?', 'True');
+
+-- PlantID 58: Asplenium oblongifolium (shining spleenwort)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(2, 58, 'true_false', 'Does the shining spleenwort belong to the genus "Agave"?', 'False');
+
+-- PlantID 59: Bergenia cordifolia (heart leaf bergenia)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(2, 59, 'true_false', 'Is "Bergenia cordifolia" the correct Latin name for the heart leaf bergenia?', 'True');
+
+-- PlantID 60: Brachychiton populneus (kurrajong or bottletree)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(2, 60, 'true_false', 'Is "Brachychiton populneus" known as the agave?', 'False');
+
+-- PlantID 61: Buxus sempervirens (box hedge)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES 
+(2, 61, 'true_false', 'Is the box hedge correctly identified as "Buxus sempervirens"?', 'True');
+
+-- Question 112 for PlantID 62
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 62, 'true_false', "Is the Latin name of 'bottle brush' 'Callistemon sp.'?", 'False');
+
+-- Question 113 for PlantID 63
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 63, 'true_false', "Is 'Canna X generalis' known as the coastal banksia?", 'False');
+
+-- Question 114 for PlantID 64
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 64, 'true_false', "Is the Texas white redbud correctly identified as 'Cercis canadensis 'Texas White'?'", 'True');
+
+-- Question 115 for PlantID 65
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 65, 'true_false', "Does 'Chimonanthus praecox' belong to the 'wintersweet' species?", 'True');
+
+-- Question 116 for PlantID 66
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 66, 'true_false', "Is 'Choisya X dewitteana 'Aztec Pearl'' the correct Latin name for the Mexican orange blossom?", 'True');
+
+-- Question 117 for PlantID 67
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 67, 'true_false', "Is the 'Mexican orange blossom' known scientifically as 'Canna X generalis'?", 'True');
+
+-- Question 118 for PlantID 68
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 68, 'true_false', "Is 'Clivia sp.' a correct Latin name for the natal or bush lily?", 'False');
+
+-- Question 119 for PlantID 69
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 69, 'true_false', "Is 'Corylus avellana' the correct Latin name for the common hazel?", 'False');
+
+-- Question 120 for PlantID 70
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 70, 'true_false', "Is 'Cyclamen hederifolium' known as the European hornbeam?", 'False');
+
+-- Question 121 for PlantID 71
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 71, 'true_false', "Is the Nepalese paper plant correctly identified as 'Daphne bholua'?", 'True');
+
+-- Question 122 for PlantID 72
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 72, 'true_false', "Is 'Daphne odora' the correct Latin name for the winter daphne?", 'True');
+
+-- PlantID 73: Hamamelis mollis (witch hazel)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 73, 'true_false', 'Is "Hamamelis mollis" the correct Latin name for the witch hazel?', 'True');
+
+-- PlantID 74: Hydrangea quercifolia "Pee Wee" (oak leaf hydrangea)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 74, 'true_false', 'Is "Hydrangea quercifolia ''Pee Wee''" the correct Latin name for the oak leaf hydrangea?', 'True');
+
+-- PlantID 75: Knightia excelsa (rewarewa or NZ honeysuckle)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 75, 'true_false', 'Is "Knightia excelsa" known as crown fern?', 'False'); 
+
+-- PlantID 76: Lavandula X intermedia (hybrid lavender)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 76, 'true_false', 'Is "Lavandula X intermedia" the correct Latin name for hybrid lavender?', 'True');
+
+-- PlantID 77: Leucadendron salignum (conebush)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 77, 'true_false', 'Is "Leucadendron salignum" the correct Latin name for the witch hazel?', 'False');  
+
+-- PlantID 78: Libertia ixioides (NZ iris or mikoikoi)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 78, 'true_false', 'Does "Libertia ixioides" refer to the NZ iris or mikoikoi?', 'True');
+
+-- PlantID 79: Lomaria discolor (crown fern)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 79, 'true_false', 'Is "Lomaria discolor" the correct Latin name for the oak leaf hydrangea?', 'False');  
+
+-- PlantID 80: Magnolia grandiflora "Little Gem" (dwarf magnolia)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 80, 'true_false', 'Is "Magnolia grandiflora ''Little Gem''" the correct Latin name for the dwarf magnolia?', 'True');
+
+-- PlantID 81: Magnolia X soulangeana (saucer or Chinese magnolia)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 81, 'true_false', 'Is "Magnolia X soulangeana" known as saucer or Chinese magnolia?', 'True');
+
+-- PlantID 82: Malus sp. (apple tree)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 82, 'true_false', 'Is "Malus sp." the correct Latin name for the apple tree?', 'True');
+
+-- PlantID 83: Michelia yunnanensis (evergreen michelia)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 83, 'true_false', 'Is "Michelia yunnanensis" the correct Latin name for the evergreen michelia?', 'True');
+
+-- PlantID 84: Nandina domestica ‘Pygmaea’ (dwarf heavenly bamboo)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 84, 'true_false', 'Is "Nandina domestica ‘Pygmaea’" the correct Latin name for the dwarf heavenly bamboo?', 'True');
+
+-- PlantID 85: Pachysandra terminalis (Japanese spurge) - Answer changed to False, so question changed
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 85, 'true_false', 'Is "Pachysandra terminalis" the correct Latin name for the cherry laurel?', 'False');
+
+-- PlantID 86: Pieris japonica (lily of the valley)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 86, 'true_false', 'Is "Pieris japonica" the correct Latin name for the lily of the valley?', 'True');
+
+-- PlantID 87: Polyspora axillaris (fried egg plant)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 87, 'true_false', 'Is "Polyspora axillaris" the correct Latin name for the fried egg plant?', 'True');
+
+-- PlantID 88: Populus trichocarpa (black cottonwood)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 88, 'true_false', 'Is "Populus trichocarpa" the correct Latin name for the black cottonwood?', 'True');
+
+-- PlantID 89: Protea neriifolia (oleanderleaf protea) - Answer changed to False, so question changed
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 89, 'true_false', 'Is "Protea neriifolia" the correct Latin name for the kangaroo paw?', 'False');
+
+-- PlantID 90: Prunus laurocerasus (cherry laurel)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 90, 'true_false', 'Is "Prunus laurocerasus" the correct Latin name for the cherry laurel?', 'True');
+
+-- PlantID 91: Pyrus communis (common pear)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 91, 'true_false', 'Is "Pyrus communis" the correct Latin name for the common pear?', 'True');
+
+-- PlantID 92: Rhododendron sp. (azalea) - Answer changed to False, so question changed
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 92, 'true_false', 'Is "Rhododendron sp." the correct Latin name for the maple tree?', 'False');
+
+-- PlantID 93: Rhododendron sp. (rhododendron) - Answer changed to False, so question changed
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 93, 'true_false', 'Is "Rhododendron sp." the correct Latin name for the sunflower?', 'False');
+
+-- PlantID 94: Robinia pseudoacacia 'Lace Lady' (contorted black locust)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 94, 'true_false', 'Is "Robinia pseudoacacia ''Lace Lady''" the correct Latin name for the contorted black locust?', 'True');
+
+-- PlantID 95: Rosa sp. 'Ivey Hall' (yellow floribunda rose)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 95, 'true_false', 'Is "Rosa sp. ''Ivey Hall''" known as the yellow floribunda rose?', 'True');
+
+-- PlantID 96: Salvia officinalis (common sage) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 96, 'true_false', 'Is "Salvia officinalis" the correct Latin name for the cherry laurel?', 'False');
+
+-- PlantID 97: Santolina chamaecyparissus (lavender cotton)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 97, 'true_false', 'Is "Santolina chamaecyparissus" the correct Latin name for lavender cotton?', 'True');
+
+-- PlantID 98: Sarcococca confusa (sweet box) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 98, 'true_false', 'Is "Sarcococca confusa" the correct Latin name for the Japanese maple?', 'False');
+
+-- PlantID 99: Sequoia sempervirens (redwood)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 99, 'true_false', 'Is "Sequoia sempervirens" the correct Latin name for the redwood?', 'True');
+
+-- PlantID 100: Zantedeschia aethiopica (arum or calla Lily) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (2, 100, 'true_false', 'Is "Zantedeschia aethiopica" the correct Latin name for the sunflower?', 'False');
