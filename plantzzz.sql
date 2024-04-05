@@ -37,6 +37,7 @@ CREATE TABLE PlantNames (
 );
 
 
+
 CREATE TABLE semesters_info (
   semester_id INT AUTO_INCREMENT PRIMARY KEY,
   semester_name VARCHAR(255) NOT NULL
@@ -69,13 +70,16 @@ CREATE TABLE Quizzes (
 );
 
 
+
 CREATE TABLE Questions (
     QuestionID INT AUTO_INCREMENT PRIMARY KEY,
     QuizID INT,
+    PlantID INT,
     QuestionType VARCHAR(255), 
     QuestionText VARCHAR(1000),
     CorrectAnswer VARCHAR(255),
-    FOREIGN KEY (QuizID) REFERENCES Quizzes(QuizID) ON DELETE CASCADE
+    FOREIGN KEY (QuizID) REFERENCES Quizzes(QuizID) ON DELETE CASCADE,
+    FOREIGN KEY (PlantID) REFERENCES PlantNames(PlantID) ON DELETE CASCADE
 );
 
 
@@ -322,10 +326,10 @@ INSERT INTO `plantnames` (`PlantID`, `LatinName`, `CommonName`) VALUES
 
 INSERT INTO semesters_info (semester_name) 
 VALUES 
-    ('LASC 206_S2_Test 2'),
-    ('LASC 206_S2_Test 1'),
-    ('LASC 211_S1_Test 1'),
-    ('LASC 211_S1_Test 2');
+    ('LASC 206_S2'),
+    ('LASC 206_S2'),
+    ('LASC 211_S1'),
+    ('LASC 211_S1');
 
 
 
@@ -339,254 +343,254 @@ VALUES ('Semester 1 Plant Quiz', 1, NOW());
 -- t or flase
 
 -- PlantID 1: Alectryon excelsus (titoki)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the Latin name of titoki "Alectryon excelsus"?', 'True');
+(1, 1, 'true_false', 'Is the Latin name of titoki "Alectryon excelsus"?', 'True');
 
 -- PlantID 2: Aucuba japonica (spotted or Japanese laurel)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the spotted or Japanese laurel known scientifically as "Azara microphylla"?', 'False');
+(1, 2, 'true_false', 'Is the spotted or Japanese laurel known scientifically as "Azara microphylla"?', 'False');
 
 -- PlantID 3: Azara microphylla (vanilla tree)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Azara microphylla" the correct Latin name for the vanilla tree?', 'True');
+(1, 3, 'true_false', 'Is "Azara microphylla" the correct Latin name for the vanilla tree?', 'True');
 
 -- PlantID 4: Banksia integrifolia (coastal banksia)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the coastal banksia known scientifically as "Carpinus betulus"?', 'False');
+(1, 4, 'true_false', 'Is the coastal banksia known scientifically as "Carpinus betulus"?', 'False');
 
 -- PlantID 5: Brachyglottis greyi (NZ daisy bush)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID,  PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the NZ daisy bush correctly identified as "Brachyglottis greyi"?', 'True');
+(1, 5, 'true_false', 'Is the NZ daisy bush correctly identified as "Brachyglottis greyi"?', 'True');
 
 -- PlantID 6: Carmichaelia williamsii (NZ giant flowering broom)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID,  PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Carmichaelia williamsii" known as the coastal banksia?', 'False');
+(1, 6, 'true_false', 'Is "Carmichaelia williamsii" known as the coastal banksia?', 'False');
 
 -- PlantID 7: Carpinus betulus (European hornbeam)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the European hornbeam known scientifically as "Carpinus betulus"?', 'True');
+(1, 7, 'true_false', 'Is the European hornbeam known scientifically as "Carpinus betulus"?', 'True');
 
 -- PlantID 8: Celmisia sp. (mountain daisy)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Does the mountain daisy belong to the genus "Aucuba"?', 'False');
+(1, 8, 'true_false', 'Does the mountain daisy belong to the genus "Aucuba"?', 'False');
 
 -- PlantID 9: Chionochloa flavicans (miniature toetoe)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Chionochloa flavicans" the correct Latin name for miniature toetoe?', 'True');
+(1, 9,'true_false', 'Is "Chionochloa flavicans" the correct Latin name for miniature toetoe?', 'True');
 
 -- PlantID 10: Coleonema pulchrum 'Sunset Gold' (confetti bush)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the confetti bush known scientifically as "Dacrydium cupressinum"?', 'False');
+(1, 10, 'true_false', 'Is the confetti bush known scientifically as "Dacrydium cupressinum"?', 'False');
 
 -- PlantID 11: Coprosma repens (mirror bush or taupata)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the mirror bush or taupata known scientifically as "Coprosma repens"?', 'True');
+(1, 11,'true_false', 'Is the mirror bush or taupata known scientifically as "Coprosma repens"?', 'True');
 
 -- PlantID 12: Coprosma X kirkii (groundcover coprosma)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Coprosma X kirkii" the correct Latin name for the coastal banksia?', 'False');
+(1, 12, 'true_false', 'Is "Coprosma X kirkii" the correct Latin name for the coastal banksia?', 'False');
 
 -- PlantID 13: Cornus alba (Siberian dogwood)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the Siberian dogwood known scientifically as "Cornus alba"?', 'True');
+(1, 13,'true_false', 'Is the Siberian dogwood known scientifically as "Cornus alba"?', 'True');
 
 -- PlantID 14: Corokia X virgata 'Bronze King' (bronze corokia)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Corokia X virgata \'Bronze King\'" the correct Latin name for the vanilla tree?', 'False');
+(1, 14, 'true_false', 'Is "Corokia X virgata \'Bronze King\'" the correct Latin name for the vanilla tree?', 'False');
 
 -- PlantID 15: Cytisus proliferus (tree lucerne or tagasaste)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the tree lucerne or tagasaste correctly identified as "Cytisus proliferus"?', 'True');
+(1, 15, 'true_false', 'Is the tree lucerne or tagasaste correctly identified as "Cytisus proliferus"?', 'True');
 
 -- PlantID 16: Dianella sp. 'Little Rev' (dianella)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Dianella sp. \'Little Rev\'" known as the European hornbeam?', 'False');
+(1, 16, 'true_false', 'Is "Dianella sp. \'Little Rev\'" known as the European hornbeam?', 'False');
 
 -- PlantID 17: Dodonaea viscosa 'Purpurea' (akeake or hopbush)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the akeake or hopbush known scientifically as "Dodonaea viscosa \'Purpurea\'"?', 'True');
+(1, 17, 'true_false', 'Is the akeake or hopbush known scientifically as "Dodonaea viscosa \'Purpurea\'"?', 'True');
 
 -- PlantID 18: Eucalyptus viminalis (manna gum)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Does the manna gum belong to the genus "Eucalyptus"?', 'True');
+(1, 18, 'true_false', 'Does the manna gum belong to the genus "Eucalyptus"?', 'True');
 
 -- PlantID 19: Fagus sylvatica (common or English beech)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Fagus sylvatica" the correct Latin name for the common or English beech?', 'True');
+(1, 19, 'true_false', 'Is "Fagus sylvatica" the correct Latin name for the common or English beech?', 'True');
 
 -- PlantID 20: Festuca actae (Banks Peninsula blue tussock)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID,  PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the Banks Peninsula blue tussock known scientifically as "Festuca actae"?', 'True');
+(1, 20, 'true_false', 'Is the Banks Peninsula blue tussock known scientifically as "Festuca actae"?', 'True');
 
 -- PlantID 21: Griselinia littoralis (broadleaf or kapuka)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the broadleaf or kapuka known scientifically as "Griselinia littoralis"?', 'True');
+(1, 21, 'true_false', 'Is the broadleaf or kapuka known scientifically as "Griselinia littoralis"?', 'True');
 
 -- PlantID 22: Hoheria angustifolia (narrow leaved lacebark)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Hoheria angustifolia" the correct Latin name for the narrow leaved lacebark?', 'True');
+(1, 22, 'true_false', 'Is "Hoheria angustifolia" the correct Latin name for the narrow leaved lacebark?', 'True');
 
 -- PlantID 23: Hoheria sexstylosa (lacebark or houhere)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID,  PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the lacebark or houhere known scientifically as "Dacrydium cupressinum"?', 'False');
+(1, 23, 'true_false', 'Is the lacebark or houhere known scientifically as "Dacrydium cupressinum"?', 'False');
 
 -- PlantID 24: Laurus nobilis (bay tree)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Does the bay tree belong to the species "Laurus nobilis"?', 'True');
+(1, 24, 'true_false', 'Does the bay tree belong to the species "Laurus nobilis"?', 'True');
 
 -- PlantID 25: Leonohebe cupressoides (fragrant hebe)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Leonohebe cupressoides" known as the fragrant hebe?', 'True');
+(1, 25, 'true_false', 'Is "Leonohebe cupressoides" known as the fragrant hebe?', 'True');
 
 -- PlantID 26: Lomandra longifolia (basket grass)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the basket grass correctly identified as "Lomandra longifolia"?', 'True');
+(1, 26, 'true_false', 'Is the basket grass correctly identified as "Lomandra longifolia"?', 'True');
 
 -- PlantID 27: Magnolia liliflora 'Nigra' (deciduous magnolia)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Magnolia liliflora \'Nigra\'" the correct Latin name for the deciduous magnolia?', 'True');
+(1, 27, 'true_false', 'Is "Magnolia liliflora \'Nigra\'" the correct Latin name for the deciduous magnolia?', 'True');
 
 -- PlantID 28: Muehlenbeckia astonii (shrubby tororaro)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the shrubby tororaro known scientifically as "Muehlenbeckia astonii"?', 'True');
+(1, 28, 'true_false', 'Is the shrubby tororaro known scientifically as "Muehlenbeckia astonii"?', 'True');
 
 -- PlantID 29: Myoporum laetum (ngaio)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Does the ngaio belong to the genus "Myoporum"?', 'True');
+(1, 29, 'true_false', 'Does the ngaio belong to the genus "Myoporum"?', 'True');
 
 -- PlantID 30: Myosotidium hortensia (Chatham Island forget-me-not)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the Chatham Island forget-me-not known scientifically as "Myosotidium hortensia"?', 'True');
+(1, 30, 'true_false', 'Is the Chatham Island forget-me-not known scientifically as "Myosotidium hortensia"?', 'True');
 
 -- PlantID 31: Olea europaea (olive tree)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the olive tree known scientifically as "Olea europaea"?', 'True');
+(1, 31, 'true_false', 'Is the olive tree known scientifically as "Olea europaea"?', 'True');
 
 -- PlantID 32: Olearia lineata (twiggy tree daisy)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Olearia lineata" the correct Latin name for the twiggy tree daisy?', 'True');
+(1, 32, 'true_false', 'Is "Olearia lineata" the correct Latin name for the twiggy tree daisy?', 'True');
 
 -- PlantID 33: Phebalium squameum (satinwood)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the satinwood known scientifically as "Phebalium squameum"?', 'True');
+(1, 33, 'true_false', 'Is the satinwood known scientifically as "Phebalium squameum"?', 'True');
 
 -- PlantID 34: Photinia X fraseri 'Robusta' (photinia)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Does the photinia belong to the species "Photinia X fraseri \'Robusta\'"?', 'True');
+(1, 34, 'true_false', 'Does the photinia belong to the species "Photinia X fraseri \'Robusta\'"?', 'True');
 
 -- PlantID 35: Phormium cookianum (wharariki or mountain flax)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Phormium cookianum" known as the wharariki or mountain flax?', 'True');
+(1, 35, 'true_false', 'Is "Phormium cookianum" known as the wharariki or mountain flax?', 'True');
 
 -- PlantID 36: Phormium tenax (harakeke or NZ flax)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the harakeke or NZ flax correctly identified as "Phormium tenax"?', 'True');
+(1, 36, 'true_false', 'Is the harakeke or NZ flax correctly identified as "Phormium tenax"?', 'True');
 
 -- PlantID 37: Piper excelsum (kawakawa)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the kawakawa known scientifically as "Piper excelsum"?', 'True');
+(1, 37, 'true_false', 'Is the kawakawa known scientifically as "Piper excelsum"?', 'True');
 
 -- PlantID 38: Plagianthus divaricatus (swamp ribbonwood)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Does the swamp ribbonwood belong to the species "Plagianthus divaricatus"?', 'True');
+(1, 38, 'true_false', 'Does the swamp ribbonwood belong to the species "Plagianthus divaricatus"?', 'True');
 
 -- PlantID 39: Platanus orientalis 'Digitata' (cut leaf plane)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Platanus orientalis \'Digitata\'" the correct Latin name for the cut leaf plane?', 'True');
+(1, 39, 'true_false', 'Is "Platanus orientalis \'Digitata\'" the correct Latin name for the cut leaf plane?', 'True');
 
 -- PlantID 40: Polystichum vestitum (prickly shield fern or puniu)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the prickly shield fern or puniu known scientifically as "Polystichum vestitum"?', 'True');
+(1, 40, 'true_false', 'Is the prickly shield fern or puniu known scientifically as "Polystichum vestitum"?', 'True');
 
 -- PlantID 41: Pratia angulata (panakenake)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the panakenake known scientifically as "Polystichum vestitum"?', 'False');
+(1, 41, 'true_false', 'Is the panakenake known scientifically as "Polystichum vestitum"?', 'False');
 
 -- PlantID 42: Rosmarinus officinalis (rosemary)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Rosmarinus officinalis" the correct Latin name for the kawakawa?', 'False');
+(1, 42, 'true_false', 'Is "Rosmarinus officinalis" the correct Latin name for the kawakawa?', 'False');
 
 -- PlantID 43: Skimmia japonica (Japanese skimmia)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the Japanese skimmia correctly identified as "Skimmia japonica"?', 'True');
+(1, 43, 'true_false', 'Is the Japanese skimmia correctly identified as "Skimmia japonica"?', 'True');
 
 -- PlantID 44: Sophora prostrata (prostrate kowhai)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the prostrate kowhai known scientifically as "Dacrydium cupressinum"?', 'False');
+(1, 44, 'true_false', 'Is the prostrate kowhai known scientifically as "Dacrydium cupressinum"?', 'False');
 
 -- PlantID 45: Teucridium parvifolium (teucridium)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Does the teucridium belong to the species "Teucridium parvifolium"?', 'True');
+(1, 45, 'true_false', 'Does the teucridium belong to the species "Teucridium parvifolium"?', 'True');
 
 -- PlantID 46: Tilia cordata (lime tree)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the lime tree correctly identified as "Tilia cordata"?', 'True');
+(1, 46, 'true_false', 'Is the lime tree correctly identified as "Tilia cordata"?', 'True');
 
 -- PlantID 47: Ulmus carpinifolia 'Variegata' (variegated elm)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Ulmus carpinifolia \'Variegata\'" known as the NZ daisy bush?', 'False');
+(1, 47, 'true_false', 'Is "Ulmus carpinifolia \'Variegata\'" known as the NZ daisy bush?', 'False');
 
 -- PlantID 48: Veronica speciosa (large leaved hebe)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Does the large leaved hebe belong to the species "Veronica speciosa"?', 'True');
+(1, 48, 'true_false', 'Does the large leaved hebe belong to the species "Veronica speciosa"?', 'True');
 
 -- PlantID 49: Veronica topiaria (topiary hebe)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is the topiary hebe known scientifically as "Veronica topiaria"?', 'True');
+(1, 49, 'true_false', 'Is the topiary hebe known scientifically as "Veronica topiaria"?', 'True');
 
 -- PlantID 50: Viburnum tinus (laurustinus)
-INSERT INTO Questions (QuizID, QuestionType, QuestionText, CorrectAnswer) 
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES 
-(1, 'true_false', 'Is "Viburnum tinus" the correct Latin name for the manna gum?', 'False');
+(1, 50, 'true_false', 'Is "Viburnum tinus" the correct Latin name for the manna gum?', 'False');
 
 
 
