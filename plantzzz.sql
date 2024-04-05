@@ -339,7 +339,9 @@ VALUES (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (
 INSERT INTO Quizzes (QuizName, SemesterID, CreatedAt) 
 VALUES 
 ('LASC206 Plant Quiz 1', 1, NOW()),
-('LASC206 Plant Quiz 2', 2, NOW());
+('LASC206 Plant Quiz 2', 2, NOW()),
+('LASC211 Plant Quiz 1', 3, NOW()),
+('LASC211 Plant Quiz 2', 4, NOW());
 
 
 -- PLANT ID 1-50 TRUE or FALSE
@@ -1241,3 +1243,408 @@ VALUES (2, 99, 'true_false', 'Is "Sequoia sempervirens" the correct Latin name f
 -- PlantID 100: Zantedeschia aethiopica (arum or calla Lily) - False statement
 INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
 VALUES (2, 100, 'true_false', 'Is "Zantedeschia aethiopica" the correct Latin name for the sunflower?', 'False');
+
+
+-- multi choice
+
+-- plant ID 101 to 150 true or false
+-- PlantID 101: Acer griseum (paperbark maple)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 101, 'true_false', 'Is "Acer griseum" known as the paperbark maple?', 'True');
+
+-- PlantID 102: Anemanthele lessoniana (wind grass) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 102, 'true_false', 'Is "Anemanthele lessoniana" the correct Latin name for the kangaroo paw?', 'False');
+
+-- PlantID 103: Arthropodium cirratum (rengarenga)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 103, 'true_false', 'Is "Arthropodium cirratum" the correct Latin name for rengarenga?', 'True');
+
+-- PlantID 104: Astelia chathamica (Chatham Islands astelia) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 104, 'true_false', 'Is "Astelia chathamica" the correct Latin name for the European beech?', 'False');
+
+-- PlantID 105: Austroderia richardii (South Island toe toe)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 105, 'true_false', 'Is "Austroderia richardii" the correct Latin name for the South Island toe toe?', 'True');
+
+-- PlantID 106: Brachyglottis monroi (Monro's daisy) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 106, 'true_false', 'Is "Brachyglottis monroi" known as the cherry laurel?', 'False');
+
+-- PlantID 107: Brachyglottis rotundifolia (muttonbird scrub)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 107, 'true_false', 'Is "Brachyglottis rotundifolia" the correct Latin name for muttonbird scrub?', 'True');
+
+-- PlantID 108: Carmichaelia appressa (native prostrate broom) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 108, 'true_false', 'Is "Carmichaelia appressa" the correct Latin name for the Japanese maple?', 'False');
+
+-- PlantID 109: Carmichaelia stevensonii (weeping broom)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 109, 'true_false', 'Is "Carmichaelia stevensonii" the correct Latin name for the weeping broom?', 'True');
+
+-- PlantID 110: Coprosma acerosa 'Hawera' (Hawera sand coprosma) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 110, 'true_false', 'Is "Coprosma acerosa ‘Hawera’" known as the kangaroo paw?', 'False');
+
+-- PlantID 111: Cordyline australis (cabbage tree)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 111, 'true_false', 'Is "Cordyline australis" the correct Latin name for the cabbage tree?', 'True');
+
+-- PlantID 112: Cornus florida (dogwood)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 112, 'true_false', 'Is "Cornus florida" the correct Latin name for the dogwood?', 'True');
+
+-- PlantID 113: Corynocarpus laevigatus (karaka or NZ laurel) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 113, 'true_false', 'Is "Corynocarpus laevigatus" known as the silver beech?', 'False');
+
+-- PlantID 114: Dacrydium cupressinum (rimu)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 114, 'true_false', 'Is "Dacrydium cupressinum" the correct Latin name for rimu?', 'True');
+
+-- PlantID 115: Dianella nigra (turutu) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 115, 'true_false', 'Is "Dianella nigra" the correct Latin name for the kangaroo paw?', 'False');
+
+-- PlantID 116: Dicksonia squarrosa (wheki or rough tree fern)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 116, 'true_false', 'Is "Dicksonia squarrosa" the correct Latin name for wheki or rough tree fern?', 'True');
+
+-- PlantID 117: Discaria toumatou (matagouri) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 117, 'true_false', 'Is "Discaria toumatou" known as the cherry laurel?', 'False');
+
+-- PlantID 118: Disphyma australe (horokaka or native ice plant)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 118, 'true_false', 'Is "Disphyma australe" the correct Latin name for horokaka or native ice plant?', 'True');
+
+-- PlantID 119: Fraxinus excelsior (European or common ash) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 119, 'true_false', 'Is "Fraxinus excelsior" the correct Latin name for the South Island toe toe?', 'False');
+
+-- PlantID 120: Fuscospora cliffortioides (mountain beech)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 120, 'true_false', 'Is "Fuscospora cliffortioides" the correct Latin name for mountain beech?', 'True');
+
+-- PlantID 121: Fuscospora fusca (red beech) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 121, 'true_false', 'Is "Fuscospora fusca" known as the manna gum?', 'False');
+
+-- PlantID 122: Ginkgo biloba (maidenhair tree)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 122, 'true_false', 'Is "Ginkgo biloba" the correct Latin name for the maidenhair tree?', 'True');
+
+-- PlantID 123: Griselinia littoralis (NZ broadleaf or kapuka)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 123, 'true_false', 'Is "Griselinia littoralis" the correct Latin name for the NZ broadleaf or kapuka?', 'True');
+
+-- PlantID 124: Haloragis erecta 'Purpurea' (toatoa) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 124, 'true_false', 'Is "Haloragis erecta ‘Purpurea’" known as the silver fern?', 'False');
+
+-- PlantID 125: Hoheria lyallii (mountain lacebark)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 125, 'true_false', 'Is "Hoheria lyallii" the correct Latin name for mountain lacebark?', 'True');
+
+-- PlantID 126: Kunzea ericoides (kanuka) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 126, 'true_false', 'Is "Kunzea ericoides" the correct Latin name for the NZ daisy bush?', 'False');
+
+-- PlantID 127: Libertia peregrinans (NZ iris)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 127, 'true_false', 'Is "Libertia peregrinans" the correct Latin name for the NZ iris?', 'True');
+
+-- PlantID 128: Liquidambar styraciflua (American sweetgum) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 128, 'true_false', 'Is "Liquidambar styraciflua" known as the NZ flax?', 'False');
+
+-- PlantID 129: Liriodendron tulipifera (tulip tree)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 129, 'true_false', 'Is "Liriodendron tulipifera" the correct Latin name for the tulip tree?', 'True');
+
+-- PlantID 130: Lophozonia menziesii (silver beech) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 130, 'true_false', 'Is "Lophozonia menziesii" the correct Latin name for the kowhai?', 'False');
+
+-- PlantID 131: Melicytus alpinus (porcupine scrub)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 131, 'true_false', 'Is "Melicytus alpinus" the correct Latin name for porcupine scrub?', 'True');
+
+-- PlantID 132: Muehlenbeckia axillaris (creeping muehlenbeckia) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 132, 'true_false', 'Is "Muehlenbeckia axillaris" known as the giant club rush?', 'False');
+
+-- PlantID 133: Olearia cheesemanii (NZ daisy bush)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 133, 'true_false', 'Is "Olearia cheesemanii" the correct Latin name for the NZ daisy bush?', 'True');
+
+-- PlantID 134: Pimelea prostrata (NZ daphne)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 134, 'true_false', 'Is "Pimelea prostrata" the correct Latin name for NZ daphne?', 'True');
+
+-- PlantID 135: Pittosporum crassifolium (karo) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 135, 'true_false', 'Is "Pittosporum crassifolium" known as the mountain daisy?', 'False');
+
+-- PlantID 136: Pittosporum eugenioides (lemonwood or tarata)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 136, 'true_false', 'Is "Pittosporum eugenioides" the correct Latin name for lemonwood or tarata?', 'True');
+
+-- PlantID 137: Pittosporum tenuifolium (kohuhu or black matipo) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 137, 'true_false', 'Is "Pittosporum tenuifolium" the correct Latin name for the NZ iris?', 'False');
+
+-- PlantID 138: Plagianthus regius (lowland ribbonwood)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 138, 'true_false', 'Is "Plagianthus regius" the correct Latin name for lowland ribbonwood?', 'True');
+
+-- PlantID 139: Platanus x acerifolia (London plane) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 139, 'true_false', 'Is "Platanus x acerifolia" known as the silver beech?', 'False');
+
+-- PlantID 140: Poa cita (silver tussock)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 140, 'true_false', 'Is "Poa cita" the correct Latin name for silver tussock?', 'True');
+
+-- PlantID 141: Prunus x yedoensis (Yoshino cherry) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 141, 'true_false', 'Is "Prunus x yedoensis" the correct Latin name for the black cottonwood?', 'False');
+
+-- PlantID 142: Pseudopanax crassifolius (lancewood)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 142, 'true_false', 'Is "Pseudopanax crassifolius" the correct Latin name for lancewood?', 'True');
+
+-- PlantID 143: Pseudopanax ferox (fierce lancewood) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 143, 'true_false', 'Is "Pseudopanax ferox" known as the NZ daisy bush?', 'False');
+
+-- PlantID 144: Quercus palustris (pin oak)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 144, 'true_false', 'Is "Quercus palustris" the correct Latin name for pin oak?', 'True');
+
+-- PlantID 145: Quercus robur (English oak)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 145, 'true_false', 'Is "Quercus robur" the correct Latin name for English oak?', 'True');
+
+-- PlantID 146: Solanum laciniatum (poroporo) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 146, 'true_false', 'Is "Solanum laciniatum" known as the Japanese maple?', 'False');
+
+-- PlantID 147: Sophora microphylla (South Island kowhai)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 147, 'true_false', 'Is "Sophora microphylla" the correct Latin name for South Island kowhai?', 'True');
+
+-- PlantID 148: Sophora molloyi 'Dragons Gold' (Cook Strait kowhai) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 148, 'true_false', 'Is "Sophora molloyi \'Dragons Gold\'" the correct Latin name for the coastal banksia?', 'False');
+
+-- PlantID 149: Sophora tetraptera (North Island kowhai)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 149, 'true_false', 'Is "Sophora tetraptera" the correct Latin name for North Island kowhai?', 'True');
+
+-- PlantID 150: Veronica hulkeana (New Zealand lilac)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (3, 150, 'true_false', 'Is "Veronica hulkeana" the correct Latin name for New Zealand lilac?', 'True');
+
+-- PlantID 151: Agathis australis (kauri)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 151, 'true_false', 'Is "Agathis australis" the correct Latin name for kauri?', 'True');
+
+-- PlantID 152: Apodasmia similis (oioi) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 152, 'true_false', 'Is "Apodasmia similis" known as the Japanese maple?', 'False');
+
+-- PlantID 153: Camellia japonica (Japanese camellia)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 153, 'true_false', 'Is "Camellia japonica" the correct Latin name for Japanese camellia?', 'True');
+
+-- PlantID 154: Camellia sasanqua (autumn camellia) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 154, 'true_false', 'Is "Camellia sasanqua" the correct Latin name for the coastal banksia?', 'False');
+
+-- PlantID 155: Carex secta (pukio)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 155, 'true_false', 'Is "Carex secta" the correct Latin name for pukio?', 'True');
+
+-- PlantID 156: Carex testacea (orange sedge) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 156, 'true_false', 'Is "Carex testacea" known as the Japanese maple?', 'False');
+
+-- PlantID 157: Carpodetus serratus (marble leaf or putaputaweta)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 157, 'true_false', 'Is "Carpodetus serratus" the correct Latin name for marble leaf or putaputaweta?', 'True');
+
+-- PlantID 158: Catalpa bignonioides (Indian bean tree)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 158, 'true_false', 'Is "Catalpa bignonioides" the correct Latin name for Indian bean tree?', 'True');
+
+-- PlantID 159: Choisya ternata (Mexican orange blossom) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 159, 'true_false', 'Is "Choisya ternata" the correct Latin name for the coastal banksia?', 'False');
+
+-- PlantID 160: Clematis paniculata (puawhananga)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 160, 'true_false', 'Is "Clematis paniculata" the correct Latin name for puawhananga?', 'True');
+
+-- PlantID 161: Clianthus maximus (kakabeak)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 161, 'true_false', 'Is "Clianthus maximus" the correct Latin name for kakabeak?', 'True');
+
+-- PlantID 162: Coprosma propinqua (mingimingi)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 162, 'true_false', 'Is "Coprosma propinqua" the correct Latin name for mingimingi?', 'True');
+
+-- PlantID 163: Coprosma rugosa 'Lobster' (red coprosma) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 163, 'true_false', 'Is "Coprosma rugosa \'Lobster\'" known as the Japanese maple?', 'False');
+
+-- PlantID 164: Cotinus coggygria (smoke bush)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 164, 'true_false', 'Is "Cotinus coggygria" the correct Latin name for smoke bush?', 'True');
+
+-- PlantID 165: Cupressus macrocarpa (macrocarpa) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 165, 'true_false', 'Is "Cupressus macrocarpa" the correct Latin name for the coastal banksia?', 'False');
+
+-- PlantID 166: Cupressus sempervirens (Italian cypress)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 166, 'true_false', 'Is "Cupressus sempervirens" the correct Latin name for Italian cypress?', 'True');
+
+-- PlantID 167: Dracophyllum sinclairii (inaka or neinei) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 167, 'true_false', 'Is "Dracophyllum sinclairii" known as the Japanese maple?', 'False');
+
+-- PlantID 168: Euphorbia glauca (shore spurge or waiuatua)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 168, 'true_false', 'Is "Euphorbia glauca" the correct Latin name for shore spurge or waiuatua?', 'True');
+
+-- PlantID 169: Ficus pumila (creeping fig)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 169, 'true_false', 'Is "Ficus pumila" the correct Latin name for creeping fig?', 'True');
+
+-- PlantID 170: Fuchsia procumbens (creeping fuchsia) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 170, 'true_false', 'Is "Fuchsia procumbens" the correct Latin name for the coastal banksia?', 'False');
+
+-- PlantID 171: Fuscospora solandri (black beech)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 171, 'true_false', 'Is "Fuscospora solandri" the correct Latin name for black beech?', 'True');
+
+-- PlantID 172: Helleborus orientalis (lenten rose)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 172, 'true_false', 'Is "Helleborus orientalis" the correct Latin name for lenten rose?', 'True');
+
+-- PlantID 173: Hydrangea macrophylla (mophead hydrangea)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 173, 'true_false', 'Is "Hydrangea macrophylla" the correct Latin name for mophead hydrangea?', 'True');
+
+-- PlantID 174: Hydrangea paniculata (panicled hydrangea) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 174, 'true_false', 'Is "Hydrangea paniculata" known as the coastal banksia?', 'False');
+
+-- PlantID 175: Juncus pallidus (giant club rush)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 175, 'true_false', 'Is "Juncus pallidus" the correct Latin name for giant club rush?', 'True');
+
+-- PlantID 176: Lophomyrtus obcordata (rohutu or NZ myrtle) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 176, 'true_false', 'Is "Lophomyrtus obcordata" known as the Japanese maple?', 'False');
+
+-- PlantID 177: Lophomyrtus x ralphii (hybrid lophomyrtus or NZ myrtle)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 177, 'true_false', 'Is "Lophomyrtus x ralphii" the correct Latin name for hybrid lophomyrtus or NZ myrtle?', 'True');
+
+-- PlantID 178: Melicytus ramiflorus (mahoe or whiteywood)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 178, 'true_false', 'Is "Melicytus ramiflorus" the correct Latin name for mahoe or whiteywood?', 'True');
+
+-- PlantID 179: Microleana avenacea (bush rice grass) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 179, 'true_false', 'Is "Microleana avenacea" the correct Latin name for the coastal banksia?', 'False');
+
+-- PlantID 180: Muehlenbeckia complexa (small leaved pohuehue)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 180, 'true_false', 'Is "Muehlenbeckia complexa" the correct Latin name for small leaved pohuehue?', 'True');
+
+-- PlantID 181: Nepeta mussinii (cat mint)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 181, 'true_false', 'Is "Nepeta mussinii" the correct Latin name for cat mint?', 'True');
+
+-- PlantID 182: Pachystegia insignis (Marlborough rock daisy) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 182, 'true_false', 'Is "Pachystegia insignis" known as the Japanese maple?', 'False');
+
+-- PlantID 183: Pachystegia rufa (Marlborough rock daisy)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 183, 'true_false', 'Is "Pachystegia rufa" the correct Latin name for Marlborough rock daisy?', 'True');
+
+-- PlantID 184: Pectinopitys ferruginea (miro)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 184, 'true_false', 'Is "Pectinopitys ferruginea" the correct Latin name for miro?', 'True');
+
+-- PlantID 185: Phyllocladus alpinus (mountain toatoa or celery pine) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 185, 'true_false', 'Is "Phyllocladus alpinus" known as the coastal banksia?', 'False');
+
+-- PlantID 186: Phyllocladus trichomanoides (tanekaha)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 186, 'true_false', 'Is "Phyllocladus trichomanoides" the correct Latin name for tanekaha?', 'True');
+
+-- PlantID 187: Pittosporum tenuifolium 'Sumo' (dwarf pittosporum)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 187, 'true_false', 'Is "Pittosporum tenuifolium \'Sumo\'" the correct Latin name for dwarf pittosporum?', 'True');
+
+-- PlantID 188: Podocarpus laetus (mountain or Hall's totara) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 188, 'true_false', 'Is "Podocarpus laetus" known as the Japanese maple?', 'False');
+
+-- PlantID 189: Podocarpus nivalis (snow or mountain totara)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 189, 'true_false', 'Is "Podocarpus nivalis" the correct Latin name for snow or mountain totara?', 'True');
+
+-- PlantID 190: Podocarpus totara (totara)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 190, 'true_false', 'Is "Podocarpus totara" the correct Latin name for totara?', 'True');
+
+-- PlantID 191: Prumnopitys taxifolia (matai) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 191, 'true_false', 'Is "Prumnopitys taxifolia" known as the coastal banksia?', 'False');
+
+-- PlantID 192: Pseudopanax lessonii (houpara)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 192, 'true_false', 'Is "Pseudopanax lessonii" the correct Latin name for houpara?', 'True');
+
+-- PlantID 193: Pseudowintera colorata (horopito or pepper tree) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 193, 'true_false', 'Is "Pseudowintera colorata" known as the Japanese maple?', 'False');
+
+-- PlantID 194: Quercus rubra (red oak)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 194, 'true_false', 'Is "Quercus rubra" the correct Latin name for red oak?', 'True');
+
+-- PlantID 195: Rubus cissoides (bush lawyer)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 195, 'true_false', 'Is "Rubus cissoides" the correct Latin name for bush lawyer?', 'True');
+
+-- PlantID 196: Sedum spectabile 'Autumn Joy' (stonecrop) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 196, 'true_false', 'Is "Sedum spectabile \'Autumn Joy\'" known as the coastal banksia?', 'False');
+
+-- PlantID 197: Sorbus aucuparia (rowan)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 197, 'true_false', 'Is "Sorbus aucuparia" the correct Latin name for rowan?', 'True');
+
+-- PlantID 198: Typha orientalis (raupo or bullrush) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 198, 'true_false', 'Is "Typha orientalis" known as the Japanese maple?', 'False');
+
+-- PlantID 199: Veronica odora 'Prostrata' (prostrate hebe)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 199, 'true_false', 'Is "Veronica odora \'Prostrata\'" the correct Latin name for prostrate hebe?', 'True');
+
+-- PlantID 200: Wisteria sinensis (Chinese wisteria) - False statement
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) 
+VALUES (4, 200, 'true_false', 'Is "Wisteria sinensis" known as the coastal banksia?', 'False');
+
