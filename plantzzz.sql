@@ -2821,3 +2821,93 @@ INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VAL
 (380, 'B', 'Hebe salicifolia', FALSE),
 (380, 'C', 'Pittosporum eugenioides', FALSE),
 (380, 'D', 'Carmichaelia australis', FALSE);
+
+-- Question for PlantID 181 (Cat Mint)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 181, 'multiple_choice', 'What is the Latin name of "cat mint"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(381, 'A', 'Metrosideros excelsa', FALSE),
+(381, 'B', 'Dacrycarpus dacrydioides', FALSE),
+(381, 'C', 'Eucalyptus globulus', FALSE),
+(381, 'D', 'Nepeta mussinii', TRUE);
+
+-- Question for PlantID 182 (Marlborough Rock Daisy)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 182, 'multiple_choice', 'What is the Latin name of "Marlborough rock daisy"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(382, 'A', 'Phormium tenax', FALSE),
+(382, 'B', 'Rhopalostylis sapida', FALSE),
+(382, 'C', 'Pachystegia insignis', TRUE),
+(382, 'D', 'Carpodetus serratus', FALSE);
+
+-- Question for PlantID 183 (Marlborough Rock Daisy)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 183, 'multiple_choice', 'What is the Latin name of "Marlborough rock daisy"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(383, 'A', 'Lophomyrtus bullata', FALSE),
+(383, 'B', 'Pachystegia rufa', TRUE),
+(383, 'C', 'Myrsine australis', FALSE),
+(383, 'D', 'Kunzea ericoides', FALSE);
+
+-- Question for PlantID 184 (Miro)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 184, 'multiple_choice', 'What is the Latin name of "miro"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(384, 'A', 'Prumnopitys ferruginea', TRUE),
+(384, 'B', 'Alectryon excelsus', FALSE),
+(384, 'C', 'Nothofagus menziesii', FALSE),
+(384, 'D', 'Cordyline australis', FALSE);
+
+-- Question for PlantID 185 (Mountain Toatoa or Celery Pine)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 185, 'multiple_choice', 'What is the Latin name of "mountain toatoa or celery pine"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(385, 'A', 'Sophora microphylla', FALSE),
+(385, 'B', 'Grateloupia doryphora', FALSE),
+(385, 'C', 'Metrosideros robusta', FALSE),
+(385, 'D', 'Phyllocladus alpinus', TRUE);
+
+-- Question for PlantID 186 (Tenakaha)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 186, 'multiple_choice', 'What is the Latin name of "tenakaha"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(386, 'A', 'Pittosporum crassifolium', FALSE),
+(386, 'B', 'Phyllocladus trichomanoides', TRUE),
+(386, 'C', 'Rhabdothamnus solandri', FALSE),
+(386, 'D', 'Olearia solandri', FALSE);
+
+-- Question for PlantID 187 (Dwarf Pittosporum)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 187, 'multiple_choice', 'What is the Latin name of "dwarf pittosporum"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(387, 'A', 'Kunzea amathicola', FALSE),
+(387, 'B', 'Hebe topiaria', FALSE),
+(387, 'C', 'Pittosporum tenuifolium "Sumo"', TRUE),
+(387, 'D', 'Fuchsia excorticata', FALSE);
+
+-- Question for PlantID 188 (Mountain or Hall's Totara)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 188, 'multiple_choice', 'What is the Latin name of "mountain or Hall's totara"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(388, 'A', 'Podocarpus laetus', TRUE),
+(388, 'B', 'Dacrydium cupressinum', FALSE),
+(388, 'C', 'Pseudopanax crassifolius', FALSE),
+(388, 'D', 'Leptospermum scoparium', FALSE);
+
+-- Question for PlantID 189 (Snow or Mountain Totara)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 189, 'multiple_choice', 'What is the Latin name of "snow or mountain totara"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(389, 'A', 'Metrosideros excelsa', FALSE),
+(389, 'B', 'Agathis australis', FALSE),
+(389, 'C', 'Podocarpus nivalis', TRUE),
+(389, 'D', 'Alectryon excelsus', FALSE);
+
+-- Question for PlantID 190 (Totara)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 190, 'multiple_choice', 'What is the Latin name of "totara"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(390, 'A', 'Rhopalostylis sapida', FALSE),
+(390, 'B', 'Podocarpus totara', TRUE),
+(390, 'C', 'Beilschmiedia tawa', FALSE),
+(390, 'D', 'Pittosporum eugenioides', FALSE);
