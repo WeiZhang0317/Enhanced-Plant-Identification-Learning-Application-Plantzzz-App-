@@ -2887,7 +2887,7 @@ INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VAL
 
 -- Question for PlantID 188 (Mountain or Hall's Totara)
 INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
-(4, 188, 'multiple_choice', 'What is the Latin name of "mountain or Hall's totara"?', 'A');
+(4, 188, 'multiple_choice', 'What is the Latin name of "mountain or Halls totara"?', 'A');
 INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
 (388, 'A', 'Podocarpus laetus', TRUE),
 (388, 'B', 'Dacrydium cupressinum', FALSE),
@@ -2911,3 +2911,94 @@ INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VAL
 (390, 'B', 'Podocarpus totara', TRUE),
 (390, 'C', 'Beilschmiedia tawa', FALSE),
 (390, 'D', 'Pittosporum eugenioides', FALSE);
+
+-- Question for PlantID 191 (Matai)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 191, 'multiple_choice', 'What is the Latin name of "matai"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(391, 'A', 'Metrosideros robusta', FALSE),
+(391, 'B', 'Corynocarpus laevigatus', FALSE),
+(391, 'C', 'Alectryon excelsus', FALSE),
+(391, 'D', 'Prumnopitys taxifolia', TRUE);
+
+-- Question for PlantID 192 (Houpara)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 192, 'multiple_choice', 'What is the Latin name of "houpara"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(392, 'A', 'Phormium tenax', FALSE),
+(392, 'B', 'Pseudopanax lessonii', TRUE),
+(392, 'C', 'Leptospermum scoparium', FALSE),
+(392, 'D', 'Dacrydium cupressinum', FALSE);
+
+-- Question for PlantID 193 (Horopito or Pepper Tree)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 193, 'multiple_choice', 'What is the Latin name of "horopito or pepper tree"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(393, 'A', 'Pseudowintera colorata', TRUE),
+(393, 'B', 'Kunzea ericoides', FALSE),
+(393, 'C', 'Pittosporum eugenioides', FALSE),
+(393, 'D', 'Metrosideros excelsa', FALSE);
+
+-- Question for PlantID 194 (Red Oak)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 194, 'multiple_choice', 'What is the Latin name of "red oak"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(394, 'A', 'Alectryon excelsus', FALSE),
+(394, 'B', 'Agathis australis', FALSE),
+(394, 'C', 'Quercus rubra', TRUE),
+(394, 'D', 'Rhopalostylis sapida', FALSE);
+
+-- Question for PlantID 195 (Bush Lawyer)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 195, 'multiple_choice', 'What is the Latin name of "bush lawyer"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(395, 'A', 'Corynocarpus laevigatus', FALSE),
+(395, 'B', 'Rubus cissoides', TRUE),
+(395, 'C', 'Leptospermum scoparium', FALSE),
+(395, 'D', 'Pittosporum eugenioides', FALSE);
+
+-- Question for PlantID 196 (Stonecrop)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 196, 'multiple_choice', 'What is the Latin name of "stonecrop"?', 'D');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(396, 'A', 'Metrosideros excelsa', FALSE),
+(396, 'B', 'Alectryon excelsus', FALSE),
+(396, 'C', 'Phormium tenax', FALSE),
+(396, 'D', 'Sedum spectabile "Autumn Joy"', TRUE);
+
+-- Question for PlantID 197 (Rowan)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 197, 'multiple_choice', 'What is the Latin name of "rowan"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(397, 'A', 'Sorbus aucuparia', TRUE),
+(397, 'B', 'Corynocarpus laevigatus', FALSE),
+(397, 'C', 'Rhopalostylis sapida', FALSE),
+(397, 'D', 'Dacrycarpus dacrydioides', FALSE);
+
+-- Question for PlantID 198 (Raupo or Bullrush)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 198, 'multiple_choice', 'What is the Latin name of "raupo or bullrush"?', 'C');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(398, 'A', 'Kunzea ericoides', FALSE),
+(398, 'B', 'Leptospermum scoparium', FALSE),
+(398, 'C', 'Typha orientalis', TRUE),
+(398, 'D', 'Pseudopanax crassifolius', FALSE);
+
+-- Question for PlantID 199 (Prostrate Hebe)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 199, 'multiple_choice', 'What is the Latin name of "prostrate hebe"?', 'B');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(399, 'A', 'Pittosporum tenuifolium', FALSE),
+(399, 'B', 'Veronica odora "Prostrata"', TRUE),
+(399, 'C', 'Rhopalostylis sapida', FALSE),
+(399, 'D', 'Corynocarpus laevigatus', FALSE);
+
+-- Question for PlantID 200 (Chinese Wisteria)
+INSERT INTO Questions (QuizID, PlantID, QuestionType, QuestionText, CorrectAnswer) VALUES 
+(4, 200, 'multiple_choice', 'What is the Latin name of "Chinese wisteria"?', 'A');
+INSERT INTO QuestionOptions (QuestionID, OptionLabel, OptionText, IsCorrect) VALUES
+(400, 'A', 'Wisteria sinensis', TRUE),
+(400, 'B', 'Metrosideros excelsa', FALSE),
+(400, 'C', 'Alectryon excelsus', FALSE),
+(400, 'D', 'Phormium tenax', FALSE);
+
