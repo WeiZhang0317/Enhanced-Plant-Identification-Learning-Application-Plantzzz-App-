@@ -65,3 +65,84 @@ def register_student():
         if connection.is_connected():
             cursor.close()
             connection.close()
+
+@student_blueprint.route('/student/info', methods=['GET'])
+def get_student_info():
+    student_id = request.args.get('studentId')
+    connection = get_db_connection()
+    
+    try:
+        cursor = get_cursor(connection, dictionary_cursor=True)
+        
+        cursor.execute("""
+        SELECT s.StudentID, u.Username, s.EnrollmentYear, u.Email
+        FROM Students s
+        JOIN Users u ON s.UserID = u.UserID
+        WHERE s.StudentID = %s
+        """, (student_id,))
+        
+        student_info = cursor.fetchone()
+        if student_info:
+            return jsonify(student_info), 200
+        else:
+            return jsonify({"message": "Student not found"}), 404
+    
+    except Error as e:
+        return jsonify({"message": str(e)}), 500
+    
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+
+@student_blueprint.route('/quizzes/ongoing', methods=['GET'])
+def get_ongoing_quizzes():
+    student_id = request.args.get('studentId')
+    connection = get_db_connection()
+    
+    try:
+        cursor = get_cursor(connection, dictionary_cursor=True)
+        
+        cursor.execute("""
+        SELECT q.QuizID, q.QuizName
+        FROM Quizzes q
+        JOIN StudentQuizProgress sqp ON q.QuizID = sqp.QuizID
+        WHERE sqp.StudentID = %s AND sqp.EndTimestamp IS NULL
+        """, (student_id,))
+        
+        quizzes = cursor.fetchall()
+        return jsonify(quizzes), 200
+    
+    except Error as e:
+        return jsonify({"message": str(e)}), 500
+    
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+
+@student_blueprint.route('/quizzes/completed', methods=['GET'])
+def get_completed_quizzes():
+    student_id = request.args.get('studentId')
+    connection = get_db_connection()
+    
+    try:
+        cursor = get_cursor(connection, dictionary_cursor=True)
+        
+        cursor.execute("""
+        SELECT q.QuizID, q.QuizName, sqp.Score
+        FROM Quizzes q
+        JOIN StudentQuizProgress sqp ON q.QuizID = sqp.QuizID
+        WHERE sqp.StudentID = %s AND sqp.EndTimestamp IS NOT NULL
+        """, (student_id,))
+        
+        quizzes = cursor.fetchall()
+        return jsonify(quizzes), 200
+    
+    except Error as e:
+        return jsonify({"message": str(e)}), 500
+    
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()

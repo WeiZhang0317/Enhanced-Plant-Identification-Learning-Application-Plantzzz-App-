@@ -42,7 +42,7 @@ function LoginPage() {
   
       if (response.ok) {
         const data = await response.json();
-        // 根据用户类型导航到相应的仪表盘
+     
         if (data.userType === "teacher") {
           navigate("/teacher/dashboard");
         } else if (data.userType === "student") {

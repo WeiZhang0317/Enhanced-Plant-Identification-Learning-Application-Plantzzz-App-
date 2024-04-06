@@ -1,0 +1,119 @@
+/* Overall dashboard layout */
+.student-dashboard {
+  display: flex;
+  flex-direction: column;
+  background-color: #F0F2F5;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Main layout after the navigation bar */
+.dashboard-body {
+  display: flex;
+  margin-top: 20px; /* Adjust based on your navigation bar's height */
+}
+
+/* Styling for the sidebar to make it more like a modern navigation pane */
+.sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px); /* Assuming a 60px tall navigation bar */
+  overflow-y: auto;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.sidebar a:hover, .sidebar a.active {
+  background-color: #4CAF50;
+  color: #ffffff;
+}
+
+/* Adjustments to the welcome-section for center-right alignment */
+.welcome-section {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center; /* Center the content */
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative; /* Needed for absolute positioning of children if necessary */
+}
+
+.welcome-section h1 {
+  position: absolute; /* Position h1 absolutely within the welcome section */
+  right: 20px; /* Adjust this value as needed to move closer to/further from the right edge */
+  top: 50%;
+  transform: translateY(-50%); /* Center vertically */
+  color: #4CAF50;
+  margin: 0;
+}
+
+.welcome-section button {
+  position: absolute; /* Position button absolutely within the welcome section */
+  right: 20px; /* Same as h1 to align both */
+  bottom: 20px; /* Adjust based on your design preference */
+  padding: 10px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.welcome-section button:hover {
+  opacity: 0.8;
+}
+
+/* Adjustments for quizzes layout */
+.quizzes-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center; /* Center quizzes for better visual appeal */
+}
+
+.quiz-box {
+  flex: 1;
+  min-width: 250px; /* Ensure boxes don’t get too narrow */
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin: 10px;
+  transition: transform 0.3s ease;
+}
+
+.quiz-box:hover {
+  transform: translateY(-5px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .quizzes-container {
+    flex-direction: column;
+  }
+}

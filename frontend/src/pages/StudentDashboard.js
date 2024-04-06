@@ -1,75 +1,85 @@
-import React from "react";
-import Navigation from "../components/Navigation";
+import React, { useState, useEffect } from 'react';
+import { NavLink, Routes, Route } from 'react-router-dom';
+import Navigation from '../components/Navigation'; // This is your horizontal navigation bar
+import Profile from './Profile';
+import OngoingQuizzes from './OngoingQuizzes';
+import CompletedQuizzes from './CompletedQuizzes';
+import '../styles/StudentDashboard.css'; // Path to your stylesheet
 
 function StudentDashboard() {
-  // 假设 state 包含了 quiz 信息，您可能会从后端 API 获取这些数据
-  const quizzes = {
-    ongoing: [
-      { id: 1, title: "Chapter 1: Introduction to Programming" },
-      // 其他进行中的 quiz
-    ],
-    completed: [
-      { id: 2, title: "Chapter 2: Data Structures" },
-      // 其他已完成的 quiz
-    ],
-  };
+  const [studentInfo, setStudentInfo] = useState({});
+  const [ongoingQuizzes, setOngoingQuizzes] = useState([]);
+  const [completedQuizzes, setCompletedQuizzes] = useState([]);
+
+  // Fetch student information from backend
+  useEffect(() => {
+    // Assuming backend URL is http://localhost:5000
+    const fetchStudentInfo = async () => {
+      const response = await fetch('http://localhost:5000/student/student/info?studentId=1');
+      if (response.ok) {
+        const data = await response.json();
+        setStudentInfo(data);
+      }
+    };
+    fetchStudentInfo();
+  }, []);
+
+  // Fetch ongoing quizzes from backend
+  useEffect(() => {
+    const fetchOngoingQuizzes = async () => {
+      const response = await fetch('http://localhost:5000/student/quizzes/ongoing?studentId=1');
+      if (response.ok) {
+        const data = await response.json();
+        setOngoingQuizzes(data);
+      }
+    };
+    fetchOngoingQuizzes();
+  }, []);
+
+  // Fetch completed quizzes from backend
+  useEffect(() => {
+    const fetchCompletedQuizzes = async () => {
+      const response = await fetch('http://localhost:5000/student/quizzes/completed?studentId=1');
+      if (response.ok) {
+        const data = await response.json();
+        setCompletedQuizzes(data);
+      }
+    };
+    fetchCompletedQuizzes();
+  }, []);
+
+  // Function to determine the active NavLink class
+  const getNavLinkClass = ({ isActive }) => isActive ? 'active-link' : '';
+
 
   return (
-    <div style={{ backgroundColor: "#F0F2F5", minHeight: "100vh" }}>
-      <Navigation />
-      <div
-        style={{
-          padding: "20px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <h1 style={{ color: "#4CAF50" }}>Student Dashboard</h1>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            padding: "40px",
-            marginTop: "20px",
-            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-            borderRadius: "8px",
-            backgroundColor: "white",
-            width: "100%",
-            maxWidth: "900px",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              marginBottom: "30px",
-            }}
-          >
-            <h2 style={{ borderBottom: "1px solid #ccc", paddingBottom: "10px" }}>
-              Ongoing Quizzes
-            </h2>
-            {quizzes.ongoing.map((quiz) => (
-              <div key={quiz.id} style={{ padding: "10px", borderBottom: "1px solid #eee" }}>
-                {quiz.title}
-              </div>
-            ))}
-          </div>
+    <div className="student-dashboard">
+      <Navigation /> {/* Horizontal navigation component */}
 
-          <div
-            style={{
-              width: "100%",
-            }}
-          >
-            <h2 style={{ borderBottom: "1px solid #ccc", paddingBottom: "10px" }}>
-              Completed Quizzes
-            </h2>
-            {quizzes.completed.map((quiz) => (
-              <div key={quiz.id} style={{ padding: "10px", borderBottom: "1px solid #eee" }}>
-                {quiz.title}
-              </div>
-            ))}
-          </div>
+      {/* Content area */}
+      <div className="content">
+        <div className="sidebar">
+          {/* Sidebar with NavLink components */}
+          <NavLink to="profile" className={getNavLinkClass}>
+            Profile
+          </NavLink>
+          <NavLink to="ongoing-quizzes" className={getNavLinkClass}>
+            Ongoing Quizzes
+          </NavLink>
+          <NavLink to="completed-quizzes" className={getNavLinkClass}>
+            Completed Quizzes
+          </NavLink>
+        </div>
+
+        {/* Route handling for the main area */}
+        <div className="main-content">
+          <Routes>
+            <Route path="profile" element={<Profile studentInfo={studentInfo} />} />
+            <Route path="ongoing-quizzes" element={<OngoingQuizzes quizzes={ongoingQuizzes} />} />
+            <Route path="completed-quizzes" element={<CompletedQuizzes quizzes={completedQuizzes} />} />
+            {/* Add a redirect for the base path to profile */}
+            <Route index element={<Profile studentInfo={studentInfo} />} />
+          </Routes>
         </div>
       </div>
     </div>

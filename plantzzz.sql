@@ -92,6 +92,27 @@ CREATE TABLE QuestionOptions (
 );
 
 
+CREATE TABLE StudentQuizProgress (
+    ProgressID INT AUTO_INCREMENT PRIMARY KEY,
+    StudentID INT NOT NULL,
+    QuizID INT NOT NULL,
+    StartTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    EndTimestamp TIMESTAMP,
+    Score DECIMAL(5,2),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID) ON DELETE CASCADE,
+    FOREIGN KEY (QuizID) REFERENCES Quizzes(QuizID) ON DELETE CASCADE
+);
+
+CREATE TABLE StudentQuizAnswers (
+    AnswerID INT AUTO_INCREMENT PRIMARY KEY,
+    ProgressID INT NOT NULL,
+    QuestionID INT NOT NULL,
+    SelectedOptionID INT,
+    IsCorrect BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (ProgressID) REFERENCES StudentQuizProgress(ProgressID) ON DELETE CASCADE,
+    FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID) ON DELETE CASCADE,
+    FOREIGN KEY (SelectedOptionID) REFERENCES QuestionOptions(OptionID) ON DELETE SET NULL
+);
 
 -- Insert student users
 INSERT INTO Users (Username, Password, Email, UserType) VALUES 
