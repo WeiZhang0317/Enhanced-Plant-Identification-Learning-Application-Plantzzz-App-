@@ -4,6 +4,7 @@ import Navigation from '../components/Navigation'; // This is your horizontal na
 import Profile from './Profile';
 import OngoingQuizzes from './OngoingQuizzes';
 import CompletedQuizzes from './CompletedQuizzes';
+import StudentProfileCard from '../components/StudentProfileCard'; // Importing the StudentProfileCard
 import '../styles/StudentDashboard.css'; // Path to your stylesheet
 
 function StudentDashboard() {
@@ -13,7 +14,6 @@ function StudentDashboard() {
 
   // Fetch student information from backend
   useEffect(() => {
-    // Assuming backend URL is http://localhost:5000
     const fetchStudentInfo = async () => {
       const response = await fetch('http://localhost:5000/student/student/info?studentId=1');
       if (response.ok) {
@@ -51,13 +51,12 @@ function StudentDashboard() {
   // Function to determine the active NavLink class
   const getNavLinkClass = ({ isActive }) => isActive ? 'active-link' : '';
 
-
   return (
     <div className="student-dashboard">
       <Navigation /> {/* Horizontal navigation component */}
 
       {/* Content area */}
-      <div className="content">
+      <div className="content" style={{ display: 'flex', flexDirection: 'row' }}>
         <div className="sidebar">
           {/* Sidebar with NavLink components */}
           <NavLink to="profile" className={getNavLinkClass}>
@@ -71,8 +70,11 @@ function StudentDashboard() {
           </NavLink>
         </div>
 
+        {/* Inserting the StudentProfileCard to the right of the sidebar */}
+        <StudentProfileCard studentInfo={studentInfo} />
+
         {/* Route handling for the main area */}
-        <div className="main-content">
+        <div className="main-content" style={{ flexGrow: 1 }}>
           <Routes>
             <Route path="profile" element={<Profile studentInfo={studentInfo} />} />
             <Route path="ongoing-quizzes" element={<OngoingQuizzes quizzes={ongoingQuizzes} />} />
