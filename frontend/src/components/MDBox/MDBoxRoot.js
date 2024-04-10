@@ -1,13 +1,14 @@
-
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 
 export default styled(Box)(({ theme, ownerState }) => {
-  const { palette, functions, borders, boxShadows } = theme;
+  const { palette, borders, boxShadows } = theme;
   const { variant, bgColor, color, opacity, borderRadius, shadow, coloredShadow } = ownerState;
 
+  // 定义 linearGradient 方法
+  const linearGradient = (colorStart, colorEnd) => `linear-gradient(${colorStart}, ${colorEnd})`;
+
   const { gradients, grey, white } = palette;
-  const { linearGradient } = functions;
   const { borderRadius: radius } = borders;
   const { colored } = boxShadows;
 
@@ -61,37 +62,31 @@ export default styled(Box)(({ theme, ownerState }) => {
   const validBorderRadius = ["xs", "sm", "md", "lg", "xl", "xxl", "section"];
   const validBoxShadows = ["xs", "sm", "md", "lg", "xl", "xxl", "inset"];
 
-  // background value
+  // 处理 background 值
   let backgroundValue = bgColor;
-
   if (variant === "gradient") {
-    backgroundValue = validGradients.find((el) => el === bgColor)
+    backgroundValue = validGradients.includes(bgColor)
       ? linearGradient(gradients[bgColor].main, gradients[bgColor].state)
       : white.main;
-  } else if (validColors.find((el) => el === bgColor)) {
+  } else if (validColors.includes(bgColor)) {
     backgroundValue = palette[bgColor] ? palette[bgColor].main : greyColors[bgColor];
-  } else {
-    backgroundValue = bgColor;
   }
 
-  // color value
+  // 处理 color 值
   let colorValue = color;
-
-  if (validColors.find((el) => el === color)) {
+  if (validColors.includes(color)) {
     colorValue = palette[color] ? palette[color].main : greyColors[color];
   }
 
-  // borderRadius value
+  // 处理 borderRadius 值
   let borderRadiusValue = borderRadius;
-
-  if (validBorderRadius.find((el) => el === borderRadius)) {
+  if (validBorderRadius.includes(borderRadius)) {
     borderRadiusValue = radius[borderRadius];
   }
 
-  // boxShadow value
+  // 处理 boxShadow 值
   let boxShadowValue = "none";
-
-  if (validBoxShadows.find((el) => el === shadow)) {
+  if (validBoxShadows.includes(shadow)) {
     boxShadowValue = boxShadows[shadow];
   } else if (coloredShadow) {
     boxShadowValue = colored[coloredShadow] ? colored[coloredShadow] : "none";

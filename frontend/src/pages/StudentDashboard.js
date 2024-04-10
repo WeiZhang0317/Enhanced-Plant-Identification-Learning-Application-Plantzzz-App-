@@ -6,13 +6,6 @@ import OngoingQuizzes from './OngoingQuizzes';
 import CompletedQuizzes from './CompletedQuizzes';
 import DefaultInfoCard from '../components/DefaultInfoCard';
 import '../styles/StudentDashboard.css';
-// MUI ThemeProvider import
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-
-// 创建一个主题实例
-const theme = createTheme({
-  // 你可以在这里自定义你的主题设置
-});
 
 function StudentDashboard() {
   const [studentInfo, setStudentInfo] = useState({});
@@ -55,48 +48,45 @@ function StudentDashboard() {
   const getNavLinkClass = ({ isActive }) => isActive ? 'active-link' : '';
 
   return (
-    // 使用ThemeProvider包裹你的组件
-    <ThemeProvider theme={theme}>
-      <div className="student-dashboard">
-        <Navigation />
-        <div className="content">
-          <div className="sidebar">
-            <NavLink to="profile" className={getNavLinkClass}>
-              Profile
-            </NavLink>
-            <NavLink to="ongoing-quizzes" className={getNavLinkClass}>
-              Ongoing Quizzes
-            </NavLink>
-            <NavLink to="completed-quizzes" className={getNavLinkClass}>
-              Completed Quizzes
-            </NavLink>
-          </div>
-          <div className="main-content">
-            <Routes>
-              <Route path="profile" element={<Profile studentInfo={studentInfo} />} />
-              <Route path="ongoing-quizzes" element={<OngoingQuizzes quizzes={ongoingQuizzes} />} />
-              <Route path="completed-quizzes" element={<CompletedQuizzes quizzes={completedQuizzes} />} />
-              <Route index element={<Profile studentInfo={studentInfo} />} />
-            </Routes>
-          </div>
-          <div className="sidebar-right">
-            <DefaultInfoCard
-              color="info"
-              icon="school"
-              title="Welcome!"
-              description={`Hello, ${studentInfo.name || 'student'}! Ready to learn?`}
-            />
-            <DefaultInfoCard
-              color="success"
-              icon="task"
-              title="Quiz Progress"
-              description="Current Progress"
-              value={`${ongoingQuizzes.length} Ongoing`}
-            />
-          </div>
+    <div className="student-dashboard">
+      <Navigation />
+      <div className="content">
+        <div className="sidebar">
+          <NavLink to="profile" className={getNavLinkClass}>
+            Profile
+          </NavLink>
+          <NavLink to="ongoing-quizzes" className={getNavLinkClass}>
+            Ongoing Quizzes
+          </NavLink>
+          <NavLink to="completed-quizzes" className={getNavLinkClass}>
+            Completed Quizzes
+          </NavLink>
+        </div>
+        <div className="main-content">
+          <Routes>
+            <Route path="profile" element={<Profile studentInfo={studentInfo} />} />
+            <Route path="ongoing-quizzes" element={<OngoingQuizzes quizzes={ongoingQuizzes} />} />
+            <Route path="completed-quizzes" element={<CompletedQuizzes quizzes={completedQuizzes} />} />
+            <Route index element={<Profile studentInfo={studentInfo} />} />
+          </Routes>
+        </div>
+        <div className="sidebar-right">
+          <DefaultInfoCard
+            color="info"
+            icon="school"
+            title="Welcome!"
+            description={`Hello, ${studentInfo.name || 'student'}! Ready to learn?`}
+          />
+          <DefaultInfoCard
+            color="success"
+            icon="task"
+            title="Quiz Progress"
+            description="Current Progress"
+            value={`${ongoingQuizzes.length} Ongoing`}
+          />
         </div>
       </div>
-    </ThemeProvider>
+    </div>
   );
 }
 

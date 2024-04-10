@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles'; // 引入必要的 MUI 主题组件
 import { UserProvider } from './contexts/UserContext';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -9,18 +10,17 @@ import TeacherRegisterPage from './pages/TeacherRegisterPage';
 import ThankYouPage from './pages/ThankYouPage';
 import TeacherDashboard from './pages/TeacherDashboard';
 import StudentDashboard from './pages/StudentDashboard';
-// 引入MUI的ThemeProvider和createTheme
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-// 创建你的MUI主题
+// 创建一个MUI主题实例
 const theme = createTheme({
-  // 在这里可以自定义主题，或者直接使用默认主题
+  // 这里可以添加主题配置
+  // 比如调整色调、字体等
 });
 
 function App() {
   return (
-    <UserProvider>
-      <ThemeProvider theme={theme}> {/* 在这里使用ThemeProvider包裹应用 */}
+    <ThemeProvider theme={theme}> {/* 包裹您的应用程序树 */}
+      <UserProvider>
         <Router>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -33,8 +33,8 @@ function App() {
             <Route path="/student/dashboard" element={<StudentDashboard />} />
           </Routes>
         </Router>
-      </ThemeProvider>
-    </UserProvider>
+      </UserProvider>
+    </ThemeProvider> // Close the ThemeProvider tag
   );
 }
 
