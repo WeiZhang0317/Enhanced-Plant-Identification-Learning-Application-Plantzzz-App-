@@ -4,7 +4,7 @@ import Navigation from '../components/Navigation'; // This is your horizontal na
 import Profile from './Profile';
 import OngoingQuizzes from './OngoingQuizzes';
 import CompletedQuizzes from './CompletedQuizzes';
-import StudentProfileCard from '../components/StudentProfileCard'; // Importing the StudentProfileCard
+// import StudentProfileCard from '../components/StudentProfileCard'; // Importing the StudentProfileCard
 import '../styles/StudentDashboard.css'; // Path to your stylesheet
 
 function StudentDashboard() {
@@ -70,8 +70,8 @@ function StudentDashboard() {
           </NavLink>
         </div>
 
-        {/* Inserting the StudentProfileCard to the right of the sidebar */}
-        <StudentProfileCard studentInfo={studentInfo} />
+        {/* Inserting the StudentProfileCard to the right of the sidebar
+        <StudentProfileCard studentInfo={studentInfo} /> */}
 
         {/* Route handling for the main area */}
         <div className="main-content" style={{ flexGrow: 1 }}>

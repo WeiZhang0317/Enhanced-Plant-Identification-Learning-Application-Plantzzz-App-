@@ -1,11 +1,11 @@
-import React from 'react';
+// import React from 'react';
 
-function StudentProfileCard({ studentInfo }) {
-  return (
-    <div className="student-profile-card">
+// function StudentProfileCard({ studentInfo }) {
+//   return (
+//     <div className="student-profile-card">
       
-    </div>
-  );
-}
+//     </div>
+//   );
+// }
 
-export default StudentProfileCard;
+// export default StudentProfileCard;
