@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles'; // 引入必要的 MUI 主题组件
+import { ThemeProvider } from '@mui/material/styles'; // 更新：仅导入 ThemeProvider
+import theme from './theme'; // 导入自定义主题
 import { UserProvider } from './contexts/UserContext';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -11,15 +12,9 @@ import ThankYouPage from './pages/ThankYouPage';
 import TeacherDashboard from './pages/TeacherDashboard';
 import StudentDashboard from './pages/StudentDashboard';
 
-// 创建一个MUI主题实例
-const theme = createTheme({
-  // 这里可以添加主题配置
-  // 比如调整色调、字体等
-});
-
 function App() {
   return (
-    <ThemeProvider theme={theme}> {/* 包裹您的应用程序树 */}
+    <ThemeProvider theme={theme}> {/* 使用导入的自定义主题 */}
       <UserProvider>
         <Router>
           <Routes>
@@ -34,7 +29,7 @@ function App() {
           </Routes>
         </Router>
       </UserProvider>
-    </ThemeProvider> // Close the ThemeProvider tag
+    </ThemeProvider>
   );
 }
 
