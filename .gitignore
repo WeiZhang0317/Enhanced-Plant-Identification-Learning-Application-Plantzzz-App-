@@ -1,8 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-# .gitignore
-node_modules/
-# dependencies
-/node_modules
+# 忽略 frontend 目录下的 node_modules 文件夹
+/frontend/node_modules/
+# 忽略根目录下的 node_modules 文件夹
+/node_modules/
 /.pnp
 .pnp.js
 
