@@ -1,7 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from '@mui/material/styles'; // 更新：仅导入 ThemeProvider
-import theme from './theme'; // 导入自定义主题
 import { UserProvider } from './contexts/UserContext';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -14,7 +12,7 @@ import StudentDashboard from './pages/StudentDashboard';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}> {/* 使用导入的自定义主题 */}
+ 
       <UserProvider>
         <Router>
           <Routes>
@@ -29,7 +27,7 @@ function App() {
           </Routes>
         </Router>
       </UserProvider>
-    </ThemeProvider>
+
   );
 }
 
