@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useUserContext } from '../contexts/UserContext'; // Make sure the path is correct
+import { useUserContext } from '../contexts/UserContext';
 import '../styles/Profile.css';
 import studentAvatar from '../images/student.png';
 
 const Profile = () => {
-    const { user } = useUserContext(); // Using the custom hook to access the user context
+    const { user } = useUserContext(); // 使用自定义钩子访问用户上下文
     const [studentInfo, setStudentInfo] = useState({
         username: '',
         email: '',
@@ -12,15 +12,15 @@ const Profile = () => {
     });
 
     useEffect(() => {
-        const fetchStudentInfo = async () => {
+        // 使用 userId 来获取学生信息
+        const fetchStudentInfo = async (userId) => {
             try {
-                const studentId = user?.studentId;
-                if (!studentId) {
-                    console.error('Student ID is not available');
+                if (!userId) {
+                    console.error('User ID is not available');
                     return;
                 }
-                // Correct URL based on your Flask app's configured route
-                const response = await fetch(`http://localhost:5000/student/info?studentId=${studentId}`, {
+                // 根据 Flask 应用的配置路由，使用正确的 URL
+                const response = await fetch(`http://localhost:5000/student/info?userId=${userId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -31,9 +31,9 @@ const Profile = () => {
                     throw new Error('Failed to fetch student information');
                 }
                 const data = await response.json();
-                // Set state with the correct keys based on your API response
+                // 根据 API 响应设置状态
                 setStudentInfo({
-                    username: data.Username, // Ensure these property names match the keys returned from your API
+                    username: data.Username, // 确保这些属性名称与 API 返回的键匹配
                     email: data.Email,
                     enrollmentYear: data.EnrollmentYear
                 });
@@ -42,8 +42,11 @@ const Profile = () => {
             }
         };
 
-        fetchStudentInfo();
-    }, [user]); // Dependency on 'user' ensures this effect runs again if the user context updates
+        // 如果 user 对象中有 userId，就调用 fetchStudentInfo
+        if (user && user.userId) {
+            fetchStudentInfo(user.userId);
+        }
+    }, [user]); // 如果 user 上下文更新，这个 effect 就会再次运行
 
     return (
         <div className="profile">
