@@ -46,7 +46,7 @@ function LoginPage() {
         if (data.userType === "teacher") {
           navigate("/teacher/dashboard");
         } else if (data.userType === "student") {
-          navigate("/student/dashboard");
+          navigate("/student/dashboard", { state: { userId: data.userId } });
         } else {
           setError("Invalid user type");
         }

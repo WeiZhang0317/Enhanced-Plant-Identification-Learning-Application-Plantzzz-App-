@@ -69,36 +69,35 @@ def register_student():
             cursor.close()
             connection.close()
 
-@student_blueprint.route('/student/info', methods=['GET'])
+@student_blueprint.route('/info', methods=['GET'])
 def get_student_info():
-    logging.debug("get_student_info route hit")
-    student_id = request.args.get('studentId')
-    logging.debug(f"Retrieving info for studentId: {student_id}")
+    user_id = request.args.get('userId')  # 注意这里我们用 userId 而不是 studentId
     connection = get_db_connection()
     
     try:
         cursor = get_cursor(connection, dictionary_cursor=True)
-        logging.debug(f"Executing query for studentId: {student_id}")
         cursor.execute("""
-        SELECT s.StudentID, u.Username, s.EnrollmentYear, u.Email
-        FROM Students s
-        JOIN Users u ON s.UserID = u.UserID
-        WHERE s.StudentID = %s
-        """, (student_id,))
+        SELECT Students.StudentID, Users.Username, Students.EnrollmentYear, Users.Email
+        FROM Users
+        JOIN Students ON Users.UserID = Students.UserID
+        WHERE Users.UserID = %s
+        """, (user_id,))
         
         student_info = cursor.fetchone()
         if student_info:
             return jsonify(student_info), 200
         else:
-            return jsonify({"message": "Student not found"}), 404
+            return jsonify({"message": "User not found or not a student"}), 404
     
     except Error as e:
+        logging.error(f"Database error occurred: {e}")
         return jsonify({"message": str(e)}), 500
     
     finally:
         if connection.is_connected():
             cursor.close()
             connection.close()
+
 
 @student_blueprint.route('/quizzes/ongoing', methods=['GET'])
 def get_ongoing_quizzes():
