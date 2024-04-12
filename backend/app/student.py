@@ -4,6 +4,9 @@ import mysql.connector
 from mysql.connector import Error
 from werkzeug.security import generate_password_hash
 import connect
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 student_blueprint = Blueprint('student', __name__)
 CORS(student_blueprint)
@@ -68,12 +71,14 @@ def register_student():
 
 @student_blueprint.route('/student/info', methods=['GET'])
 def get_student_info():
+    logging.debug("get_student_info route hit")
     student_id = request.args.get('studentId')
+    logging.debug(f"Retrieving info for studentId: {student_id}")
     connection = get_db_connection()
     
     try:
         cursor = get_cursor(connection, dictionary_cursor=True)
-        
+        logging.debug(f"Executing query for studentId: {student_id}")
         cursor.execute("""
         SELECT s.StudentID, u.Username, s.EnrollmentYear, u.Email
         FROM Students s

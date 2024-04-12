@@ -32,16 +32,18 @@ export const UserProvider = ({ children }) => {
                 },
                 body: JSON.stringify({ email, password }),
             });
-
+    
             if (!response.ok) throw new Error('Login failed');
             
             const data = await response.json();
-            setUser({ username: data.username, userType: data.userType, email });  
+            // 更新setUser以包括学生ID
+            setUser({ username: data.username, userType: data.userType, email, studentId: data.studentId });  
         } catch (error) {
             console.error("Login error:", error);
             throw error; // Propagating error to be handled where login function is called
         }
     };
+    
 
     // Logout function to clear user state
     const logout = async () => {

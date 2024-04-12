@@ -21,6 +21,7 @@ def get_db_connection():
 def get_cursor(connection, dictionary_cursor=True):
     return connection.cursor(dictionary=dictionary_cursor)
 
+
 @user_blueprint.route('/login', methods=['POST'])
 def login():
     data = request.json
@@ -28,13 +29,30 @@ def login():
     
     try:
         cursor = get_cursor(connection, dictionary_cursor=True)
-        cursor.execute('SELECT UserID, Password, UserType FROM Users WHERE Email = %s', (data['email'],))
+        cursor.execute('''
+            SELECT u.UserID, u.Password, u.UserType, s.StudentID
+            FROM Users u
+            LEFT JOIN Students s ON u.UserID = s.UserID
+            WHERE u.Email = %s
+        ''', (data['email'],))
         user = cursor.fetchone()
         
         if user and check_password_hash(user['Password'], data['password']):
-            session['user_id'] = user['UserID']  # Store user ID in session
-            session['user_type'] = user['UserType']  # Optionally store user type if needed
-            return jsonify({"message": "Login successful", "userType": user['UserType']}), 200
+            # 存储 session 中的 UserID
+            session['user_id'] = user['UserID']
+            session['user_type'] = user['UserType']
+            
+            # 额外添加的逻辑: 如果用户是学生，确保返回 StudentID 而不是 UserID
+            student_id = None
+            if user['UserType'] == 'student':
+                student_id = user['StudentID']
+            
+            return jsonify({
+                "message": "Login successful", 
+                "userType": user['UserType'], 
+                "userId": user['UserID'],
+                "studentId": student_id
+            }), 200
         else:
             return jsonify({"message": "Invalid email or password"}), 401
     except Error as e:
@@ -43,7 +61,7 @@ def login():
         if connection.is_connected():
             cursor.close()
             connection.close()
-
+            
 @user_blueprint.route('/logout')
 def logout():
     # Clear the user session
