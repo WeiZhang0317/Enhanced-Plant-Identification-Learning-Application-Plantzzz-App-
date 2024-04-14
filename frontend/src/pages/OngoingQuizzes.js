@@ -12,7 +12,7 @@ function OngoingQuizzes() {
 
   const fetchOngoingQuizzes = async () => {
     try {
-      const response = await fetch('http://localhost:3000/student/ongoing-quizzes');  // 更新了请求的URL
+      const response = await fetch('http://localhost:5000/student/ongoing-quizzes');  // 更新了请求的URL
       if (!response.ok) {  // Check if the response is successful
         // If the response status is not OK, throw an error with the status
         throw new Error(`HTTP error! Status: ${response.status}`);
