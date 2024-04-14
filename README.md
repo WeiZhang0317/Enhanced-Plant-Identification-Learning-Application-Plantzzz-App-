@@ -10,8 +10,7 @@ npm start
 # install frontawsome
 npm install @fortawesome/react-fontawesome @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons
 
-# 安装 MUI 库及其主题相关依赖
-npm install @mui/material @emotion/react @emotion/styled
+
 
 # 更新react script到最新
 npm install react-scripts@latest
