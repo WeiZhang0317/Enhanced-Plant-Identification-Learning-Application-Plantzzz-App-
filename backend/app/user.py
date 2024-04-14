@@ -35,23 +35,27 @@ def login():
         user = cursor.fetchone()
         
         if user and check_password_hash(user['Password'], data['password']):
-            user_info = {
-                "message": "Login successful",
+            # Set up the basic user info
+            session['user_info'] = {
                 "userId": user['UserID'],
                 "username": user['Username'],
                 "email": user['Email'],
                 "userType": user['UserType']
             }
+            # Add specific student or teacher info to session
             if user['UserType'] == 'student':
-                user_info.update({
+                session['user_info'].update({
                     "studentId": user['StudentID'],
                     "enrollmentYear": user['EnrollmentYear']
                 })
             elif user['UserType'] == 'teacher':
-                user_info.update({
+                session['user_info'].update({
                     "teacherId": user['TeacherID'],
                     "title": user['Title']
                 })
+            # Prepare the response object
+            user_info = session['user_info'].copy()
+            user_info.update({"message": "Login successful"})
             return jsonify(user_info), 200
         else:
             return jsonify({"message": "Invalid email or password"}), 401
@@ -68,31 +72,31 @@ def logout():
     return jsonify({"message": "You have been logged out"}), 200
 
 
-@user_blueprint.route('/info', methods=['GET'])
-def get_user_info():
-    user_id = session.get('user_id')  # Retrieve userId from session
-    if not user_id:
-        return jsonify({"message": "User not logged in"}), 401
+# @user_blueprint.route('/info', methods=['GET'])
+# def get_user_info():
+#     user_id = session.get('user_id')  # Retrieve userId from session
+#     if not user_id:
+#         return jsonify({"message": "User not logged in"}), 401
 
-    connection = get_db_connection()
-    try:
-        cursor = get_cursor(connection, dictionary_cursor=True)
-        cursor.execute("""
-        SELECT Users.Username, Users.Email, Students.EnrollmentYear, Teachers.Title
-        FROM Users
-        LEFT JOIN Students ON Users.UserID = Students.UserID
-        LEFT JOIN Teachers ON Users.UserID = Teachers.UserID
-        WHERE Users.UserID = %s
-        """, (user_id,))
+#     connection = get_db_connection()
+#     try:
+#         cursor = get_cursor(connection, dictionary_cursor=True)
+#         cursor.execute("""
+#         SELECT Users.Username, Users.Email, Students.EnrollmentYear, Teachers.Title
+#         FROM Users
+#         LEFT JOIN Students ON Users.UserID = Students.UserID
+#         LEFT JOIN Teachers ON Users.UserID = Teachers.UserID
+#         WHERE Users.UserID = %s
+#         """, (user_id,))
         
-        user_info = cursor.fetchone()
-        if user_info:
-            return jsonify(user_info), 200
-        else:
-            return jsonify({"message": "User not found or not a student/teacher"}), 404
-    except Error as e:
-        return jsonify({"message": str(e)}), 500
-    finally:
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
+#         user_info = cursor.fetchone()
+#         if user_info:
+#             return jsonify(user_info), 200
+#         else:
+#             return jsonify({"message": "User not found or not a student/teacher"}), 404
+#     except Error as e:
+#         return jsonify({"message": str(e)}), 500
+#     finally:
+#         if connection.is_connected():
+#             cursor.close()
+#             connection.close()

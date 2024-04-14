@@ -49,29 +49,3 @@ function StudentDashboard() {
 }
 
 export default StudentDashboard;
-
-
-// import React, { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';  // 引入 useNavigate 钩子
-// import Navigation from '../components/Navigation';
-
-// function StudentDashboard() {
-//   const navigate = useNavigate();  // 使用 useNavigate 钩子
-
-//   // 示例按钮点击事件处理器，用于导航到 UserInfo 页面
-//   const handleViewUserInfo = () => {
-//     navigate('/user-info');  // 导航到 UserInfo 页面
-//   };
-
-//   return (
-//     <div className="student-dashboard">
-//       <Navigation />
-//       <button onClick={handleViewUserInfo} style={{ margin: '20px', padding: '10px 20px' }}>
-//         View User Info
-//       </button>
-//       {/* 其余的 Dashboard 组件内容 */}
-//     </div>
-//   );
-// }
-
-// export default StudentDashboard;

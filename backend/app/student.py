@@ -1,10 +1,11 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from flask_cors import CORS
 import mysql.connector
 from mysql.connector import Error
 from werkzeug.security import generate_password_hash
 import connect
 import logging
+
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -69,91 +70,38 @@ def register_student():
             cursor.close()
             connection.close()
 
-@student_blueprint.route('/info', methods=['GET'])
-def get_student_info():
-    user_id = request.args.get('userId')  # Getting userId from query parameters
-    logging.debug(f"Received request for user information with userID: {user_id}")  # Log the userID
+@student_blueprint.route('/ongoing-quizzes', methods=['GET'])
+def get_ongoing_quizzes():
+    logging.debug("Fetching ongoing quizzes...")  # 使用logging替代print
+    student_id = session.get('user_info', {}).get('studentId')
+    if not student_id:
+        logging.warning("No student ID in session")  # 使用logging
+        return jsonify({"error": "Student ID not found in session"}), 400
 
-    if not user_id:
-        logging.error("No userID provided in the request")  # Log an error if userID is missing
-        return jsonify({"message": "No userID provided"}), 400
-
-    connection = get_db_connection()
-    
     try:
-        cursor = get_cursor(connection, dictionary_cursor=True)
-        cursor.execute("""
-        SELECT Students.StudentID, Users.Username, Students.EnrollmentYear, Users.Email
-        FROM Users
-        JOIN Students ON Users.UserID = Students.UserID
-        WHERE Users.UserID = %s
-        """, (user_id,))
+        connection = get_db_connection()
+        if connection is None:
+            raise Exception("Failed to connect to the database")
         
-        student_info = cursor.fetchone()
-        if student_info:
-            return jsonify(student_info), 200
-        else:
-            logging.error(f"No student information found for userID: {user_id}")  # Log an error if no student info is found
-            return jsonify({"message": "User not found or not a student"}), 404
-    
+        with connection.cursor(dictionary=True) as cursor:
+            logging.info(f"Executing query to fetch ongoing quizzes for student ID: {student_id}")
+            query = """
+                SELECT q.QuizID, q.QuizName, q.QuizImageURL
+                FROM Quizzes q
+                LEFT JOIN StudentQuizProgress p ON q.QuizID = p.QuizID AND p.StudentID = %s AND p.EndTimestamp IS NULL
+            """
+            cursor.execute(query, (student_id,))
+            quizzes = cursor.fetchall()
+
+            ongoing_quizzes = [quiz for quiz in quizzes if quiz['StudentID'] is not None]
+            logging.info(f"Number of ongoing quizzes: {len(ongoing_quizzes)}")
+            return jsonify(ongoing_quizzes), 200
     except Error as e:
-        logging.exception("Database error occurred while retrieving student information")  # Log the exception with traceback
-        return jsonify({"message": str(e)}), 500
-    
+        logging.error(f"Database error: {e}")
+        return jsonify({"error": str(e)}), 500
+    except Exception as e:
+        logging.error(f"An error occurred: {e}")
+        return jsonify({"error": str(e)}), 500
     finally:
-        if connection.is_connected():
-            cursor.close()
+        if connection and connection.is_connected():
             connection.close()
-
-
-# @student_blueprint.route('/quizzes/ongoing', methods=['GET'])
-# def get_ongoing_quizzes():
-#     student_id = request.args.get('studentId')
-#     connection = get_db_connection()
-    
-#     try:
-#         cursor = get_cursor(connection, dictionary_cursor=True)
-        
-#         cursor.execute("""
-#         SELECT q.QuizID, q.QuizName
-#         FROM Quizzes q
-#         JOIN StudentQuizProgress sqp ON q.QuizID = sqp.QuizID
-#         WHERE sqp.StudentID = %s AND sqp.EndTimestamp IS NULL
-#         """, (student_id,))
-        
-#         quizzes = cursor.fetchall()
-#         return jsonify(quizzes), 200
-    
-#     except Error as e:
-#         return jsonify({"message": str(e)}), 500
-    
-#     finally:
-#         if connection.is_connected():
-#             cursor.close()
-#             connection.close()
-
-# @student_blueprint.route('/quizzes/completed', methods=['GET'])
-# def get_completed_quizzes():
-#     student_id = request.args.get('studentId')
-#     connection = get_db_connection()
-    
-#     try:
-#         cursor = get_cursor(connection, dictionary_cursor=True)
-        
-#         cursor.execute("""
-#         SELECT q.QuizID, q.QuizName, sqp.Score
-#         FROM Quizzes q
-#         JOIN StudentQuizProgress sqp ON q.QuizID = sqp.QuizID
-#         WHERE sqp.StudentID = %s AND sqp.EndTimestamp IS NOT NULL
-#         """, (student_id,))
-        
-#         quizzes = cursor.fetchall()
-#         return jsonify(quizzes), 200
-    
-#     except Error as e:
-#         return jsonify({"message": str(e)}), 500
-    
-#     finally:
-#         if connection.is_connected():
-#             cursor.close()
-#             connection.close()

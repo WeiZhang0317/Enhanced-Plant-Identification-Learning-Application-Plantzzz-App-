@@ -22,5 +22,6 @@ def create_app():
     app.register_blueprint(student_blueprint, url_prefix='/student')
     app.register_blueprint(teacher_blueprint, url_prefix='/teacher')
     app.register_blueprint(user_blueprint, url_prefix='/user')
+ 
     
     return app

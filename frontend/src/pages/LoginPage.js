@@ -47,6 +47,7 @@ function LoginPage() {
   
       if (response.ok) {
         const data = await response.json();
+        console.log(data); 
         login(data)
         if (data.userType === "teacher") {
           navigate("/teacher/dashboard");
@@ -64,7 +65,7 @@ function LoginPage() {
     }
   };
   
-
+ 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
