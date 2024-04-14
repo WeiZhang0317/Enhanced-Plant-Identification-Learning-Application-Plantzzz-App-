@@ -3,11 +3,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
+import { useUserContext } from '../contexts/UserContext';
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 function LoginPage() {
+  const { login } = useUserContext(); // Using the custom hook to access the user context
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: "",
@@ -44,7 +47,7 @@ function LoginPage() {
   
       if (response.ok) {
         const data = await response.json();
-     
+        login(data)
         if (data.userType === "teacher") {
           navigate("/teacher/dashboard");
         } else if (data.userType === "student") {
