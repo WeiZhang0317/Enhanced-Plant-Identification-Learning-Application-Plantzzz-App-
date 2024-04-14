@@ -71,7 +71,13 @@ def register_student():
 
 @student_blueprint.route('/info', methods=['GET'])
 def get_student_info():
-    user_id = request.args.get('userId')  # 注意这里我们用 userId 而不是 studentId
+    user_id = request.args.get('userId')  # Getting userId from query parameters
+    logging.debug(f"Received request for user information with userID: {user_id}")  # Log the userID
+
+    if not user_id:
+        logging.error("No userID provided in the request")  # Log an error if userID is missing
+        return jsonify({"message": "No userID provided"}), 400
+
     connection = get_db_connection()
     
     try:
@@ -87,10 +93,11 @@ def get_student_info():
         if student_info:
             return jsonify(student_info), 200
         else:
+            logging.error(f"No student information found for userID: {user_id}")  # Log an error if no student info is found
             return jsonify({"message": "User not found or not a student"}), 404
     
     except Error as e:
-        logging.error(f"Database error occurred: {e}")
+        logging.exception("Database error occurred while retrieving student information")  # Log the exception with traceback
         return jsonify({"message": str(e)}), 500
     
     finally:
@@ -99,54 +106,54 @@ def get_student_info():
             connection.close()
 
 
-@student_blueprint.route('/quizzes/ongoing', methods=['GET'])
-def get_ongoing_quizzes():
-    student_id = request.args.get('studentId')
-    connection = get_db_connection()
+# @student_blueprint.route('/quizzes/ongoing', methods=['GET'])
+# def get_ongoing_quizzes():
+#     student_id = request.args.get('studentId')
+#     connection = get_db_connection()
     
-    try:
-        cursor = get_cursor(connection, dictionary_cursor=True)
+#     try:
+#         cursor = get_cursor(connection, dictionary_cursor=True)
         
-        cursor.execute("""
-        SELECT q.QuizID, q.QuizName
-        FROM Quizzes q
-        JOIN StudentQuizProgress sqp ON q.QuizID = sqp.QuizID
-        WHERE sqp.StudentID = %s AND sqp.EndTimestamp IS NULL
-        """, (student_id,))
+#         cursor.execute("""
+#         SELECT q.QuizID, q.QuizName
+#         FROM Quizzes q
+#         JOIN StudentQuizProgress sqp ON q.QuizID = sqp.QuizID
+#         WHERE sqp.StudentID = %s AND sqp.EndTimestamp IS NULL
+#         """, (student_id,))
         
-        quizzes = cursor.fetchall()
-        return jsonify(quizzes), 200
+#         quizzes = cursor.fetchall()
+#         return jsonify(quizzes), 200
     
-    except Error as e:
-        return jsonify({"message": str(e)}), 500
+#     except Error as e:
+#         return jsonify({"message": str(e)}), 500
     
-    finally:
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
+#     finally:
+#         if connection.is_connected():
+#             cursor.close()
+#             connection.close()
 
-@student_blueprint.route('/quizzes/completed', methods=['GET'])
-def get_completed_quizzes():
-    student_id = request.args.get('studentId')
-    connection = get_db_connection()
+# @student_blueprint.route('/quizzes/completed', methods=['GET'])
+# def get_completed_quizzes():
+#     student_id = request.args.get('studentId')
+#     connection = get_db_connection()
     
-    try:
-        cursor = get_cursor(connection, dictionary_cursor=True)
+#     try:
+#         cursor = get_cursor(connection, dictionary_cursor=True)
         
-        cursor.execute("""
-        SELECT q.QuizID, q.QuizName, sqp.Score
-        FROM Quizzes q
-        JOIN StudentQuizProgress sqp ON q.QuizID = sqp.QuizID
-        WHERE sqp.StudentID = %s AND sqp.EndTimestamp IS NOT NULL
-        """, (student_id,))
+#         cursor.execute("""
+#         SELECT q.QuizID, q.QuizName, sqp.Score
+#         FROM Quizzes q
+#         JOIN StudentQuizProgress sqp ON q.QuizID = sqp.QuizID
+#         WHERE sqp.StudentID = %s AND sqp.EndTimestamp IS NOT NULL
+#         """, (student_id,))
         
-        quizzes = cursor.fetchall()
-        return jsonify(quizzes), 200
+#         quizzes = cursor.fetchall()
+#         return jsonify(quizzes), 200
     
-    except Error as e:
-        return jsonify({"message": str(e)}), 500
+#     except Error as e:
+#         return jsonify({"message": str(e)}), 500
     
-    finally:
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
+#     finally:
+#         if connection.is_connected():
+#             cursor.close()
+#             connection.close()

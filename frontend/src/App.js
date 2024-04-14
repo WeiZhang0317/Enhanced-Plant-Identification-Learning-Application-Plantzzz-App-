@@ -9,6 +9,7 @@ import TeacherRegisterPage from './pages/TeacherRegisterPage';
 import ThankYouPage from './pages/ThankYouPage';
 import TeacherDashboard from './pages/TeacherDashboard';
 import StudentDashboard from './pages/StudentDashboard';
+import UserInfo from './components/UserInfo'; // 导入 UserInfo 组件
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/thank-you" element={<ThankYouPage />} />
             <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
             <Route path="/student/dashboard/*" element={<StudentDashboard />} />
+            <Route path="/user-info" element={<UserInfo />} />
 
           </Routes>
         </Router>
