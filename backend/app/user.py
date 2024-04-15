@@ -71,6 +71,23 @@ def logout():
     session.clear()
     return jsonify({"message": "You have been logged out"}), 200
 
+@user_blueprint.route('/all-quizzes', methods=['GET'])
+def get_all_quizzes():
+    connection = get_db_connection()
+    try:
+        cursor = get_cursor(connection, dictionary_cursor=True)
+        cursor.execute('''
+            SELECT QuizID, QuizName, QuizImageURL 
+            FROM Quizzes
+        ''')
+        quizzes = cursor.fetchall()
+        return jsonify(quizzes), 200
+    except Error as e:
+        return jsonify({"message": str(e)}), 500
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
 
 # @user_blueprint.route('/info', methods=['GET'])
 # def get_user_info():

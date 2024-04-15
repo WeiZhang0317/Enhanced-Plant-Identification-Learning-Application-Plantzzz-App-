@@ -18,4 +18,6 @@ teacher3@example.com
 password123
 
 
-https://github.com/creativetimofficial/material-dashboard-react
+
+
+我的student dashbaord版面sidebar有一个选项是all quizizes，我希望在点击该all quizizes选项后，content显示出正方形的card，举例 第一个card 里面放着quiz 1的图片（quizimage），和下方是quiz 1的名称，包括所有的quiz，学生可以通过点击card开启测验。请你帮我更新all quiz相关的内容。前端为react，后端为flask蓝图。
