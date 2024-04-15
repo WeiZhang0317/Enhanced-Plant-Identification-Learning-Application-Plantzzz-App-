@@ -71,6 +71,7 @@ def logout():
     session.clear()
     return jsonify({"message": "You have been logged out"}), 200
 
+
 @user_blueprint.route('/all-quizzes', methods=['GET'])
 def get_all_quizzes():
     connection = get_db_connection()
@@ -89,35 +90,53 @@ def get_all_quizzes():
             cursor.close()
             connection.close()
 
-@user_blueprint.route('/images/<filename>')
-def get_image(filename):
-    return send_from_directory(current_app.static_folder, filename)
 
-# @user_blueprint.route('/info', methods=['GET'])
-# def get_user_info():
-#     user_id = session.get('user_id')  # Retrieve userId from session
-#     if not user_id:
-#         return jsonify({"message": "User not logged in"}), 401
 
-#     connection = get_db_connection()
-#     try:
-#         cursor = get_cursor(connection, dictionary_cursor=True)
-#         cursor.execute("""
-#         SELECT Users.Username, Users.Email, Students.EnrollmentYear, Teachers.Title
-#         FROM Users
-#         LEFT JOIN Students ON Users.UserID = Students.UserID
-#         LEFT JOIN Teachers ON Users.UserID = Teachers.UserID
-#         WHERE Users.UserID = %s
-#         """, (user_id,))
+
+
+@user_blueprint.route('/quiz/<int:quiz_id>', methods=['GET'])
+def get_quiz_details(quiz_id):
+    connection = get_db_connection()
+    try:
+        cursor = get_cursor(connection, dictionary_cursor=True)
+        # Get quiz details
+        cursor.execute('''
+            SELECT q.QuizID, q.QuizName, q.QuizImageURL, q.SemesterID, qi.QuestionID,
+                   qi.QuestionText, qi.QuestionType, p.PlantID, p.LatinName, p.CommonName,
+                   pi.ImageURL
+            FROM Quizzes q
+            JOIN Questions qi ON qi.QuizID = q.QuizID
+            LEFT JOIN PlantNames p ON qi.PlantID = p.PlantID
+            LEFT JOIN PlantImages pi ON p.PlantID = pi.PlantID
+            WHERE q.QuizID = %s
+        ''', (quiz_id,))
+        quiz_details = cursor.fetchall()
         
-#         user_info = cursor.fetchone()
-#         if user_info:
-#             return jsonify(user_info), 200
-#         else:
-#             return jsonify({"message": "User not found or not a student/teacher"}), 404
-#     except Error as e:
-#         return jsonify({"message": str(e)}), 500
-#     finally:
-#         if connection.is_connected():
-#             cursor.close()
-#             connection.close()
+        # Format the response
+        if quiz_details:
+            formatted_questions = []
+            for detail in quiz_details:
+                formatted_questions.append({
+                    "questionId": detail['QuestionID'],
+                    "questionText": detail['QuestionText'],
+                    "questionType": detail['QuestionType'],
+                    "plantId": detail['PlantID'],
+                    "latinName": detail['LatinName'],
+                    "commonName": detail['CommonName'],
+                    "imageUrl": detail['ImageURL']
+                })
+            response = {
+                "quizId": quiz_id,
+                "quizName": quiz_details[0]['QuizName'],
+                "quizImageUrl": quiz_details[0]['QuizImageURL'],
+                "questions": formatted_questions
+            }
+            return jsonify(response), 200
+        else:
+            return jsonify({"message": "Quiz not found"}), 404
+    except Error as e:
+        return jsonify({"message": str(e)}), 500
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()

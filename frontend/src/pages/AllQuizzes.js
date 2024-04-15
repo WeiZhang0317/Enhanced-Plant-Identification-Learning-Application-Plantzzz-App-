@@ -8,7 +8,7 @@ const QuizCard = ({ quiz }) => {
             <div className="quiz-card">
                 <img src={`${baseUrl}${quiz.QuizImageURL}`} alt={`Quiz ${quiz.QuizName}`} className="quiz-image" />
                 <div className="quiz-title">{quiz.QuizName}</div>
-                <Link to={`/quiz/${quiz.QuizID}`} className="start-quiz-btn">Start Quiz</Link>
+                <Link to={`/student/dashboard/quiz/${quiz.QuizID}`} className="start-quiz-btn">Start Quiz</Link>
             </div>
         );
     };

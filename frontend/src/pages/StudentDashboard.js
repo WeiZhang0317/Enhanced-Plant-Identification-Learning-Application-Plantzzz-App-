@@ -5,6 +5,7 @@ import Profile from './Profile';
 import AllQuizzes from './AllQuizzes';
 import OngoingQuizzes from './OngoingQuizzes';
 import CompletedQuizzes from './CompletedQuizzes';
+import QuizDetails from './QuizDetails';  
 import '../styles/StudentDashboard.css';
 
 function StudentDashboard() {
@@ -43,6 +44,7 @@ function StudentDashboard() {
           <Routes>
             <Route path="profile" element={<Profile />} />
             <Route path="all-quizzes" element={<AllQuizzes quizzes={allQuizzes} />} />
+            <Route path="quiz/:quizId" element={<QuizDetails />} />
             <Route path="ongoing-quizzes" element={<OngoingQuizzes quizzes={ongoingQuizzes} />} />
             <Route path="completed-quizzes" element={<CompletedQuizzes quizzes={completedQuizzes} />} />
             <Route index element={<Profile />} />
