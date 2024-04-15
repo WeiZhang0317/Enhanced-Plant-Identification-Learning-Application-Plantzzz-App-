@@ -1,0 +1,34 @@
+/* QuizDetails.css */
+.quiz-container {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    .question-card {
+        margin-bottom: 20px;
+    }
+    
+    .question-image {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        margin: 10px 0;
+    }
+    
+    .progress-bar {
+        width: 100%;
+        background-color: #f3f3f3;
+        border: 1px solid #ddd;
+        padding: 3px;
+    }
+    
+    .progress-bar-fill {
+        height: 20px;
+        background-color: #4CAF50;
+        text-align: center;
+        line-height: 20px;
+        color: white;
+    }
+    
