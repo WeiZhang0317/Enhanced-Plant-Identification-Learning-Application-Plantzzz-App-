@@ -12,7 +12,7 @@ def create_app():
     logging.basicConfig(level=logging.DEBUG)
     
     # Create the Flask application
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='../static')
     app.secret_key = 'your_secret_key_here'
     
     # Setup CORS

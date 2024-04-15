@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, request, jsonify, session
+from flask import Flask, Blueprint, request, jsonify, session, current_app, send_from_directory
 import mysql.connector
 from mysql.connector import Error
 import connect
@@ -88,6 +88,10 @@ def get_all_quizzes():
         if connection.is_connected():
             cursor.close()
             connection.close()
+
+@user_blueprint.route('/images/<filename>')
+def get_image(filename):
+    return send_from_directory(current_app.static_folder, filename)
 
 # @user_blueprint.route('/info', methods=['GET'])
 # def get_user_info():

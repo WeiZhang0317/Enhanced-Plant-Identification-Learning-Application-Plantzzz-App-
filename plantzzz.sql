@@ -361,11 +361,10 @@ VALUES (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (
 
 INSERT INTO Quizzes (QuizName, SemesterID, CreatedAt, QuizImageURL) 
 VALUES 
-('LASC206 Plant Quiz 1', 1, NOW(), 'images/quizpics/Quiz 1.png'),
-('LASC206 Plant Quiz 2', 2, NOW(), 'images/quizpics/Quiz 2.png'),
-('LASC211 Plant Quiz 1', 3, NOW(), 'images/quizpics/Quiz 3.png'),
-('LASC211 Plant Quiz 2', 4, NOW(), 'images/quizpics/Quiz 4.png');
-
+('LASC206 Plant Quiz 1', 1, NOW(), 'quizpics/Quiz1.png'),
+('LASC206 Plant Quiz 2', 2, NOW(), 'quizpics/Quiz2.png'),
+('LASC211 Plant Quiz 1', 3, NOW(), 'quizpics/Quiz3.png'),
+('LASC211 Plant Quiz 2', 4, NOW(), 'quizpics/Quiz4.png');
 
 -- PLANT ID 1-50 TRUE or FALSE
 
