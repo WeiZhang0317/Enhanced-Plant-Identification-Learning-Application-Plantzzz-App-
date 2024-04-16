@@ -91,45 +91,54 @@ def get_all_quizzes():
             connection.close()
 
 
-
-
-
 @user_blueprint.route('/quiz/<int:quiz_id>', methods=['GET'])
 def get_quiz_details(quiz_id):
     connection = get_db_connection()
     try:
         cursor = get_cursor(connection, dictionary_cursor=True)
-        # Get quiz details
         cursor.execute('''
-            SELECT q.QuizID, q.QuizName, q.QuizImageURL, q.SemesterID, qi.QuestionID,
-                   qi.QuestionText, qi.QuestionType, p.PlantID, p.LatinName, p.CommonName,
-                   pi.ImageURL
+            SELECT 
+                q.QuizID, q.QuizName, q.QuizImageURL, q.SemesterID, 
+                qi.QuestionID, qi.QuestionText, qi.QuestionType, qi.CorrectAnswer, 
+                p.PlantID, p.LatinName, p.CommonName, pi.ImageURL,
+                qo.OptionID, qo.OptionLabel, qo.OptionText, qo.IsCorrect
             FROM Quizzes q
             JOIN Questions qi ON qi.QuizID = q.QuizID
             LEFT JOIN PlantNames p ON qi.PlantID = p.PlantID
             LEFT JOIN PlantImages pi ON p.PlantID = pi.PlantID
+            LEFT JOIN QuestionOptions qo ON qi.QuestionID = qo.QuestionID
             WHERE q.QuizID = %s
         ''', (quiz_id,))
-        quiz_details = cursor.fetchall()
-        
-        # Format the response
-        if quiz_details:
-            formatted_questions = []
-            for detail in quiz_details:
-                formatted_questions.append({
-                    "questionId": detail['QuestionID'],
-                    "questionText": detail['QuestionText'],
-                    "questionType": detail['QuestionType'],
-                    "plantId": detail['PlantID'],
-                    "latinName": detail['LatinName'],
-                    "commonName": detail['CommonName'],
-                    "imageUrl": detail['ImageURL']
-                })
+        rows = cursor.fetchall()
+
+        if rows:
+            questions = {}
+            for row in rows:
+                if row['QuestionID'] not in questions:
+                    questions[row['QuestionID']] = {
+                        "questionId": row['QuestionID'],
+                        "questionText": row['QuestionText'],
+                        "questionType": row['QuestionType'],
+                        "correctAnswer": row['CorrectAnswer'],
+                        "plantId": row['PlantID'],
+                        "latinName": row['LatinName'],
+                        "commonName": row['CommonName'],
+                        "imageUrl": row['ImageURL'],
+                        "options": []
+                    }
+                if row['OptionID']:  # Ensure there is an option before adding it
+                    questions[row['QuestionID']]['options'].append({
+                        "optionId": row['OptionID'],
+                        "optionLabel": row['OptionLabel'],
+                        "optionText": row['OptionText'],
+                        "isCorrect": row['IsCorrect']
+                    })
+                    
             response = {
                 "quizId": quiz_id,
-                "quizName": quiz_details[0]['QuizName'],
-                "quizImageUrl": quiz_details[0]['QuizImageURL'],
-                "questions": formatted_questions
+                "quizName": rows[0]['QuizName'],
+                "quizImageUrl": rows[0]['QuizImageURL'],
+                "questions": list(questions.values())
             }
             return jsonify(response), 200
         else:

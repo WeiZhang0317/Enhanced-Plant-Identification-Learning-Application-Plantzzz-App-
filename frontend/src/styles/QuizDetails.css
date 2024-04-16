@@ -32,3 +32,39 @@
         color: white;
     }
     
+    .option-button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        background-color: #f8f8f8;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        text-align: left;
+    }
+    
+    .option-button:hover, .option-button.selected {
+        background-color: #e8e8e8;
+    }
+    
+    .option-button:disabled {
+        color: #777;
+        cursor: not-allowed;
+    }
+    
+    .feedback {
+        margin-top: 10px;
+        padding: 10px;
+        color: white;
+        border-radius: 5px;
+        text-align: center;
+    }
+    
+    .feedback.correct {
+        background-color: #4CAF50; /* Green for correct answer */
+    }
+    
+    .feedback.incorrect {
+        background-color: #f44336; /* Red for incorrect answer */
+    }
+    

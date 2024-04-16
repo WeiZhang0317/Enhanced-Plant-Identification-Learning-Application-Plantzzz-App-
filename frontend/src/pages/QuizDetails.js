@@ -1,15 +1,17 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import '../styles/QuizDetails.css'; // 确保路径正确
+import '../styles/QuizDetails.css'; 
 
 const QuizDetails = () => {
   const { quizId } = useParams();
   const [quizDetails, setQuizDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [feedback, setFeedback] = useState(null);
 
   useEffect(() => {
-    const fetchQuizDetails = async () => {
+    async function fetchQuizDetails() {
       setLoading(true);
       try {
         const response = await fetch(`http://localhost:5000/user/quiz/${quizId}`);
@@ -20,38 +22,33 @@ const QuizDetails = () => {
       } finally {
         setLoading(false);
       }
-    };
-
+    }
     fetchQuizDetails();
   }, [quizId]);
 
-  const goToNextQuestion = useCallback(() => {
-    if (currentQuestionIndex < quizDetails.questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === 'ArrowRight' && currentQuestionIndex < quizDetails.questions.length - 1) {
+        changeQuestion(currentQuestionIndex + 1);
+      } else if (event.key === 'ArrowLeft' && currentQuestionIndex > 0) {
+        changeQuestion(currentQuestionIndex - 1);
+      }
     }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentQuestionIndex, quizDetails]);
 
-  const goToPreviousQuestion = useCallback(() => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
-  }, [currentQuestionIndex]);
+  const changeQuestion = (newIndex) => {
+    setCurrentQuestionIndex(newIndex);
+    setSelectedOption(null);
+    setFeedback(null);
+  };
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === 'ArrowRight') {
-        goToNextQuestion();
-      } else if (event.key === 'ArrowLeft') {
-        goToPreviousQuestion();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [goToNextQuestion, goToPreviousQuestion]); // Now includes dependencies
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    const isCorrect = option.isCorrect;
+    setFeedback(isCorrect ? "Correct Answer!" : `Wrong Answer! Correct is: ${quizDetails.questions[currentQuestionIndex].options.find(o => o.isCorrect).optionText}`);
+  };
 
   if (loading) return <div>Loading...</div>;
   if (!quizDetails || quizDetails.questions.length === 0) return <div>No quiz found!</div>;
@@ -69,10 +66,25 @@ const QuizDetails = () => {
       <div className="question-card">
         <h3>{question.questionText}</h3>
         {question.imageUrl && <img src={question.imageUrl} alt={question.commonName} className="question-image" />}
+        {question.options?.map((option) => (
+          <button
+            key={option.optionId}
+            className={`option-button ${selectedOption?.optionId === option.optionId ? 'selected' : ''}`}
+            onClick={() => handleOptionSelect(option)}
+            disabled={selectedOption !== null}
+          >
+            {option.optionText}
+          </button>
+        ))}
+        {feedback && (
+          <div className={`feedback ${feedback.startsWith('Correct') ? 'correct' : 'incorrect'}`}>
+            {feedback}
+          </div>
+        )}
       </div>
       <div className="navigation-buttons">
-        <button onClick={goToPreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</button>
-        <button onClick={goToNextQuestion} disabled={currentQuestionIndex === totalQuestions - 1}>Next</button>
+        <button onClick={() => changeQuestion(currentQuestionIndex - 1)} disabled={currentQuestionIndex === 0}>Previous</button>
+        <button onClick={() => changeQuestion(currentQuestionIndex + 1)} disabled={currentQuestionIndex === totalQuestions - 1}>Next</button>
       </div>
     </div>
   );
