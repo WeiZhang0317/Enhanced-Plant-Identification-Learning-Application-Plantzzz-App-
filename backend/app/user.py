@@ -3,8 +3,10 @@ import mysql.connector
 from mysql.connector import Error
 import connect
 from werkzeug.security import check_password_hash
+from flask_cors import CORS
 
 user_blueprint = Blueprint('user', __name__)
+CORS(user_blueprint)
 
 def get_db_connection():
     return mysql.connector.connect(
@@ -144,6 +146,55 @@ def get_quiz_details(quiz_id):
         else:
             return jsonify({"message": "Quiz not found"}), 404
     except Error as e:
+        return jsonify({"message": str(e)}), 500
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+
+
+@user_blueprint.route('/save-progress/<int:quiz_id>', methods=['POST'])
+def save_progress(quiz_id):
+    data = request.json
+    print("Received data:", data) 
+    connection = get_db_connection()
+    try:
+        cursor = get_cursor(connection, dictionary_cursor=True)
+        # Check if progress already exists
+        cursor.execute('''
+            SELECT ProgressID FROM StudentQuizProgress
+            WHERE StudentID = %s AND QuizID = %s
+        ''', (data['studentId'], quiz_id))
+        progress = cursor.fetchone()
+
+        if progress:
+            progress_id = progress['ProgressID']
+            # Update existing progress without setting EndTimestamp
+            cursor.execute('''
+                UPDATE StudentQuizProgress
+                SET Score = %s
+                WHERE ProgressID = %s
+            ''', (data['score'], progress_id))
+        else:
+            # Insert new progress without EndTimestamp
+            cursor.execute('''
+                INSERT INTO StudentQuizProgress (StudentID, QuizID, Score, StartTimestamp)
+                VALUES (%s, %s, %s, NOW())
+            ''', (data['studentId'], quiz_id, data['score']))
+            progress_id = cursor.lastrowid
+        
+        # Insert or update answers
+        for answer in data['answers']:
+            cursor.execute('''
+                INSERT INTO StudentQuizAnswers (ProgressID, QuestionID, SelectedOptionID, IsCorrect)
+                VALUES (%s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE SelectedOptionID = VALUES(SelectedOptionID), IsCorrect = VALUES(IsCorrect)
+            ''', (progress_id, answer['questionId'], answer['selectedOptionId'], answer['isCorrect']))
+
+        connection.commit()
+        return jsonify({"message": "Progress saved successfully"}), 200
+    except Error as e:
+        connection.rollback()
         return jsonify({"message": str(e)}), 500
     finally:
         if connection.is_connected():

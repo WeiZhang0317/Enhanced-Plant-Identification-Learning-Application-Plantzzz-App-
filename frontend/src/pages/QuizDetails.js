@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import { useUserContext } from '../contexts/UserContext'; // Ensure the path is correct
 import '../styles/QuizDetails.css';
 
 const QuizDetails = () => {
   const { quizId } = useParams();
+  const { user } = useUserContext();
   const [quizDetails, setQuizDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -23,7 +25,6 @@ const QuizDetails = () => {
       try {
         const response = await fetch(`http://localhost:5000/user/quiz/${quizId}`);
         const data = await response.json();
-        // Initialize true_false questions with options
         data.questions.forEach(question => {
           if (question.questionType === 'true_false') {
             question.options = [
@@ -74,12 +75,56 @@ const QuizDetails = () => {
     setFeedback(isCorrect ? "Correct Answer!" : `Wrong Answer! Correct is: ${currentQuestion.correctAnswer}`);
   };
 
+  const saveProgress = async () => {
+    const score = calculateScore(); // Use the calculateScore function to determine the score
+    try {
+      const response = await fetch(`http://localhost:5000/user/save-progress/${quizId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          studentId: user.studentId,
+          score,
+          answers: quizDetails.questions.map(q => ({
+            questionId: q.questionId,
+            selectedOptionId: selectedOption?.optionId,
+            isCorrect: selectedOption?.isCorrect
+          }))
+        })
+      });
+      const data = await response.json();
+      alert(data.message);  // Optionally show feedback to user
+    } catch (error) {
+      console.error('Failed to save progress:', error);
+      alert('Failed to save progress');
+    }
+  };
+
+  const calculateScore = () => {
+    if (!quizDetails || !quizDetails.questions) return 0;
+  
+    // Assuming each question is worth 1 point
+    const pointsPerQuestion = 100 / quizDetails.questions.length; // Distributes points evenly across questions
+    let score = 0;
+  
+    quizDetails.questions.forEach((question, index) => {
+      if (question.options) {
+        const option = question.options.find(opt => opt.optionId === selectedOption?.optionId && index === currentQuestionIndex);
+        if (option && option.isCorrect) {
+          score += pointsPerQuestion;
+        }
+      }
+    });
+  
+    return score.toFixed(2); // Format the score to two decimal places
+  };
+
   const formatTime = (ms) => {
     const seconds = Math.floor(ms / 1000);
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
+
 
   if (loading) return <div>Loading...</div>;
   if (!quizDetails || quizDetails.questions.length === 0) return <div>No quiz found!</div>;
@@ -117,6 +162,7 @@ const QuizDetails = () => {
       <div className="navigation-buttons">
         <button onClick={() => changeQuestion(currentQuestionIndex - 1)} disabled={currentQuestionIndex === 0}>Previous</button>
         <button onClick={() => changeQuestion(currentQuestionIndex + 1)} disabled={currentQuestionIndex === totalQuestions - 1}>Next</button>
+        <button onClick={saveProgress} className="save-progress-button">Save Progress</button>
       </div>
     </div>
   );
