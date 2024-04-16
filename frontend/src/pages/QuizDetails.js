@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import '../styles/QuizDetails.css'; 
+import '../styles/QuizDetails.css';
 
 const QuizDetails = () => {
   const { quizId } = useParams();
@@ -16,6 +16,15 @@ const QuizDetails = () => {
       try {
         const response = await fetch(`http://localhost:5000/user/quiz/${quizId}`);
         const data = await response.json();
+        // Ensure that true_false questions have proper options initialized
+        data.questions.forEach(question => {
+          if (question.questionType === 'true_false') {
+            question.options = [
+              { optionId: 'T', optionText: 'True', isCorrect: question.correctAnswer === 'T' },
+              { optionId: 'F', optionText: 'False', isCorrect: question.correctAnswer === 'F' }
+            ];
+          }
+        });
         setQuizDetails(data);
       } catch (error) {
         console.error('Failed to fetch quiz details:', error);
@@ -27,13 +36,13 @@ const QuizDetails = () => {
   }, [quizId]);
 
   useEffect(() => {
-    function handleKeyDown(event) {
+    const handleKeyDown = (event) => {
       if (event.key === 'ArrowRight' && currentQuestionIndex < quizDetails.questions.length - 1) {
         changeQuestion(currentQuestionIndex + 1);
       } else if (event.key === 'ArrowLeft' && currentQuestionIndex > 0) {
         changeQuestion(currentQuestionIndex - 1);
       }
-    }
+    };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentQuestionIndex, quizDetails]);
@@ -45,10 +54,28 @@ const QuizDetails = () => {
   };
 
   const handleOptionSelect = (option) => {
+    if (!option || !quizDetails) {
+      console.error('Option or quiz details are undefined');
+      return;
+    }
     setSelectedOption(option);
-    const isCorrect = option.isCorrect;
-    setFeedback(isCorrect ? "Correct Answer!" : `Wrong Answer! Correct is: ${quizDetails.questions[currentQuestionIndex].options.find(o => o.isCorrect).optionText}`);
-  };
+
+    // Determine if the answer is correct based on question type
+    const currentQuestion = quizDetails.questions[currentQuestionIndex];
+    let isCorrect = false;
+
+    if (currentQuestion.questionType === 'multi_choice') {
+        isCorrect = option.isCorrect;  // multi_choice uses isCorrect flag on each option
+    } else if (currentQuestion.questionType === 'true_false') {
+        isCorrect = (option.optionText === 'True' && currentQuestion.correctAnswer === 'True') ||
+                    (option.optionText === 'False' && currentQuestion.correctAnswer === 'False');
+    }
+
+    // Set feedback based on whether the selected option was correct
+    setFeedback(isCorrect ? "Correct Answer!" : `Wrong Answer! Correct is: ${currentQuestion.correctAnswer}`);
+};
+
+
 
   if (loading) return <div>Loading...</div>;
   if (!quizDetails || quizDetails.questions.length === 0) return <div>No quiz found!</div>;

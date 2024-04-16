@@ -4,10 +4,16 @@
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 5px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* subtle shadow for depth */
+        background-color: #fff; /* ensures readability */
     }
     
     .question-card {
         margin-bottom: 20px;
+        background: #fafafa; /* slightly off-white background for the question area */
+        padding: 15px;
+        border-radius: 4px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
     
     .question-image {
@@ -15,6 +21,7 @@
         max-width: 600px;
         height: auto;
         margin: 10px 0;
+        border-radius: 4px; /* rounded corners for images */
     }
     
     .progress-bar {
@@ -22,6 +29,7 @@
         background-color: #f3f3f3;
         border: 1px solid #ddd;
         padding: 3px;
+        border-radius: 4px; /* rounded corners for the progress bar */
     }
     
     .progress-bar-fill {
@@ -30,6 +38,8 @@
         text-align: center;
         line-height: 20px;
         color: white;
+        border-radius: 4px; /* rounded corners for the fill */
+        transition: width 0.3s ease; /* smooth transition for filling effect */
     }
     
     .option-button {
@@ -41,6 +51,8 @@
         border: 1px solid #ccc;
         cursor: pointer;
         text-align: left;
+        transition: background-color 0.2s; /* smooth background color transition */
+        border-radius: 4px; /* rounded corners for buttons */
     }
     
     .option-button:hover, .option-button.selected {
@@ -50,6 +62,7 @@
     .option-button:disabled {
         color: #777;
         cursor: not-allowed;
+        background-color: #f0f0f0; /* lighter background for disabled buttons */
     }
     
     .feedback {
@@ -58,6 +71,7 @@
         color: white;
         border-radius: 5px;
         text-align: center;
+        font-size: 1.1em; /* slightly larger font size for feedback messages */
     }
     
     .feedback.correct {
@@ -67,4 +81,3 @@
     .feedback.incorrect {
         background-color: #f44336; /* Red for incorrect answer */
     }
-    
