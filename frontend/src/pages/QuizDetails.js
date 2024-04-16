@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/QuizDetails.css';
 
@@ -9,14 +9,21 @@ const QuizDetails = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [feedback, setFeedback] = useState(null);
+  const [timer, setTimer] = useState(0);
+  const timerRef = useRef(null);
 
   useEffect(() => {
+    const startTime = Date.now();
+    timerRef.current = setInterval(() => {
+      setTimer(Date.now() - startTime);
+    }, 1000);
+
     async function fetchQuizDetails() {
       setLoading(true);
       try {
         const response = await fetch(`http://localhost:5000/user/quiz/${quizId}`);
         const data = await response.json();
-        // Ensure that true_false questions have proper options initialized
+        // Initialize true_false questions with options
         data.questions.forEach(question => {
           if (question.questionType === 'true_false') {
             question.options = [
@@ -32,12 +39,14 @@ const QuizDetails = () => {
         setLoading(false);
       }
     }
+
     fetchQuizDetails();
+    return () => clearInterval(timerRef.current);
   }, [quizId]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'ArrowRight' && currentQuestionIndex < quizDetails.questions.length - 1) {
+      if (event.key === 'ArrowRight' && currentQuestionIndex < quizDetails?.questions.length - 1) {
         changeQuestion(currentQuestionIndex + 1);
       } else if (event.key === 'ArrowLeft' && currentQuestionIndex > 0) {
         changeQuestion(currentQuestionIndex - 1);
@@ -65,6 +74,13 @@ const QuizDetails = () => {
     setFeedback(isCorrect ? "Correct Answer!" : `Wrong Answer! Correct is: ${currentQuestion.correctAnswer}`);
   };
 
+  const formatTime = (ms) => {
+    const seconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
+
   if (loading) return <div>Loading...</div>;
   if (!quizDetails || quizDetails.questions.length === 0) return <div>No quiz found!</div>;
 
@@ -75,6 +91,7 @@ const QuizDetails = () => {
   return (
     <div className="quiz-container">
       <h1>{quizDetails.quizName}</h1>
+      <div>Time Elapsed: {formatTime(timer)}</div>
       <div className="progress-bar">
         <div className="progress-bar-fill" style={{ width: `${progress}%` }}>{Math.round(progress)}%</div>
       </div>
@@ -88,7 +105,7 @@ const QuizDetails = () => {
             onClick={() => handleOptionSelect(option)}
             disabled={selectedOption !== null}
           >
-            {option.optionLabel ? `${option.optionLabel}. ${option.optionText}` : option.optionText} {/* Adjusted for multi_choice and true_false */}
+            {option.optionLabel ? `${option.optionLabel}. ${option.optionText}` : option.optionText}
           </button>
         ))}
         {feedback && (

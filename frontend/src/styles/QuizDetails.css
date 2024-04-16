@@ -56,7 +56,7 @@
     }
     
     .option-button:hover, .option-button.selected {
-        background-color: #e8e8e8;
+        background-color: #4caf4f70;
     }
     
     .option-button:disabled {
@@ -81,3 +81,5 @@
     .feedback.incorrect {
         background-color: #f44336; /* Red for incorrect answer */
     }
+
+  
