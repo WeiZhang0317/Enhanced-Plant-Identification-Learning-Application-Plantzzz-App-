@@ -20,8 +20,8 @@ const QuizDetails = () => {
         data.questions.forEach(question => {
           if (question.questionType === 'true_false') {
             question.options = [
-              { optionId: 'T', optionText: 'True', isCorrect: question.correctAnswer === 'T' },
-              { optionId: 'F', optionText: 'False', isCorrect: question.correctAnswer === 'F' }
+              { optionId: 'T', optionText: 'True', isCorrect: question.correctAnswer === 'True' },
+              { optionId: 'F', optionText: 'False', isCorrect: question.correctAnswer === 'False' }
             ];
           }
         });
@@ -60,22 +60,10 @@ const QuizDetails = () => {
     }
     setSelectedOption(option);
 
-    // Determine if the answer is correct based on question type
     const currentQuestion = quizDetails.questions[currentQuestionIndex];
-    let isCorrect = false;
-
-    if (currentQuestion.questionType === 'multi_choice') {
-        isCorrect = option.isCorrect;  // multi_choice uses isCorrect flag on each option
-    } else if (currentQuestion.questionType === 'true_false') {
-        isCorrect = (option.optionText === 'True' && currentQuestion.correctAnswer === 'True') ||
-                    (option.optionText === 'False' && currentQuestion.correctAnswer === 'False');
-    }
-
-    // Set feedback based on whether the selected option was correct
+    const isCorrect = option.isCorrect;
     setFeedback(isCorrect ? "Correct Answer!" : `Wrong Answer! Correct is: ${currentQuestion.correctAnswer}`);
-};
-
-
+  };
 
   if (loading) return <div>Loading...</div>;
   if (!quizDetails || quizDetails.questions.length === 0) return <div>No quiz found!</div>;
@@ -100,7 +88,7 @@ const QuizDetails = () => {
             onClick={() => handleOptionSelect(option)}
             disabled={selectedOption !== null}
           >
-            {option.optionText}
+            {option.optionLabel ? `${option.optionLabel}. ${option.optionText}` : option.optionText} {/* Adjusted for multi_choice and true_false */}
           </button>
         ))}
         {feedback && (
