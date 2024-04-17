@@ -7,7 +7,7 @@ import '../styles/QuizDetails.css';
 const QuizDetails = () => {
   const { quizId } = useParams();
   const { user } = useUserContext();
-  const { responses, saveResponse } = useQuiz(); 
+  const { saveResponse } = useQuiz(); 
   const [quizDetails, setQuizDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);

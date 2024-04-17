@@ -156,45 +156,55 @@ def get_quiz_details(quiz_id):
 @user_blueprint.route('/save-progress/<int:quiz_id>', methods=['POST'])
 def save_progress(quiz_id):
     data = request.json
-    print("Received data:", data) 
+    print("Received data:", data)
     connection = get_db_connection()
     try:
         cursor = get_cursor(connection, dictionary_cursor=True)
         # Check if progress already exists
         cursor.execute('''
-            SELECT ProgressID FROM StudentQuizProgress
+            SELECT ProgressID, Score FROM StudentQuizProgress
             WHERE StudentID = %s AND QuizID = %s
         ''', (data['studentId'], quiz_id))
         progress = cursor.fetchone()
 
+        # If progress exists, retrieve the current score; otherwise, start with a score of 0
         if progress:
             progress_id = progress['ProgressID']
-            # Update existing progress without setting EndTimestamp
-            cursor.execute('''
-                UPDATE StudentQuizProgress
-                SET Score = %s
-                WHERE ProgressID = %s
-            ''', (data['score'], progress_id))
+            current_score = progress['Score'] or 0
         else:
-            # Insert new progress without EndTimestamp
+            # Insert new progress if not exists and start with score of 0
             cursor.execute('''
                 INSERT INTO StudentQuizProgress (StudentID, QuizID, Score, StartTimestamp)
-                VALUES (%s, %s, %s, NOW())
-            ''', (data['studentId'], quiz_id, data['score']))
+                VALUES (%s, %s, 0, NOW())
+            ''', (data['studentId'], quiz_id))
             progress_id = cursor.lastrowid
-        
-        # Insert or update answers
+            current_score = 0
+
+        total_score = current_score
+
+        # Insert or update answers and calculate new score
         for answer in data['answers']:
             cursor.execute('''
                 INSERT INTO StudentQuizAnswers (ProgressID, QuestionID, SelectedOptionID, IsCorrect)
                 VALUES (%s, %s, %s, %s)
                 ON DUPLICATE KEY UPDATE SelectedOptionID = VALUES(SelectedOptionID), IsCorrect = VALUES(IsCorrect)
-            ''', (progress_id, answer['questionId'], answer['selectedOptionId'], answer['isCorrect']))
+            ''', (progress_id, answer['questionId'], answer['selectedOptionID'], answer['isCorrect']))
+            # Update score only if answer is correct
+            if answer['isCorrect']:
+                total_score += 1
+
+        # Update the total score in the StudentQuizProgress table
+        cursor.execute('''
+            UPDATE StudentQuizProgress
+            SET Score = %s
+            WHERE ProgressID = %s
+        ''', (total_score, progress_id))
 
         connection.commit()
-        return jsonify({"message": "Progress saved successfully"}), 200
+        return jsonify({"message": "Progress saved successfully", "total_score": total_score}), 200
     except Error as e:
         connection.rollback()
+        print(str(e))
         return jsonify({"message": str(e)}), 500
     finally:
         if connection.is_connected():
