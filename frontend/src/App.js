@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './contexts/UserContext';
+import { QuizProvider } from './contexts/QuizContext'; 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -15,6 +16,7 @@ function App() {
   return (
  
       <UserProvider>
+        <QuizProvider> 
         <Router>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -29,6 +31,7 @@ function App() {
 
           </Routes>
         </Router>
+        </QuizProvider>
       </UserProvider>
 
   );

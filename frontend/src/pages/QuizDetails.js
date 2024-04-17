@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useUserContext } from '../contexts/UserContext'; // Ensure the path is correct
+import { useUserContext } from '../contexts/UserContext';
+import { useQuiz } from '../contexts/QuizContext'; 
 import '../styles/QuizDetails.css';
 
 const QuizDetails = () => {
   const { quizId } = useParams();
   const { user } = useUserContext();
+  const { responses, saveResponse } = useQuiz(); 
   const [quizDetails, setQuizDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -63,7 +65,7 @@ const QuizDetails = () => {
     setFeedback(null);
   };
 
-  const handleOptionSelect = (option) => {
+  const handleOptionSelect = async (option) => {
     if (!option || !quizDetails) {
       console.error('Option or quiz details are undefined');
       return;
@@ -71,7 +73,22 @@ const QuizDetails = () => {
     setSelectedOption(option);
 
     const currentQuestion = quizDetails.questions[currentQuestionIndex];
-    const isCorrect = option.isCorrect;
+  
+
+    const isCorrect = option.isCorrect === (quizDetails.questions[currentQuestionIndex].correctAnswer === option.optionText);
+
+    saveResponse({
+
+      questionId: quizDetails.questions[currentQuestionIndex].questionId,
+
+      selectedOptionId: option.optionId,
+
+      isCorrect
+
+    });
+
+
+
     setFeedback(isCorrect ? "Correct Answer!" : `Wrong Answer! Correct is: ${currentQuestion.correctAnswer}`);
   };
 
