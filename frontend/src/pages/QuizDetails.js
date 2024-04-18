@@ -7,7 +7,7 @@ import '../styles/QuizDetails.css';
 const QuizDetails = () => {
   const { quizId } = useParams();
   const { user } = useUserContext();
-  const { saveResponse } = useQuiz(); 
+  const { responses,saveResponse } = useQuiz(); 
   const [quizDetails, setQuizDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -89,23 +89,18 @@ const QuizDetails = () => {
 
 
   const saveProgress = async () => {
-    
     try {
+      // 使用 responses 替换原来的 quizDetails.questions.map(...) 逻辑
       const response = await fetch(`http://localhost:5000/user/save-progress/${quizId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           studentId: user.studentId,
-          
-          answers: quizDetails.questions.map(q => ({
-            questionId: q.questionId,
-            selectedOptionId: selectedOption?.optionId,
-            isCorrect: selectedOption?.isCorrect
-          }))
+          answers: responses  // 直接使用 QuizContext 中存储的响应数据
         })
       });
       const data = await response.json();
-      alert(data.message);  // Optionally show feedback to user
+      alert(data.message);  // 显示后端返回的消息，比如当前总分
     } catch (error) {
       console.error('Failed to save progress:', error);
       alert('Failed to save progress');
