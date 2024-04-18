@@ -152,27 +152,26 @@ def get_quiz_details(quiz_id):
             cursor.close()
             connection.close()
 
-
 @user_blueprint.route('/save-progress/<int:quiz_id>', methods=['POST'])
 def save_progress(quiz_id):
     data = request.json
-    print("Received data:", data)
+    print("Received data:", data)  # 打印接收到的全部数据
     connection = get_db_connection()
     try:
         cursor = get_cursor(connection, dictionary_cursor=True)
-        # Check if progress already exists
+        # 检查是否已经存在进度
         cursor.execute('''
             SELECT ProgressID, Score FROM StudentQuizProgress
             WHERE StudentID = %s AND QuizID = %s
         ''', (data['studentId'], quiz_id))
         progress = cursor.fetchone()
 
-        # If progress exists, retrieve the current score; otherwise, start with a score of 0
+        # 如果进度存在，则检索当前得分；否则，从0开始
         if progress:
             progress_id = progress['ProgressID']
             current_score = progress['Score'] or 0
         else:
-            # Insert new progress if not exists and start with score of 0
+            # 如果不存在进度，插入新的进度记录并从0开始
             cursor.execute('''
                 INSERT INTO StudentQuizProgress (StudentID, QuizID, Score, StartTimestamp)
                 VALUES (%s, %s, 0, NOW())
@@ -182,18 +181,21 @@ def save_progress(quiz_id):
 
         total_score = current_score
 
-        # Insert or update answers and calculate new score
+        # 插入或更新答案并计算新分数
         for answer in data['answers']:
+            selected_option_id = answer['selectedOptionId']  # 直接使用传入的ID或'T'/'F'
+
             cursor.execute('''
-                INSERT INTO StudentQuizAnswers (ProgressID, QuestionID, SelectedOptionID, IsCorrect)
+                INSERT INTO StudentQuizAnswers (ProgressID, QuestionID, SelectedOptionId, IsCorrect)
                 VALUES (%s, %s, %s, %s)
-                ON DUPLICATE KEY UPDATE SelectedOptionID = VALUES(SelectedOptionID), IsCorrect = VALUES(IsCorrect)
-            ''', (progress_id, answer['questionId'], answer['selectedOptionID'], answer['isCorrect']))
-            # Update score only if answer is correct
+                ON DUPLICATE KEY UPDATE SelectedOptionId = VALUES(SelectedOptionId), IsCorrect = VALUES(IsCorrect)
+            ''', (progress_id, answer['questionId'], selected_option_id, answer['isCorrect']))
+
+            # 仅在答案正确时更新分数
             if answer['isCorrect']:
                 total_score += 1
 
-        # Update the total score in the StudentQuizProgress table
+        # 更新 StudentQuizProgress 表中的总分
         cursor.execute('''
             UPDATE StudentQuizProgress
             SET Score = %s
@@ -204,9 +206,10 @@ def save_progress(quiz_id):
         return jsonify({"message": "Progress saved successfully", "total_score": total_score}), 200
     except Error as e:
         connection.rollback()
-        print(str(e))
+        print("Database error:", str(e))
         return jsonify({"message": str(e)}), 500
     finally:
         if connection.is_connected():
             cursor.close()
             connection.close()
+        print("Database connection closed.")
