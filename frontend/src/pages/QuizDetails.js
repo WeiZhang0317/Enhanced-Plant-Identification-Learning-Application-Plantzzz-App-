@@ -65,42 +65,38 @@ const QuizDetails = () => {
     setFeedback(null);
   };
 
-  const handleOptionSelect = async (option) => {
+  const handleOptionSelect = (option) => {
     if (!option || !quizDetails) {
       console.error('Option or quiz details are undefined');
       return;
     }
     setSelectedOption(option);
-
-    const currentQuestion = quizDetails.questions[currentQuestionIndex];
   
-
-    const isCorrect = option.isCorrect === (quizDetails.questions[currentQuestionIndex].correctAnswer === option.optionText);
-
+    const currentQuestion = quizDetails.questions[currentQuestionIndex];
+    const isCorrect = option.isCorrect;  // 直接使用后端提供的正确性标记
+  
     saveResponse({
-
-      questionId: quizDetails.questions[currentQuestionIndex].questionId,
-
+      questionId: currentQuestion.questionId,
       selectedOptionId: option.optionId,
-
       isCorrect
-
     });
-
-
-
+  
+    // 正确地更新反馈信息
     setFeedback(isCorrect ? "Correct Answer!" : `Wrong Answer! Correct is: ${currentQuestion.correctAnswer}`);
   };
+  
+
+
 
   const saveProgress = async () => {
-    const score = calculateScore(); // Use the calculateScore function to determine the score
+    
     try {
       const response = await fetch(`http://localhost:5000/user/save-progress/${quizId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           studentId: user.studentId,
-          score,
+          
           answers: quizDetails.questions.map(q => ({
             questionId: q.questionId,
             selectedOptionId: selectedOption?.optionId,
@@ -116,24 +112,7 @@ const QuizDetails = () => {
     }
   };
 
-  const calculateScore = () => {
-    if (!quizDetails || !quizDetails.questions) return 0;
-  
-    // Assuming each question is worth 1 point
-    const pointsPerQuestion = 100 / quizDetails.questions.length; // Distributes points evenly across questions
-    let score = 0;
-  
-    quizDetails.questions.forEach((question, index) => {
-      if (question.options) {
-        const option = question.options.find(opt => opt.optionId === selectedOption?.optionId && index === currentQuestionIndex);
-        if (option && option.isCorrect) {
-          score += pointsPerQuestion;
-        }
-      }
-    });
-  
-    return score.toFixed(2); // Format the score to two decimal places
-  };
+ 
 
   const formatTime = (ms) => {
     const seconds = Math.floor(ms / 1000);
