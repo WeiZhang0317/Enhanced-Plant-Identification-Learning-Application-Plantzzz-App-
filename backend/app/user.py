@@ -213,3 +213,42 @@ def save_progress(quiz_id):
             cursor.close()
             connection.close()
         print("Database connection closed.")
+
+
+@user_blueprint.route('/submit-quiz/<int:quiz_id>', methods=['POST'])
+def submit_quiz(quiz_id):
+    data = request.json
+    connection = get_db_connection()
+    try:
+        cursor = get_cursor(connection, dictionary_cursor=True)
+        
+        # 检查是否已经存在进度
+        cursor.execute('''
+            SELECT ProgressID, Score FROM StudentQuizProgress
+            WHERE StudentID = %s AND QuizID = %s
+        ''', (data['studentId'], quiz_id))
+        progress = cursor.fetchone()
+
+        if not progress:
+            return jsonify({"message": "No existing progress found"}), 404
+
+        progress_id = progress['ProgressID']
+        current_score = progress['Score']  # 分数直接从数据库获取，不进行重新计算
+
+        # 只更新结束时间
+        cursor.execute('''
+            UPDATE StudentQuizProgress
+            SET EndTimestamp = NOW()
+            WHERE ProgressID = %s
+        ''', (progress_id,))
+
+        connection.commit()
+        return jsonify({"message": "Quiz submitted successfully", "final_score": current_score}), 200
+
+    except Error as e:
+        connection.rollback()
+        return jsonify({"message": str(e)}), 500
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
