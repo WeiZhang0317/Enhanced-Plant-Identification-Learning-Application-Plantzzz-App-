@@ -152,47 +152,99 @@ def get_quiz_details(quiz_id):
             cursor.close()
             connection.close()
 
-
 @user_blueprint.route('/save-progress/<int:quiz_id>', methods=['POST'])
 def save_progress(quiz_id):
     data = request.json
-    print("Received data:", data) 
+    print("Received data:", data)  # 打印接收到的全部数据
     connection = get_db_connection()
     try:
         cursor = get_cursor(connection, dictionary_cursor=True)
-        # Check if progress already exists
+        # 检查是否已经存在进度
         cursor.execute('''
-            SELECT ProgressID FROM StudentQuizProgress
+            SELECT ProgressID, Score FROM StudentQuizProgress
             WHERE StudentID = %s AND QuizID = %s
         ''', (data['studentId'], quiz_id))
         progress = cursor.fetchone()
 
+        # 如果进度存在，则检索当前得分；否则，从0开始
         if progress:
             progress_id = progress['ProgressID']
-            # Update existing progress without setting EndTimestamp
-            cursor.execute('''
-                UPDATE StudentQuizProgress
-                SET Score = %s
-                WHERE ProgressID = %s
-            ''', (data['score'], progress_id))
+            current_score = progress['Score'] or 0
         else:
-            # Insert new progress without EndTimestamp
+            # 如果不存在进度，插入新的进度记录并从0开始
             cursor.execute('''
                 INSERT INTO StudentQuizProgress (StudentID, QuizID, Score, StartTimestamp)
-                VALUES (%s, %s, %s, NOW())
-            ''', (data['studentId'], quiz_id, data['score']))
+                VALUES (%s, %s, 0, NOW())
+            ''', (data['studentId'], quiz_id))
             progress_id = cursor.lastrowid
-        
-        # Insert or update answers
+            current_score = 0
+
+        total_score = current_score
+
+        # 插入或更新答案并计算新分数
         for answer in data['answers']:
+            selected_option_id = answer['selectedOptionId']  # 直接使用传入的ID或'T'/'F'
+
             cursor.execute('''
-                INSERT INTO StudentQuizAnswers (ProgressID, QuestionID, SelectedOptionID, IsCorrect)
+                INSERT INTO StudentQuizAnswers (ProgressID, QuestionID, SelectedOptionId, IsCorrect)
                 VALUES (%s, %s, %s, %s)
-                ON DUPLICATE KEY UPDATE SelectedOptionID = VALUES(SelectedOptionID), IsCorrect = VALUES(IsCorrect)
-            ''', (progress_id, answer['questionId'], answer['selectedOptionId'], answer['isCorrect']))
+                ON DUPLICATE KEY UPDATE SelectedOptionId = VALUES(SelectedOptionId), IsCorrect = VALUES(IsCorrect)
+            ''', (progress_id, answer['questionId'], selected_option_id, answer['isCorrect']))
+
+            # 仅在答案正确时更新分数
+            if answer['isCorrect']:
+                total_score += 1
+
+        # 更新 StudentQuizProgress 表中的总分
+        cursor.execute('''
+            UPDATE StudentQuizProgress
+            SET Score = %s
+            WHERE ProgressID = %s
+        ''', (total_score, progress_id))
 
         connection.commit()
-        return jsonify({"message": "Progress saved successfully"}), 200
+        return jsonify({"message": "Progress saved successfully", "total_score": total_score}), 200
+    except Error as e:
+        connection.rollback()
+        print("Database error:", str(e))
+        return jsonify({"message": str(e)}), 500
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+        print("Database connection closed.")
+
+
+@user_blueprint.route('/submit-quiz/<int:quiz_id>', methods=['POST'])
+def submit_quiz(quiz_id):
+    data = request.json
+    connection = get_db_connection()
+    try:
+        cursor = get_cursor(connection, dictionary_cursor=True)
+        
+        # 检查是否已经存在进度
+        cursor.execute('''
+            SELECT ProgressID, Score FROM StudentQuizProgress
+            WHERE StudentID = %s AND QuizID = %s
+        ''', (data['studentId'], quiz_id))
+        progress = cursor.fetchone()
+
+        if not progress:
+            return jsonify({"message": "No existing progress found"}), 404
+
+        progress_id = progress['ProgressID']
+        current_score = progress['Score']  # 分数直接从数据库获取，不进行重新计算
+
+        # 只更新结束时间
+        cursor.execute('''
+            UPDATE StudentQuizProgress
+            SET EndTimestamp = NOW()
+            WHERE ProgressID = %s
+        ''', (progress_id,))
+
+        connection.commit()
+        return jsonify({"message": "Quiz submitted successfully", "final_score": current_score}), 200
+
     except Error as e:
         connection.rollback()
         return jsonify({"message": str(e)}), 500

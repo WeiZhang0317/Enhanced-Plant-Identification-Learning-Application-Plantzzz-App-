@@ -109,12 +109,14 @@ CREATE TABLE StudentQuizAnswers (
     AnswerID INT AUTO_INCREMENT PRIMARY KEY,
     ProgressID INT NOT NULL,
     QuestionID INT NOT NULL,
-    SelectedOptionID INT,
+     SelectedOptionID VARCHAR(255), 
     IsCorrect BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (ProgressID) REFERENCES StudentQuizProgress(ProgressID) ON DELETE CASCADE,
-    FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID) ON DELETE CASCADE,
-    FOREIGN KEY (SelectedOptionID) REFERENCES QuestionOptions(OptionID) ON DELETE SET NULL
+    FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID) ON DELETE CASCADE
 );
+
+
+
 
 -- Insert student users
 INSERT INTO Users (Username, Password, Email, UserType) VALUES 
