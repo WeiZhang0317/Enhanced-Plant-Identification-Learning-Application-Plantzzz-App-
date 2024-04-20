@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useCallback,useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserContext } from '../contexts/UserContext';
 import { useQuiz } from '../contexts/QuizContext'; 
@@ -7,7 +7,7 @@ import '../styles/QuizDetails.css';
 const QuizDetails = () => {
   const { quizId } = useParams();
   const { user } = useUserContext();
-  const { responses, saveResponse } = useQuiz(); 
+  const { saveResponse } = useQuiz(); 
   const [quizDetails, setQuizDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -49,7 +49,20 @@ const QuizDetails = () => {
     fetchQuizDetails();
     return () => clearInterval(timerRef.current);
   }, [quizId]);
+  
 
+  const changeQuestion = useCallback((newIndex) => {
+    setCurrentQuestionIndex(newIndex);
+    const questionId = quizDetails.questions[newIndex].questionId;
+    if (answers[questionId]) {
+      setSelectedOption(answers[questionId].selectedOptionId);
+      setFeedback(answers[questionId].feedback);
+    } else {
+      setSelectedOption(null);
+      setFeedback(null);
+    }
+  }, [quizDetails, answers]); 
+  
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'ArrowRight' && currentQuestionIndex < quizDetails?.questions.length - 1) {
@@ -60,19 +73,8 @@ const QuizDetails = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentQuestionIndex, quizDetails]);
+}, [currentQuestionIndex, quizDetails, changeQuestion]); 
 
-  const changeQuestion = (newIndex) => {
-    setCurrentQuestionIndex(newIndex);
-    const questionId = quizDetails.questions[newIndex].questionId;
-    if (answers[questionId]) {
-      setSelectedOption(answers[questionId].selectedOptionId);
-      setFeedback(answers[questionId].feedback);
-    } else {
-      setSelectedOption(null);
-      setFeedback(null);
-    }
-  };
   
   
 
