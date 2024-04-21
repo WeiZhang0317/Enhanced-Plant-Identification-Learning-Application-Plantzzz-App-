@@ -3,10 +3,13 @@ import { useParams } from 'react-router-dom';
 import { useUserContext } from '../contexts/UserContext';
 import { useQuiz } from '../contexts/QuizContext'; 
 import '../styles/QuizDetails.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const QuizDetails = () => {
   const { quizId } = useParams();
   const { user } = useUserContext();
+  const navigate = useNavigate();
   const { saveResponse } = useQuiz(); 
   const [quizDetails, setQuizDetails] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,6 +20,9 @@ const QuizDetails = () => {
   const timerRef = useRef(null);
   const [answers, setAnswers] = useState({});
   const [hasSavedProgress, setHasSavedProgress] = useState(false); 
+  const [showScoreModal, setShowScoreModal] = useState(false); // State to control the visibility of the score modal
+  const [finalScore, setFinalScore] = useState(0); // State to store the final score
+  const [isSubmitted, setIsSubmitted] = useState(false); 
 
 
   useEffect(() => {
@@ -115,29 +121,30 @@ const QuizDetails = () => {
 
 
 const saveProgress = async () => {
-  try {
-    const response = await fetch(`http://localhost:5000/user/save-progress/${quizId}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        studentId: user.studentId,
-        answers: Object.values(answers)  // 使用处理后的答案数组
-      })
-    });
+  if (!isSubmitted) {
+    try {
+      const response = await fetch(`http://localhost:5000/user/save-progress/${quizId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          studentId: user.studentId,
+          answers: Object.values(answers)  // Assuming this sends only new answers or is managed accordingly on the backend
+        })
+      });
 
-    const data = await response.json();
-      if (data) { // 假设后端在保存成功时返回了一些数据
-
-      setHasSavedProgress(true);  // 更新状态以启用提交按钮
-
-      alert(data.message);  // 显示后端返回的消息
-
-    }  // 显示后端返回的消息
-  } catch (error) {
-    console.error('Failed to save progress:', error);
-    alert('Failed to save progress');
+      const data = await response.json();
+      if (data) {
+        setHasSavedProgress(true);  // Enable the submit button after progress is saved
+        alert(data.message);  // Show backend message
+      }
+    } catch (error) {
+      console.error('Failed to save progress:', error);
+      alert('Failed to save progress');
+    }
   }
 };
+
+
 
 const submitQuiz = async () => {
   try {
@@ -145,19 +152,33 @@ const submitQuiz = async () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        studentId: user.studentId,
-        answers: Object.values(answers)
+        studentId: user.studentId
       })
     });
 
     const data = await response.json();
-    alert(`Your score is: ${data.final_score}`);
-    setAnswers({});  // 清空答案状态，模拟重新开始
+    setFinalScore(data.final_score); // Store the final score received from the backend
+    setShowScoreModal(true); // Show the score modal
+    setIsSubmitted(true); // Prevent further modifications
+    setAnswers({}); // Optionally clear answers to prevent reuse in the UI
   } catch (error) {
     console.error('Failed to submit quiz:', error);
     alert('Failed to submit quiz');
   }
 };
+
+ 
+// const scoreModal = showScoreModal && (
+//   <div className="score-modal">
+//     <h2>Your Final Score: {finalScore}</h2>
+//     <button onClick={() => {
+//       setShowScoreModal(false);
+//       navigate('/quiz-list'); // Use navigate instead of history.push
+//     }}>
+//       Back to Quiz Page
+//     </button>
+//   </div>
+// );
 
 
   const formatTime = (ms) => {
@@ -187,13 +208,13 @@ const submitQuiz = async () => {
         {question.imageUrl && <img src={question.imageUrl} alt={question.commonName} className="question-image" />}
         {question.options?.map((option) => (
           <button
-            key={option.optionId}
-            className={`option-button ${selectedOption?.optionId === option.optionId ? 'selected' : ''}`}
-            onClick={() => handleOptionSelect(option)}
-            disabled={selectedOption !== null}
-          >
-            {option.optionLabel ? `${option.optionLabel}. ${option.optionText}` : option.optionText}
-          </button>
+          key={option.optionId}
+          className={`option-button ${selectedOption?.optionId === option.optionId ? 'selected' : ''}`}
+          onClick={() => handleOptionSelect(option)}
+          disabled={selectedOption !== null || isSubmitted}  // Disable if an option is already selected or if the quiz is submitted
+        >
+          {option.optionLabel ? `${option.optionLabel}. ${option.optionText}` : option.optionText}
+        </button>
         ))}
         {feedback && (
           <div className={`feedback ${feedback.startsWith('Correct') ? 'correct' : 'incorrect'}`}>
@@ -202,13 +223,25 @@ const submitQuiz = async () => {
         )}
       </div>
       <div className="navigation-buttons">
-        <button onClick={() => changeQuestion(currentQuestionIndex - 1)} disabled={currentQuestionIndex === 0}>Previous</button>
-        <button onClick={() => changeQuestion(currentQuestionIndex + 1)} disabled={currentQuestionIndex === totalQuestions - 1}>Next</button>
-        <button onClick={saveProgress} className="save-progress-button">Save Progress</button>
-        <button onClick={submitQuiz} className="submit-quiz-button" disabled={!hasSavedProgress}>Submit Quiz</button> 
+      <button onClick={() => changeQuestion(currentQuestionIndex - 1)} disabled={currentQuestionIndex === 0 || isSubmitted}>Previous</button>
+      <button onClick={() => changeQuestion(currentQuestionIndex + 1)} disabled={currentQuestionIndex === totalQuestions - 1 || isSubmitted}>Next</button>
+      <button onClick={saveProgress} className="save-progress-button" disabled={isSubmitted}>Save Progress</button>
+      <button onClick={submitQuiz} className="submit-quiz-button" disabled={!hasSavedProgress || isSubmitted}>Submit Quiz</button>
+
       </div>
+      {showScoreModal && (
+        <div className="score-modal">
+          <h2>Your Final Score: {finalScore}</h2>
+          <button onClick={() => {
+            setShowScoreModal(false);
+            navigate('/quiz-list'); 
+          }}>Back to Quiz Page</button>
+        </div>
+      )}
     </div>
   );
+  
+
 };
 
 export default QuizDetails;
