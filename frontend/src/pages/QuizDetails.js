@@ -168,18 +168,6 @@ const submitQuiz = async () => {
 };
 
  
-// const scoreModal = showScoreModal && (
-//   <div className="score-modal">
-//     <h2>Your Final Score: {finalScore}</h2>
-//     <button onClick={() => {
-//       setShowScoreModal(false);
-//       navigate('/quiz-list'); // Use navigate instead of history.push
-//     }}>
-//       Back to Quiz Page
-//     </button>
-//   </div>
-// );
-
 
   const formatTime = (ms) => {
     const seconds = Math.floor(ms / 1000);
