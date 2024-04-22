@@ -222,7 +222,7 @@ const submitQuiz = async () => {
           <h2>Your Final Score: {finalScore}</h2>
           <button onClick={() => {
             setShowScoreModal(false);
-            navigate('/quiz-list'); 
+            navigate('/student/dashboard/all-quizzes'); 
           }}>Back to Quiz Page</button>
         </div>
       )}

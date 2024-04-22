@@ -4,6 +4,7 @@ from mysql.connector import Error
 import connect
 from werkzeug.security import check_password_hash
 from flask_cors import CORS
+from datetime import datetime
 
 user_blueprint = Blueprint('user', __name__)
 CORS(user_blueprint)
@@ -152,6 +153,33 @@ def get_quiz_details(quiz_id):
             cursor.close()
             connection.close()
 
+@user_blueprint.route('/check-progress/<int:quiz_id>', methods=['GET'])
+def check_progress(quiz_id):
+    connection = get_db_connection()
+    try:
+        cursor = get_cursor(connection, dictionary_cursor=True)
+        cursor.execute('''
+            SELECT ProgressID, Score, EndTimestamp FROM StudentQuizProgress
+            WHERE StudentID = %s AND QuizID = %s AND EndTimestamp IS NULL
+        ''', (request.user.studentId, quiz_id))  # Assuming request.user is available with user's ID
+        progress = cursor.fetchone()
+
+        if progress:
+            return jsonify({
+                "progressId": progress['ProgressID'],
+                "score": progress['Score'],
+                "endTimestamp": progress['EndTimestamp']
+            }), 200
+        else:
+            return jsonify({"message": "No active progress found"}), 404
+    except Error as e:
+        print("Database error:", str(e))
+        return jsonify({"message": str(e)}), 500
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+
 @user_blueprint.route('/save-progress/<int:quiz_id>', methods=['POST'])
 def save_progress(quiz_id):
     data = request.json
@@ -162,20 +190,21 @@ def save_progress(quiz_id):
         # 检查是否已经存在进度
         cursor.execute('''
             SELECT ProgressID, Score FROM StudentQuizProgress
-            WHERE StudentID = %s AND QuizID = %s
+            WHERE StudentID = %s AND QuizID = %s AND EndTimestamp IS NULL
         ''', (data['studentId'], quiz_id))
         progress = cursor.fetchone()
 
         # 如果进度存在，则检索当前得分；否则，从0开始
         if progress:
             progress_id = progress['ProgressID']
-            current_score = progress['Score'] or 0
+            current_score = progress.get('Score', 0) 
         else:
             # 如果不存在进度，插入新的进度记录并从0开始
             cursor.execute('''
                 INSERT INTO StudentQuizProgress (StudentID, QuizID, Score, StartTimestamp)
                 VALUES (%s, %s, 0, NOW())
             ''', (data['studentId'], quiz_id))
+            connection.commit()  # Commit the new progress record
             progress_id = cursor.lastrowid
             current_score = 0
 
@@ -203,7 +232,7 @@ def save_progress(quiz_id):
         ''', (total_score, progress_id))
 
         connection.commit()
-        return jsonify({"message": "Progress saved successfully", "total_score": total_score}), 200
+        return jsonify({"message": "Progress saved successfully", "total_score": current_score}), 200
     except Error as e:
         connection.rollback()
         print("Database error:", str(e))
@@ -214,33 +243,31 @@ def save_progress(quiz_id):
             connection.close()
         print("Database connection closed.")
 
-
 @user_blueprint.route('/submit-quiz/<int:quiz_id>', methods=['POST'])
 def submit_quiz(quiz_id):
     data = request.json
     connection = get_db_connection()
     try:
         cursor = get_cursor(connection, dictionary_cursor=True)
-        
-        # 检查是否已经存在进度
+
+        # Check for an existing, unfinished progress session
         cursor.execute('''
             SELECT ProgressID, Score FROM StudentQuizProgress
-            WHERE StudentID = %s AND QuizID = %s
+            WHERE StudentID = %s AND QuizID = %s AND EndTimestamp IS NULL
         ''', (data['studentId'], quiz_id))
         progress = cursor.fetchone()
 
-        if not progress:
-            return jsonify({"message": "No existing progress found"}), 404
-
-        progress_id = progress['ProgressID']
-        current_score = progress['Score']  # 分数直接从数据库获取，不进行重新计算
-
-        # 只更新结束时间
-        cursor.execute('''
-            UPDATE StudentQuizProgress
-            SET EndTimestamp = NOW()
-            WHERE ProgressID = %s
-        ''', (progress_id,))
+        if progress:
+            progress_id = progress['ProgressID']
+            current_score = progress['Score']
+            # Update the end time to close the session
+            cursor.execute('''
+                UPDATE StudentQuizProgress
+                SET EndTimestamp = %s
+                WHERE ProgressID = %s
+            ''', (datetime.now(), progress_id))
+        else:
+            return jsonify({"message": "No active progress found to submit"}), 404
 
         connection.commit()
         return jsonify({"message": "Quiz submitted successfully", "final_score": current_score}), 200
