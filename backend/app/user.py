@@ -215,10 +215,10 @@ def save_progress(quiz_id):
             selected_option_id = answer['selectedOptionId']  # 直接使用传入的ID或'T'/'F'
 
             cursor.execute('''
-                INSERT INTO StudentQuizAnswers (ProgressID, QuestionID, SelectedOptionId, IsCorrect)
-                VALUES (%s, %s, %s, %s)
-                ON DUPLICATE KEY UPDATE SelectedOptionId = VALUES(SelectedOptionId), IsCorrect = VALUES(IsCorrect)
-            ''', (progress_id, answer['questionId'], selected_option_id, answer['isCorrect']))
+    INSERT INTO StudentQuizAnswers (ProgressID, QuestionID, SelectedOptionId, IsCorrect)
+    VALUES (%s, %s, %s, %s)
+    ON DUPLICATE KEY UPDATE SelectedOptionId = VALUES(SelectedOptionId), IsCorrect = VALUES(IsCorrect)
+''', (progress_id, answer['questionId'], selected_option_id, answer['isCorrect']))
 
             # 仅在答案正确时更新分数
             if answer['isCorrect']:

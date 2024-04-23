@@ -111,6 +111,7 @@ CREATE TABLE StudentQuizAnswers (
     QuestionID INT NOT NULL,
      SelectedOptionID VARCHAR(255), 
     IsCorrect BOOLEAN DEFAULT FALSE,
+    UNIQUE KEY progress_question_uniq (ProgressID, QuestionID),
     FOREIGN KEY (ProgressID) REFERENCES StudentQuizProgress(ProgressID) ON DELETE CASCADE,
     FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID) ON DELETE CASCADE
 );
