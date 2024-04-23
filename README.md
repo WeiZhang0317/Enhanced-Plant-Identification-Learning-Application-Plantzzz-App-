@@ -1,13 +1,12 @@
+安装依赖：
 # install flask-cors
 pip install flask-cors
 cd C:\Users\Fernanda\Documents\GitHub\plantzzz\frontend
-
 cd C:\Users\zhang\Documents\GitHub\plantzzz\frontend
-
 set NODE_OPTIONS=--openssl-legacy-provider
 npm start
 
-# install frontawsome
+安装frontawsome  # install frontawsome
 npm install @fortawesome/react-fontawesome @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons
 
 
