@@ -1,7 +1,7 @@
 import React, { useCallback,useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserContext } from '../contexts/UserContext';
-import { useQuiz } from '../contexts/QuizContext'; 
+import { useQuiz } from '../contexts/QuizContext';
 import '../styles/QuizDetails.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,8 +10,9 @@ const QuizDetails = () => {
   const { quizId } = useParams();
   const { user } = useUserContext();
   const navigate = useNavigate();
-  const { saveResponse } = useQuiz(); 
+  const { saveResponse } = useQuiz();
   const [quizDetails, setQuizDetails] = useState(null);
+  const [quizAnswers, setQuizAnswers] = useState({});
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -19,13 +20,15 @@ const QuizDetails = () => {
   const [timer, setTimer] = useState(0);
   const timerRef = useRef(null);
   const [answers, setAnswers] = useState({});
-  const [hasSavedProgress, setHasSavedProgress] = useState(false); 
+  const [hasSavedProgress, setHasSavedProgress] = useState(false);
   const [showScoreModal, setShowScoreModal] = useState(false); // State to control the visibility of the score modal
   const [finalScore, setFinalScore] = useState(0); // State to store the final score
-  const [isSubmitted, setIsSubmitted] = useState(false); 
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [question, setQuestion] = useState({});
+  const [progressing, setProgressing] = useState(false);
 
 
-  useEffect(() => {
+   useEffect(() => {
     const startTime = Date.now();
     timerRef.current = setInterval(() => {
       setTimer(Date.now() - startTime);
@@ -34,8 +37,13 @@ const QuizDetails = () => {
     async function fetchQuizDetails() {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:5000/user/quiz/${quizId}`);
+        const response = await fetch(`http://localhost:5000/user/quiz/${quizId}/${user.studentId}`);
         const data = await response.json();
+        const answers = {}
+        data.answers.forEach(answer => {
+          answers[answer.QuestionID] = answer
+        });
+        setQuizAnswers(answers);
         data.questions.forEach(question => {
           if (question.questionType === 'true_false') {
             question.options = [
@@ -45,6 +53,12 @@ const QuizDetails = () => {
           }
         });
         setQuizDetails(data);
+        const question = data.questions[currentQuestionIndex]
+        setQuestion(question)
+        setProgressing(data.progressing)
+        if (question && answers && answers[question.questionId] && data.progressing) {
+          handleOptionSelect({optionId: answers[question.questionId].SelectedOptionID, isCorrect: answers[question.questionId].IsCorrect}, data)
+        }
       } catch (error) {
         console.error('Failed to fetch quiz details:', error);
       } finally {
@@ -55,7 +69,7 @@ const QuizDetails = () => {
     fetchQuizDetails();
     return () => clearInterval(timerRef.current);
   }, [quizId]);
-  
+
 
   const changeQuestion = useCallback((newIndex) => {
     setCurrentQuestionIndex(newIndex);
@@ -67,8 +81,12 @@ const QuizDetails = () => {
       setSelectedOption(null);
       setFeedback(null);
     }
-  }, [quizDetails, answers]); 
-  
+    console.warn(progressing, 111)
+    if (quizAnswers[questionId] && progressing) {
+      handleOptionSelect({optionId: quizAnswers[questionId].SelectedOptionID, isCorrect: quizAnswers[questionId].IsCorrect})
+    }
+  }, [quizDetails, answers]);
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'ArrowRight' && currentQuestionIndex < quizDetails?.questions.length - 1) {
@@ -79,19 +97,21 @@ const QuizDetails = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-}, [currentQuestionIndex, quizDetails, changeQuestion]); 
-
-  
-  
+}, [currentQuestionIndex, quizDetails, changeQuestion]);
 
 
-  const handleOptionSelect = (option) => {
-  if (!option || !quizDetails) {
+
+
+
+  const handleOptionSelect = (option, initQuizDetails) => {
+  const details = quizDetails || initQuizDetails
+  if (!option || !details) {
     console.error('Option or quiz details are undefined');
     return;
   }
+
   setSelectedOption(option);
-  const currentQuestion = quizDetails.questions[currentQuestionIndex];
+  const currentQuestion = details.questions[currentQuestionIndex];
   const isCorrect = option.isCorrect;
 
   // Save response locally
@@ -100,7 +120,6 @@ const QuizDetails = () => {
     selectedOptionId: option.optionId,
     isCorrect
   });
-
   // Update local answers state
   setAnswers(prev => ({
     ...prev,
@@ -167,7 +186,7 @@ const submitQuiz = async () => {
   }
 };
 
- 
+
 
   const formatTime = (ms) => {
     const seconds = Math.floor(ms / 1000);
@@ -180,10 +199,8 @@ const submitQuiz = async () => {
   if (loading) return <div>Loading...</div>;
   if (!quizDetails || quizDetails.questions.length === 0) return <div>No quiz found!</div>;
 
-  const question = quizDetails.questions[currentQuestionIndex];
   const totalQuestions = quizDetails.questions.length;
   const progress = (currentQuestionIndex + 1) / totalQuestions * 100;
-
   return (
     <div className="quiz-container">
       <h1>{quizDetails.quizName}</h1>
@@ -191,25 +208,25 @@ const submitQuiz = async () => {
       <div className="progress-bar">
         <div className="progress-bar-fill" style={{ width: `${progress}%` }}>{Math.round(progress)}%</div>
       </div>
-      <div className="question-card">
+      {question && question.questionId ? <div className="question-card">
         <h3>{question.questionText}</h3>
         {question.imageUrl && <img src={question.imageUrl} alt={question.commonName} className="question-image" />}
         {question.options?.map((option) => (
-          <button
-          key={option.optionId}
-          className={`option-button ${selectedOption?.optionId === option.optionId ? 'selected' : ''}`}
-          onClick={() => handleOptionSelect(option)}
-          disabled={selectedOption !== null || isSubmitted}  // Disable if an option is already selected or if the quiz is submitted
-        >
-          {option.optionLabel ? `${option.optionLabel}. ${option.optionText}` : option.optionText}
-        </button>
+            <button
+                key={option.optionId}
+                className={`option-button ${selectedOption?.optionId === option.optionId ? 'selected' : ''}`}
+                onClick={() => handleOptionSelect(option)}
+                disabled={selectedOption !== null || isSubmitted}  // Disable if an option is already selected or if the quiz is submitted
+            >
+              {option.optionLabel ? `${option.optionLabel}. ${option.optionText}` : option.optionText}
+            </button>
         ))}
         {feedback && (
-          <div className={`feedback ${feedback.startsWith('Correct') ? 'correct' : 'incorrect'}`}>
-            {feedback}
-          </div>
+            <div className={`feedback ${feedback.startsWith('Correct') ? 'correct' : 'incorrect'}`}>
+              {feedback}
+            </div>
         )}
-      </div>
+      </div> : ''}
       <div className="navigation-buttons">
       <button onClick={() => changeQuestion(currentQuestionIndex - 1)} disabled={currentQuestionIndex === 0 || isSubmitted}>Previous</button>
       <button onClick={() => changeQuestion(currentQuestionIndex + 1)} disabled={currentQuestionIndex === totalQuestions - 1 || isSubmitted}>Next</button>
@@ -222,13 +239,13 @@ const submitQuiz = async () => {
           <h2>Your Final Score: {finalScore}</h2>
           <button onClick={() => {
             setShowScoreModal(false);
-            navigate('/student/dashboard/all-quizzes'); 
+            navigate('/student/dashboard/all-quizzes');
           }}>Back to Quiz Page</button>
         </div>
       )}
     </div>
   );
-  
+
 
 };
 

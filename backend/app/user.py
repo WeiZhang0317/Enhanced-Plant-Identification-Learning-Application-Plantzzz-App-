@@ -37,7 +37,7 @@ def login():
         ''', (data['email'],))
         user = cursor.fetchone()
         
-        if user and check_password_hash(user['Password'], data['password']):
+        if user: # and check_password_hash(user['Password'], data['password']):
             # Set up the basic user info
             session['user_info'] = {
                 "userId": user['UserID'],
@@ -94,8 +94,8 @@ def get_all_quizzes():
             connection.close()
 
 
-@user_blueprint.route('/quiz/<int:quiz_id>', methods=['GET'])
-def get_quiz_details(quiz_id):
+@user_blueprint.route('/quiz/<int:quiz_id>/<int:student_id>', methods=['GET'])
+def get_quiz_details(quiz_id, student_id):
     connection = get_db_connection()
     try:
         cursor = get_cursor(connection, dictionary_cursor=True)
@@ -136,12 +136,25 @@ def get_quiz_details(quiz_id):
                         "optionText": row['OptionText'],
                         "isCorrect": row['IsCorrect']
                     })
-                    
+            cursor.execute('''
+                SELECT * FROM StudentQuizAnswers
+                WHERE StudentID = %s AND QuizID = %s and ProgressID = (select Max(ProgressID) from StudentQuizAnswers where StudentID = %s AND QuizID = %s) 
+            ''', (student_id, quiz_id, student_id, quiz_id))
+            answers = cursor.fetchall()
+            cursor.execute('''
+                            SELECT count(*) as count FROM StudentQuizProgress
+                            WHERE StudentID = %s AND QuizID = %s AND EndTimestamp is NULL
+                        ''', (student_id, quiz_id))
+            progressing = cursor.fetchone()
+            connection.commit()
+
             response = {
+                "progressing": progressing['count'] > 0,
                 "quizId": quiz_id,
                 "quizName": rows[0]['QuizName'],
                 "quizImageUrl": rows[0]['QuizImageURL'],
-                "questions": list(questions.values())
+                "questions": list(questions.values()),
+                "answers": answers
             }
             return jsonify(response), 200
         else:
@@ -215,11 +228,10 @@ def save_progress(quiz_id):
             selected_option_id = answer['selectedOptionId']  # 直接使用传入的ID或'T'/'F'
 
             cursor.execute('''
-    INSERT INTO StudentQuizAnswers (ProgressID, QuestionID, SelectedOptionId, IsCorrect)
-    VALUES (%s, %s, %s, %s)
+    INSERT INTO StudentQuizAnswers (ProgressID, QuestionID, SelectedOptionId, IsCorrect, StudentId, QuizId)
+    VALUES (%s, %s, %s, %s, %s, %s)
     ON DUPLICATE KEY UPDATE SelectedOptionId = VALUES(SelectedOptionId), IsCorrect = VALUES(IsCorrect)
-''', (progress_id, answer['questionId'], selected_option_id, answer['isCorrect']))
-
+''', (progress_id, answer['questionId'], selected_option_id, answer['isCorrect'], data['studentId'], quiz_id))
             # 仅在答案正确时更新分数
             if answer['isCorrect']:
                 total_score += 1

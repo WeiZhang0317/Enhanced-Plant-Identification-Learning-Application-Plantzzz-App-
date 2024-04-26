@@ -108,12 +108,16 @@ CREATE TABLE StudentQuizProgress (
 CREATE TABLE StudentQuizAnswers (
     AnswerID INT AUTO_INCREMENT PRIMARY KEY,
     ProgressID INT NOT NULL,
+    StudentID INT NOT NULL,
+    QuizID INT NOT NULL,
     QuestionID INT NOT NULL,
-     SelectedOptionID VARCHAR(255), 
+    SelectedOptionID VARCHAR(255),
     IsCorrect BOOLEAN DEFAULT FALSE,
     UNIQUE KEY progress_question_uniq (ProgressID, QuestionID),
     FOREIGN KEY (ProgressID) REFERENCES StudentQuizProgress(ProgressID) ON DELETE CASCADE,
-    FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID) ON DELETE CASCADE
+    FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID) ON DELETE CASCADE,
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (QuizID) REFERENCES Quizzes(QuizID)
 );
 
 
