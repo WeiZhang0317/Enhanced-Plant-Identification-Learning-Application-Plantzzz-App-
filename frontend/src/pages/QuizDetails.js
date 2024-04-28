@@ -26,7 +26,7 @@ const QuizDetails = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [question, setQuestion] = useState({});
   const [progressing, setProgressing] = useState(false);
-
+  
 
    useEffect(() => {
     const startTime = Date.now();
@@ -44,6 +44,7 @@ const QuizDetails = () => {
           answers[answer.QuestionID] = answer
         });
         setQuizAnswers(answers);
+
         data.questions.forEach(question => {
           if (question.questionType === 'true_false') {
             question.options = [
@@ -204,6 +205,9 @@ const submitQuiz = async () => {
 
   const totalQuestions = quizDetails.questions.length;
   const progress = (currentQuestionIndex + 1) / totalQuestions * 100;
+  const baseUrl = 'http://localhost:5000/static/';      
+        
+  
   return (
     <div className="quiz-container">
       <h1>{quizDetails.quizName}</h1>
@@ -213,7 +217,14 @@ const submitQuiz = async () => {
       </div>
       {question && question.questionId ? <div className="question-card">
         <h3>{question.questionText}</h3>
-        {question.imageUrl && <img src={question.imageUrl} alt={question.commonName} className="question-image" />}
+        {question.imageUrl && (
+          <img 
+            
+            src={`${baseUrl}${question.imageUrl}`} 
+            alt={question.commonName} 
+            className="question-image"
+          />
+        )}
         {question.options?.map((option) => (
             <button
                 key={option.optionId}
