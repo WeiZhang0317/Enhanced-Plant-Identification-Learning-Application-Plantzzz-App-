@@ -73,7 +73,10 @@ const QuizDetails = () => {
 
   const changeQuestion = useCallback((newIndex) => {
     setCurrentQuestionIndex(newIndex);
-    const questionId = quizDetails.questions[newIndex].questionId;
+    const currentQuestion = quizDetails.questions[newIndex]
+    setQuestion(currentQuestion)
+    const questionId = currentQuestion.questionId;
+
     if (answers[questionId]) {
       setSelectedOption(answers[questionId].selectedOptionId);
       setFeedback(answers[questionId].feedback);
