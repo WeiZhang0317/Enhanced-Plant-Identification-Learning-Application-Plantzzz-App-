@@ -291,3 +291,31 @@ def submit_quiz(quiz_id):
         if connection.is_connected():
             cursor.close()
             connection.close()
+
+
+@user_blueprint.route('/incorrect-answers/<int:progress_id>', methods=['GET'])
+def get_incorrect_answers(progress_id):
+    connection = get_db_connection()
+    try:
+        cursor = get_cursor(connection)
+        cursor.execute('''
+            SELECT q.QuestionText, q.CorrectAnswer, p.LatinName, p.CommonName
+            FROM Questions q
+            JOIN PlantNames p ON q.PlantID = p.PlantID
+            JOIN StudentQuizAnswers a ON q.QuestionID = a.QuestionID
+            WHERE a.ProgressID = %s AND a.IsCorrect = 0
+        ''', (progress_id,))
+        rows = cursor.fetchall()
+        incorrect_answers = [{
+            'questionText': row['QuestionText'],
+            'correctAnswer': row['CorrectAnswer'],
+            'latinName': row['LatinName'],
+            'commonName': row['CommonName']
+        } for row in rows]
+        return jsonify({'incorrectAnswers': incorrect_answers}), 200
+    except mysql.connector.Error as e:
+        return jsonify({'message': str(e)}), 500
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()

@@ -3,14 +3,14 @@ import { NavLink, Routes, Route } from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import Profile from './Profile';
 import AllQuizzes from './AllQuizzes';
-import OngoingQuizzes from './OngoingQuizzes';
+import StudentReview from './StudentReview';
 import CompletedQuizzes from './CompletedQuizzes';
 import QuizDetails from './QuizDetails';  
 import '../styles/StudentDashboard.css';
 
 function StudentDashboard() {
   const [allQuizzes, setAllQuizzes] = useState([]); // State for all quizzes
-  const [ongoingQuizzes] = useState([]); // Dummy state, add fetching logic similar to allQuizzes if required
+  const [studentReview] = useState([]); // Dummy state, add fetching logic similar to allQuizzes if required
   const [completedQuizzes] = useState([]); // Dummy state, add fetching logic similar to allQuizzes if required
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function StudentDashboard() {
         <div className="sidebar">
           <NavLink to="profile" className={getNavLinkClass}>Profile</NavLink>
           <NavLink to="all-quizzes" className={getNavLinkClass}>All Quizzes</NavLink>
-          <NavLink to="ongoing-quizzes" className={getNavLinkClass}>Ongoing Quizzes</NavLink>
+          <NavLink to="ongoing-quizzes" className={getNavLinkClass}> Quizzes</NavLink>
           <NavLink to="completed-quizzes" className={getNavLinkClass}>Completed Quizzes</NavLink>
         </div>
         <div className="main-content" style={{ flexGrow: 1 }}>
@@ -45,7 +45,7 @@ function StudentDashboard() {
             <Route path="profile" element={<Profile />} />
             <Route path="all-quizzes" element={<AllQuizzes quizzes={allQuizzes} />} />
             <Route path="quiz/:quizId" element={<QuizDetails />} />
-            <Route path="ongoing-quizzes" element={<OngoingQuizzes quizzes={ongoingQuizzes} />} />
+            <Route path="incorrect-answers/:progressId" element={<StudentReview quizzes={studentReview} />} />
             <Route path="completed-quizzes" element={<CompletedQuizzes quizzes={completedQuizzes} />} />
             <Route index element={<Profile />} />
           </Routes>
