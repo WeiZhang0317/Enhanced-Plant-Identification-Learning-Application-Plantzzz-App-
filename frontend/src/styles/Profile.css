@@ -4,32 +4,31 @@
   align-items: center;
   padding: 20px;
   margin-top: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);  /* 更轻微的阴影效果 */
-  border-radius: 10px;                     /* 圆角稍微增加 */
-  background-color: #f9f9f9;               /* 轻柔的背景色 */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);  
+  border-radius: 10px;                     
+  background-color: #f9f9f9;               
   width: 100%;
-  max-width: 600px;                        /* 更合理的最大宽度 */
-  margin: 40px auto;                       /* 更大的上下边距 */
+  max-width: 600px;                        
+  margin: 40px auto;                       
   text-align: center;
-  border: 1px solid #ddd;                  /* 细致的边框 */
+  border: 1px solid #ddd;                 
 }
 
 .profile h1 {
-  color: #4CAF50;                          /* 主题绿色 */
-  margin: 20px 0;                          /* 调整边距 */
+  color: #4CAF50;                          
+  margin: 20px 0;                         
 }
 
 .profile p {
   font-size: 16px;
   line-height: 1.5;
-  color: #666;                             /* 更柔和的文字颜色 */
+  color: #666;                             
 }
 
 .student-avatar {
-  width: 120px;                            /* 更小的头像尺寸 */
+  width: 120px;                            
   height: 120px;
   border-radius: 50%;
   margin-bottom: 20px;
-  border: 3px solid #4CAF50;               /* 突出的绿色边框 */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);   /* 统一阴影样式 */
-}
+  border: 3px solid #4CAF50;               
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);  } 
