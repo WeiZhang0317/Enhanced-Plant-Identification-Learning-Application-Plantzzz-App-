@@ -292,28 +292,32 @@ def submit_quiz(quiz_id):
             cursor.close()
             connection.close()
 
-
-@user_blueprint.route('/incorrect-answers/<int:progress_id>', methods=['GET'])
-def get_incorrect_answers(progress_id):
+@user_blueprint.route('/progress-list', methods=['GET'])
+def get_progress_list():
     connection = get_db_connection()
     try:
         cursor = get_cursor(connection)
+        # 联接 StudentQuizProgress 和 Quizzes 表来获取所需信息
         cursor.execute('''
-            SELECT q.QuestionText, q.CorrectAnswer, p.LatinName, p.CommonName
-            FROM Questions q
-            JOIN PlantNames p ON q.PlantID = p.PlantID
-            JOIN StudentQuizAnswers a ON q.QuestionID = a.QuestionID
-            WHERE a.ProgressID = %s AND a.IsCorrect = 0
-        ''', (progress_id,))
-        rows = cursor.fetchall()
-        incorrect_answers = [{
-            'questionText': row['QuestionText'],
-            'correctAnswer': row['CorrectAnswer'],
-            'latinName': row['LatinName'],
-            'commonName': row['CommonName']
-        } for row in rows]
-        return jsonify({'incorrectAnswers': incorrect_answers}), 200
-    except mysql.connector.Error as e:
+            SELECT 
+                p.ProgressID,
+                q.QuizName,
+                p.StartTimestamp
+            FROM StudentQuizProgress p
+            JOIN Quizzes q ON p.QuizID = q.QuizID
+        ''')
+        progresses = cursor.fetchall()
+
+        # 格式化返回前端的数据
+        progress_list = [{
+            'progressId': progress['ProgressID'],
+            'quizName': progress['QuizName'],
+            'startTimestamp': progress['StartTimestamp'].isoformat() if progress['StartTimestamp'] else None
+        } for progress in progresses]
+
+        return jsonify(progress_list), 200
+
+    except Error as e:
         return jsonify({'message': str(e)}), 500
     finally:
         if connection.is_connected():
