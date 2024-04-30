@@ -3,15 +3,14 @@ import { NavLink, Routes, Route } from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import Profile from './Profile';
 import AllQuizzes from './AllQuizzes';
-import OngoingQuizzes from './OngoingQuizzes';
-import CompletedQuizzes from './CompletedQuizzes';
+import StudentReview from './StudentReview';
+import MistakeSummary from './MistakeSummary';
+import ScoreRanking from './ScoreRanking';
 import QuizDetails from './QuizDetails';  
 import '../styles/StudentDashboard.css';
 
 function StudentDashboard() {
-  const [allQuizzes, setAllQuizzes] = useState([]); // State for all quizzes
-  const [ongoingQuizzes] = useState([]); // Dummy state, add fetching logic similar to allQuizzes if required
-  const [completedQuizzes] = useState([]); // Dummy state, add fetching logic similar to allQuizzes if required
+  const [allQuizzes, setAllQuizzes] = useState([]); 
 
   useEffect(() => {
     // Fetch all quizzes when component mounts using full URL
@@ -37,16 +36,17 @@ function StudentDashboard() {
         <div className="sidebar">
           <NavLink to="profile" className={getNavLinkClass}>Profile</NavLink>
           <NavLink to="all-quizzes" className={getNavLinkClass}>All Quizzes</NavLink>
-          <NavLink to="ongoing-quizzes" className={getNavLinkClass}>Ongoing Quizzes</NavLink>
-          <NavLink to="completed-quizzes" className={getNavLinkClass}>Completed Quizzes</NavLink>
+          <NavLink to="question-review" className={getNavLinkClass}>Question Review</NavLink>
+          <NavLink to="score-ranking" className={getNavLinkClass}>Score Ranking</NavLink>
         </div>
         <div className="main-content" style={{ flexGrow: 1 }}>
           <Routes>
             <Route path="profile" element={<Profile />} />
             <Route path="all-quizzes" element={<AllQuizzes quizzes={allQuizzes} />} />
             <Route path="quiz/:quizId" element={<QuizDetails />} />
-            <Route path="ongoing-quizzes" element={<OngoingQuizzes quizzes={ongoingQuizzes} />} />
-            <Route path="completed-quizzes" element={<CompletedQuizzes quizzes={completedQuizzes} />} />
+            <Route path="question-review" element={<StudentReview />} />  {/* 已更新，不再传递 quizzes */}
+            <Route path="incorrect-answers/:progressId" element={<MistakeSummary />} />
+            <Route path="score-ranking" element={<ScoreRanking />} />
             <Route index element={<Profile />} />
           </Routes>
         </div>
@@ -56,4 +56,3 @@ function StudentDashboard() {
 }
 
 export default StudentDashboard;
-

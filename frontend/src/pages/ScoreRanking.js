@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaRegCheckCircle } from 'react-icons/fa';
 
-const CompletedQuizzes = ({ quizzes }) => {
+const ScoreRanking = ({ quizzes }) => {
   return (
     <div>
       <h2>Completed Quizzes</h2>
@@ -15,4 +15,4 @@ const CompletedQuizzes = ({ quizzes }) => {
   );
 };
 
-export default CompletedQuizzes;
+export default ScoreRanking;
