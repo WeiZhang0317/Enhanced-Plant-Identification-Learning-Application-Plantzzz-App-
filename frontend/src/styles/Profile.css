@@ -4,30 +4,32 @@
   align-items: center;
   padding: 20px;
   margin-top: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  background-color: white;
-  width: 100%; /* Increased width */
-  max-width: 1200px; /* Increased max-width */
-  margin: 20px auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);  /* 更轻微的阴影效果 */
+  border-radius: 10px;                     /* 圆角稍微增加 */
+  background-color: #f9f9f9;               /* 轻柔的背景色 */
+  width: 100%;
+  max-width: 600px;                        /* 更合理的最大宽度 */
+  margin: 40px auto;                       /* 更大的上下边距 */
   text-align: center;
+  border: 1px solid #ddd;                  /* 细致的边框 */
 }
 
 .profile h1 {
-  color: #4CAF50;
-  margin-bottom: 20px;
+  color: #4CAF50;                          /* 主题绿色 */
+  margin: 20px 0;                          /* 调整边距 */
 }
 
 .profile p {
   font-size: 16px;
   line-height: 1.5;
-  color: #333;
+  color: #666;                             /* 更柔和的文字颜色 */
 }
 
-/* Add styles for the student avatar */
 .student-avatar {
-  width: 150px; /* Increased size */
-  height: 150px; /* Maintain aspect ratio */
-  border-radius: 50%; /* Keeps the image circular */
-  margin-bottom: 20px; /* Space between the image and the greeting */
+  width: 120px;                            /* 更小的头像尺寸 */
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  border: 3px solid #4CAF50;               /* 突出的绿色边框 */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);   /* 统一阴影样式 */
 }
