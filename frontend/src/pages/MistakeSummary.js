@@ -59,8 +59,9 @@ const MistakeSummary = () => {
               <td>{answer.questionText}</td>
               <td>{answer.selectedOption}</td>
               <td>{answer.correctAnswer}</td>
-              <td>{answer.latinName}</td>
-              <td>{answer.commonName}</td>
+              <td className="latin-name">{answer.latinName}</td>
+              <td className="common-name">{answer.commonName}</td>
+
             </tr>
           ))}
         </tbody>
