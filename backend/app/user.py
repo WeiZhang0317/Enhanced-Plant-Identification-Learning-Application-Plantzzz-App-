@@ -323,3 +323,80 @@ def get_progress_list():
         if connection.is_connected():
             cursor.close()
             connection.close()
+
+@user_blueprint.route('/incorrect-answers/<int:progress_id>', methods=['GET'])
+def get_incorrect_answers(progress_id):
+    connection = get_db_connection()
+    try:
+        cursor = get_cursor(connection)
+        cursor.execute('''
+            SELECT 
+                q.QuestionText, 
+                a.SelectedOptionID, 
+                q.CorrectAnswer,
+                p.LatinName, 
+                p.CommonName,
+                q.QuestionID
+            FROM StudentQuizAnswers a
+            JOIN Questions q ON a.QuestionID = q.QuestionID
+            JOIN PlantNames p ON q.PlantID = p.PlantID
+            WHERE a.ProgressID = %s AND a.IsCorrect = 0
+        ''', (progress_id,))
+        answers = cursor.fetchall()
+        
+        # Process each answer to check if it's 'T', 'F' or an option ID
+        for answer in answers:
+            if answer['SelectedOptionID'] == 'T':
+                answer['SelectedOption'] = 'True'
+            elif answer['SelectedOptionID'] == 'F':
+                answer['SelectedOption'] = 'False'
+            else:
+                # Retrieve the full option details if it's not 'T' or 'F'
+                cursor.execute('''
+                    SELECT OptionLabel, OptionText
+                    FROM QuestionOptions
+                    WHERE QuestionID = %s AND OptionID = %s
+                ''', (answer['QuestionID'], answer['SelectedOptionID']))
+                option_details = cursor.fetchone()
+                if option_details:
+                    answer['SelectedOption'] = f"{option_details['OptionLabel']}. {option_details['OptionText']}"
+                else:
+                    answer['SelectedOption'] = 'Unknown Option'
+
+        return jsonify([{
+            'questionText': ans['QuestionText'],
+            'selectedOption': ans['SelectedOption'],
+            'correctAnswer': ans['CorrectAnswer'],
+            'latinName': ans['LatinName'],
+            'commonName': ans['CommonName']
+        } for ans in answers]), 200
+    except Error as e:
+        return jsonify({'message': str(e)}), 500
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+
+
+@user_blueprint.route('/delete-progress/<int:progress_id>', methods=['DELETE'])
+def delete_progress(progress_id):
+    connection = get_db_connection()
+    try:
+        cursor = get_cursor(connection)
+        # Delete associated answers first to maintain foreign key constraints
+        cursor.execute('''
+            DELETE FROM StudentQuizAnswers WHERE ProgressID = %s
+        ''', (progress_id,))
+        # Delete the progress record
+        cursor.execute('''
+            DELETE FROM StudentQuizProgress WHERE ProgressID = %s
+        ''', (progress_id,))
+        connection.commit()
+        return jsonify({'message': 'Progress record deleted successfully'}), 200
+    except Error as e:
+        connection.rollback()
+        return jsonify({'message': str(e)}), 500
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()

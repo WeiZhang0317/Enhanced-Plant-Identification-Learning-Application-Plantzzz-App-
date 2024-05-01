@@ -1,0 +1,88 @@
+.mistake-summary {
+          padding: 20px;
+          background-color: #fff;
+          border-radius: 8px;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+          margin: 20px;
+          text-align: center;
+      }
+      
+      .mistake-summary h2 {
+          color: #333;
+      }
+      
+      .mistake-summary p {
+          color: #666;
+          font-size: 16px;
+      }
+      
+      .mistake-summary table {
+          width: 100%;
+          margin-top: 20px;
+          border-collapse: collapse;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      }
+      
+      .mistake-summary th,
+      .mistake-summary td {
+          padding: 12px;
+          border: 1px solid #ccc;
+          text-align: left;
+      }
+      
+      .mistake-summary th {
+          background-color: #f5f5f5;
+      }
+      
+      .mistake-summary td {
+          background-color: #fafafa;
+      }
+      
+      .mistake-summary tr:nth-child(even) td {
+          background-color: #f0f0f0;
+      }
+      
+      .mistake-summary tr:hover {
+          background-color: #e1f5fe;
+      }
+      
+      /* Add responsiveness to table */
+      @media (max-width: 600px) {
+          .mistake-summary table,
+          .mistake-summary thead,
+          .mistake-summary tbody,
+          .mistake-summary th,
+          .mistake-summary td,
+          .mistake-summary tr {
+              display: block;
+          }
+      
+          .mistake-summary thead tr {
+              position: absolute;
+              top: -9999px;
+              left: -9999px;
+          }
+      
+          .mistake-summary tr {
+              border: 1px solid #ccc;
+          }
+      
+          .mistake-summary td {
+              border: none;
+              border-bottom: 1px solid #eee;
+              position: relative;
+              padding-left: 50%;
+          }
+      
+          .mistake-summary td:before {
+              position: absolute;
+              top: 12px;
+              left: 6px;
+              width: 45%;
+              padding-right: 10px;
+              white-space: nowrap;
+              font-weight: bold;
+              content: attr(data-label);
+          }
+      }
+      

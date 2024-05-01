@@ -1,28 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/StudentReview.css'; // 确保有相应的CSS文件和样式
+import '../styles/StudentReview.css';
 
 const StudentReview = () => {
     const [progressList, setProgressList] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchProgress = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/user/progress-list'); // 确保后端提供这个API
-                const data = await response.json();
-                console.log(data); 
-                setProgressList(data);
-            } catch (error) {
-                console.error('Failed to fetch progress:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    // Define fetchProgress outside useEffect to use it in handleDelete as well
+    const fetchProgress = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/user/progress-list');
+            const data = await response.json();
+            console.log(data);
+            setProgressList(data);
+        } catch (error) {
+            console.error('Failed to fetch progress:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchProgress();
     }, []);
+
+    const handleDelete = async (progressId) => {
+        if (window.confirm('Are you sure you want to delete this record?')) {
+            try {
+                const response = await fetch(`http://localhost:5000/user/delete-progress/${progressId}`, { method: 'DELETE' });
+                const data = await response.json();
+                alert(data.message);
+                fetchProgress();  // Reload the progress list to reflect the deletion
+            } catch (error) {
+                console.error('Failed to delete progress:', error);
+            }
+        }
+    };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -34,15 +48,19 @@ const StudentReview = () => {
 
     return (
         <div className="student-review">
-            <h1>Quiz Progress Overview</h1>
+            <h2>Quiz Mistake Summary</h2>
             <ul className="progress-list">
                 {progressList.map((progress) => (
                     <li key={progress.progressId} className="progress-item">
                         <h2>{progress.quizName}</h2>
                         <p>Started on: {new Date(progress.startTimestamp).toLocaleString()}</p>
-                        <button onClick={() => navigate(`/quiz-review/${progress.progressId}`)}>
-                            Review Quiz
+                        <button onClick={() => navigate(`incorrect-answers/${progress.progressId}`)}>
+                            Review Quiz Mistakes
                         </button>
+                        <button className="button-delete" onClick={() => handleDelete(progress.progressId)}>
+                            Delete This Record
+                        </button>
+
                     </li>
                 ))}
             </ul>

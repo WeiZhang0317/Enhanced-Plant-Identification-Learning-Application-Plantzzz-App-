@@ -54,7 +54,9 @@
         transition: background-color 0.3s ease, transform 0.2s ease; /* Enhanced transitions */
         border-radius: 4px; /* Rounded corners for modern design */
         box-shadow: 0 1px 3px rgba(0,0,0,0.12); /* Subtle shadow for depth */
+        color: #000; /* Set font color to black */
     }
+    
     
     .option-button:hover, .option-button.selected {
         background-color: #4CAF50; /* Solid green on hover/selected for better visibility */

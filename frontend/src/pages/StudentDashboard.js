@@ -36,7 +36,7 @@ function StudentDashboard() {
         <div className="sidebar">
           <NavLink to="profile" className={getNavLinkClass}>Profile</NavLink>
           <NavLink to="all-quizzes" className={getNavLinkClass}>All Quizzes</NavLink>
-          <NavLink to="question-review" className={getNavLinkClass}>Question Review</NavLink>
+          <NavLink to="question-review" className={getNavLinkClass}>Finished Quiz Review</NavLink>
           <NavLink to="score-ranking" className={getNavLinkClass}>Score Ranking</NavLink>
         </div>
         <div className="main-content" style={{ flexGrow: 1 }}>
@@ -45,7 +45,7 @@ function StudentDashboard() {
             <Route path="all-quizzes" element={<AllQuizzes quizzes={allQuizzes} />} />
             <Route path="quiz/:quizId" element={<QuizDetails />} />
             <Route path="question-review" element={<StudentReview />} />  {/* 已更新，不再传递 quizzes */}
-            <Route path="incorrect-answers/:progressId" element={<MistakeSummary />} />
+            <Route path="question-review/incorrect-answers/:progressId" element={<MistakeSummary />} />
             <Route path="score-ranking" element={<ScoreRanking />} />
             <Route index element={<Profile />} />
           </Routes>
