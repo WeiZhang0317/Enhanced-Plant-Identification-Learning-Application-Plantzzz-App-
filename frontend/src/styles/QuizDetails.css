@@ -7,6 +7,15 @@
         box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* subtle shadow for depth */
         background-color: #fff; /* ensures readability */
     }
+
+    .quiz-container h1 {
+        font-size: 24px; 
+        color: #333; 
+        text-align: center; /* Centers the header if not already centered */
+        margin-top: 0;
+        margin-bottom: 20px; /* Adds some space below the header */
+    }
+    
     
     .question-card {
         margin-bottom: 20px;
@@ -17,13 +26,20 @@
     }
     
     .question-image {
-        width: 100%;
-        max-width: 600px;
-        height: auto;
+        height: 200px; /* Fixed height */
+        width: auto; /* Width automatically adjusts to maintain aspect ratio */
         margin: 10px 0;
-        border-radius: 4px; /* rounded corners for images */
+        border-radius: 4px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds shadow for depth */
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition for transform and shadow */
     }
     
+    .question-image:hover {
+        transform: scale(1.05); /* Slightly enlarges the image on hover */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Darker shadow on hover for a 'lifting' effect */
+    }
+    
+
     .progress-bar {
         width: 100%;
         background-color: #f3f3f3;
