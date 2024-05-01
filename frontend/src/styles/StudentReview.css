@@ -26,22 +26,22 @@
           box-shadow: 0 4px 10px rgba(0,0,0,0.15);
       }
       
-      h1 {
+      .student-review h1 {
           color: #333;
           text-align: center;
       }
       
-      h2 {
+      .student-review h2 {
           color: #4c4b4b;
           margin-top: 10px;
       }
       
-      p {
+      .student-review p {
           font-size: 14px;
           color: #666;
       }
       
-      button {
+      .student-review button {
           display: block;
           width: 100%;
           padding: 10px 20px;
@@ -56,14 +56,15 @@
           font-weight: bold;
       }
       
-      button:hover {
+      .student-review button:hover {
           background-color: #45a049;
       }
       
-      .button-delete {
+      .student-review .button-delete {
         background-color: #d37474; /* Red color for delete button */
     }
     
-    .button-delete:hover {
-        background-color:#b76868; /* Darker red on hover */
+    .student-review .button-delete:hover {
+        background-color: #b76868; /* Darker red on hover */
     }
+    
