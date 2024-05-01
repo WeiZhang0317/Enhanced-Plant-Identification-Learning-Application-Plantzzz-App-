@@ -26,7 +26,18 @@ const QuizDetails = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [question, setQuestion] = useState({});
   const [progressing, setProgressing] = useState(false);
+  const [showLightbox, setShowLightbox] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState('');
   
+   // Handlers for lightbox functionality
+   const handleImageClick = (imageUrl) => {
+    setShowLightbox(true);
+    setLightboxImage(imageUrl);
+  };
+
+  const closeLightbox = () => {
+    setShowLightbox(false);
+  };
 
    useEffect(() => {
     const startTime = Date.now();
@@ -223,6 +234,7 @@ const submitQuiz = async () => {
             src={`${baseUrl}${question.imageUrl}`} 
             alt={question.commonName} 
             className="question-image"
+            onClick={() => handleImageClick(`${baseUrl}${question.imageUrl}`)}
           />
         )}
         {question.options?.map((option) => (
@@ -240,6 +252,15 @@ const submitQuiz = async () => {
               {feedback}
             </div>
         )}
+         {/* Lightbox Overlay */}
+         {showLightbox && (
+        <div className="lightbox-overlay" onClick={closeLightbox}>
+          <img src={lightboxImage} alt="Enlarged view" className="lightbox-image" />
+          <button onClick={closeLightbox} className="lightbox-close">Close</button>
+        </div>
+      )}
+
+
       </div> : ''}
       <div className="navigation-buttons">
       <button onClick={() => changeQuestion(currentQuestionIndex - 1)} disabled={currentQuestionIndex === 0 || isSubmitted}>Previous</button>
