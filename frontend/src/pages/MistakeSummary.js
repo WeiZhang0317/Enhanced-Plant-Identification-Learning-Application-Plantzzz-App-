@@ -26,11 +26,16 @@ const MistakeSummary = () => {
     fetchIncorrectAnswers();
   }, [progressId]);
 
+  const handleNameClick = (latinName, commonName) => {
+    const query = latinName || commonName; // Prefer Latin name if available, otherwise use common name
+    const url = `https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(query)}`;
+    window.open(url, '_blank'); // Opens the search in a new tab
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // Check if the incorrect answers array is empty
   if (incorrectAnswers.length === 0) {
     return (
       <div className="mistake-summary">
@@ -43,6 +48,7 @@ const MistakeSummary = () => {
   return (
     <div className="mistake-summary">
       <h2>Review Incorrect Answers</h2>
+      <p>Click on bold plant name to learn more about it on Wikipedia.</p> {/* Instructional text */}
       <table>
         <thead>
           <tr>
@@ -59,9 +65,13 @@ const MistakeSummary = () => {
               <td>{answer.questionText}</td>
               <td>{answer.selectedOption}</td>
               <td>{answer.correctAnswer}</td>
-              <td className="latin-name">{answer.latinName}</td>
-              <td className="common-name">{answer.commonName}</td>
-
+              <td className="latin-name" onClick={() => handleNameClick(answer.latinName, answer.commonName)}>
+                <span className="icon-leaf"></span>
+                {answer.latinName}
+              </td>
+              <td className="common-name" onClick={() => handleNameClick(answer.latinName, answer.commonName)}>
+                {answer.commonName}
+              </td>
             </tr>
           ))}
         </tbody>

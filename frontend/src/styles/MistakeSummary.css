@@ -3,9 +3,9 @@
           background-color: #fff;
           border-radius: 8px;
           box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-          margin: 20px auto; /* Centering the table container */
-          text-align: center;
+          margin: 20px auto; /* Center the summary */
           width: 90%; /* Adjust width as per requirement */
+          text-align: center;
       }
       
       .mistake-summary h2 {
@@ -24,8 +24,7 @@
           box-shadow: 0 4px 8px rgba(0,0,0,0.05);
       }
       
-      .mistake-summary th,
-      .mistake-summary td {
+      .mistake-summary th, .mistake-summary td {
           padding: 12px;
           border: 1px solid #ccc;
           text-align: left;
@@ -39,11 +38,11 @@
           background-color: #fafafa;
       }
       
-      /* Specific styles for important columns */
-      .mistake-summary td.latin-name,
-      .mistake-summary td.common-name {
+      /* Highlight columns for Latin and Common names */
+      .mistake-summary .latin-name, .mistake-summary .common-name {
+          cursor: pointer;
           font-weight: bold;
-          background-color: #e3f2fd; /* Light blue background for emphasis */
+          background-color: #d9fce4; /* Light blue background for emphasis */
       }
       
       .mistake-summary tr:nth-child(even) td {
@@ -51,17 +50,23 @@
       }
       
       .mistake-summary tr:hover {
-          background-color: #e1f5fe;
+          background-color: #d9fce4;
       }
       
-      /* Responsive adjustments */
+      /* Add icon styles */
+      .icon-leaf {
+          display: inline-block;
+          margin-right: 5px;
+          /* Add your icon background here */
+          width: 16px; /* Icon size */
+          height: 16px; /* Icon size */
+          background-image: url('../../public/favicon.ico');
+          background-size: cover;
+      }
+      
+      /* Responsive adjustments for mobile devices */
       @media (max-width: 600px) {
-          .mistake-summary table,
-          .mistake-summary thead,
-          .mistake-summary tbody,
-          .mistake-summary th,
-          .mistake-summary td,
-          .mistake-summary tr {
+          .mistake-summary table, .mistake-summary thead, .mistake-summary tbody, .mistake-summary th, .mistake-summary td, .mistake-summary tr {
               display: block;
           }
       
@@ -69,10 +74,6 @@
               position: absolute;
               top: -9999px;
               left: -9999px;
-          }
-      
-          .mistake-summary tr {
-              border: 1px solid #ccc;
           }
       
           .mistake-summary td {
