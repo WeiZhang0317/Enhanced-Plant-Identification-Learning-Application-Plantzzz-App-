@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import goldMedal from "../images/medal1.png";
+import silverMedal from "../images/medal2.png";
+import bronzeMedal from "../images/medal3.png";
+import '../styles/ScoreRanking.css';
 
 const ScoreRanking = () => {
     const [rankings, setRankings] = useState([]);
@@ -10,9 +14,9 @@ const ScoreRanking = () => {
                 const response = await fetch('http://localhost:5000/user/score-rankings');
                 const data = await response.json();
                 setRankings(data.map(item => ({
-                    username: item.Username, // Assuming the backend returns 'Username'
-                    score: item.Score,       // Assuming 'Score' is returned as a number or string that needs no conversion
-                    timeTaken: item.TimeTaken // Assuming 'TimeTaken' is returned correctly
+                    username: item.Username,
+                    score: item.Score,
+                    timeTaken: item.TimeTaken
                 })));
                 setLoading(false);
             } catch (error) {
@@ -20,28 +24,28 @@ const ScoreRanking = () => {
                 setLoading(false);
             }
         };
-
         fetchRankings();
     }, []);
 
     if (loading) {
-        return <div>Loading rankings...</div>;
+        return <div className="loading">Loading rankings...</div>;
     }
 
     if (!rankings.length) {
-        return <div>No rankings found.</div>;
+        return <div className="no-rankings">No rankings found.</div>;
     }
 
     return (
-        <div>
+        <div className="score-ranking-container">
             <h1>Student Score Rankings</h1>
             <p>This ranking is based on the total score and time taken to complete the quizzes.</p>
-            <table>
+            <table className="score-ranking-table">
                 <thead>
                     <tr>
                         <th>Student Name</th>
                         <th>Score</th>
                         <th>Time Taken (seconds)</th>
+                        <th>Medal</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,6 +54,11 @@ const ScoreRanking = () => {
                             <td>{ranking.username}</td>
                             <td>{ranking.score !== undefined ? ranking.score.toString() : 'N/A'}</td>
                             <td>{ranking.timeTaken}</td>
+                            <td>
+                                {index === 0 && <img src={goldMedal} alt="Gold Medal" className="medal-img" />}
+                                {index === 1 && <img src={silverMedal} alt="Silver Medal" className="medal-img" />}
+                                {index === 2 && <img src={bronzeMedal} alt="Bronze Medal" className="medal-img" />}
+                            </td>
                         </tr>
                     ))}
                 </tbody>

@@ -1,0 +1,64 @@
+.score-ranking-container {
+          max-width: 800px;
+          margin: 20px auto;
+          padding: 20px;
+          background-color: #fff;
+          border-radius: 10px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+      
+      .score-ranking-container h1 {
+          text-align: center;
+          color: #333;
+      }
+      
+      .score-ranking-container p {
+          text-align: center;
+          color: #666;
+          margin-bottom: 20px;
+      }
+      
+      .score-ranking-table {
+          width: 100%;
+          border-collapse: collapse;
+      }
+      
+      .score-ranking-table thead th {
+          background-color: #4CAF50;
+          color: white;
+          padding: 10px;
+          text-align: left;
+      }
+      
+      .score-ranking-table tbody td {
+          padding: 10px;
+          border-bottom: 1px solid #ddd;
+          text-align: left;
+      }
+      
+      .score-ranking-table tbody tr:hover {
+          background-color: #f5f5f5;
+      }
+      
+      .medal-img {
+          height: 30px; /* Fixed height for uniform display */
+          width: auto;
+          display: block;
+          margin: auto;
+      }
+      
+      .loading, .no-rankings {
+          text-align: center;
+          padding: 20px;
+      }
+      
+      .loading {
+          font-size: 1.2em;
+          color: #666;
+      }
+      
+      .no-rankings {
+          font-size: 1em;
+          color: #888;
+      }
+      
