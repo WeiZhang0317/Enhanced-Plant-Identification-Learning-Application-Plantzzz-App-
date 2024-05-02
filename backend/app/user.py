@@ -400,3 +400,29 @@ def delete_progress(progress_id):
         if connection.is_connected():
             cursor.close()
             connection.close()
+
+@user_blueprint.route('/score-rankings', methods=['GET'])
+def get_score_rankings():
+    connection = get_db_connection()
+    try:
+        cursor = get_cursor(connection)
+        # Include only records where EndTimestamp is not NULL
+        cursor.execute('''
+            SELECT u.Username, p.Score, 
+       TIMESTAMPDIFF(SECOND, p.StartTimestamp, p.EndTimestamp) as TimeTaken
+    FROM StudentQuizProgress p
+    JOIN Students s ON p.StudentID = s.StudentID
+    JOIN Users u ON s.UserID = u.UserID
+    WHERE p.EndTimestamp IS NOT NULL
+    ORDER BY p.Score DESC, TimeTaken ASC;
+
+        ''')
+        rankings = cursor.fetchall()
+        print(rankings) 
+        return jsonify(rankings), 200
+    except Error as e:
+        return jsonify({'message': str(e)}), 500
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
