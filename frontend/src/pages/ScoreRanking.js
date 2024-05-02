@@ -24,6 +24,7 @@ const ScoreRanking = () => {
                 setLoading(false);
             }
         };
+
         fetchRankings();
     }, []);
 
@@ -50,7 +51,7 @@ const ScoreRanking = () => {
                 </thead>
                 <tbody>
                     {rankings.map((ranking, index) => (
-                        <tr key={index}>
+                        <tr key={index} className={`table-row ${index < 3 ? 'top-three' : ''}`}>
                             <td>{ranking.username}</td>
                             <td>{ranking.score !== undefined ? ranking.score.toString() : 'N/A'}</td>
                             <td>{ranking.timeTaken}</td>
