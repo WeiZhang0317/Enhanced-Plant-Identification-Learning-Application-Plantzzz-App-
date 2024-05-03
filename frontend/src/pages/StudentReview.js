@@ -7,12 +7,11 @@ const StudentReview = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    // Define fetchProgress outside useEffect to use it in handleDelete as well
+    // Define fetchProgress here to use it inside useEffect and handleDelete
     const fetchProgress = async () => {
         try {
             const response = await fetch('http://localhost:5000/user/progress-list');
             const data = await response.json();
-            console.log(data);
             setProgressList(data);
         } catch (error) {
             console.error('Failed to fetch progress:', error);
@@ -31,7 +30,7 @@ const StudentReview = () => {
                 const response = await fetch(`http://localhost:5000/user/delete-progress/${progressId}`, { method: 'DELETE' });
                 const data = await response.json();
                 alert(data.message);
-                fetchProgress();  // Reload the progress list to reflect the deletion
+                fetchProgress(); // Reload the progress list to reflect the deletion
             } catch (error) {
                 console.error('Failed to delete progress:', error);
             }
@@ -39,11 +38,11 @@ const StudentReview = () => {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="loading">Loading...</div>;
     }
 
     if (progressList.length === 0) {
-        return <div>No quiz progress found.</div>;
+        return <div className="no-rankings">No quiz progress found.</div>;
     }
 
     return (
@@ -60,7 +59,6 @@ const StudentReview = () => {
                         <button className="button-delete" onClick={() => handleDelete(progress.progressId)}>
                             Delete This Record
                         </button>
-
                     </li>
                 ))}
             </ul>

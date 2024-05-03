@@ -11,7 +11,13 @@
   max-width: 600px;                        
   margin: 40px auto;                       
   text-align: center;
-  border: 1px solid #ddd;                 
+  border: 1px solid #ddd;   
+  animation: fadeIn 1s;              
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .profile h1 {

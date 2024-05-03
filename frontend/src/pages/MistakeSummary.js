@@ -70,6 +70,7 @@ const MistakeSummary = () => {
                 {answer.latinName}
               </td>
               <td className="common-name" onClick={() => handleNameClick(answer.latinName, answer.commonName)}>
+               <span className="icon-leaf"></span>
                 {answer.commonName}
               </td>
             </tr>

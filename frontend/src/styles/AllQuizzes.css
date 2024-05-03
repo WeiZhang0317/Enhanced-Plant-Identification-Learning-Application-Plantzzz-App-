@@ -1,7 +1,11 @@
-.all-quizzes {
-        padding: 20px;
+      .all-quizzes {
+              padding: 20px;
+              animation: fadeIn 1s;
+            }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
       }
-      
       .quiz-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
