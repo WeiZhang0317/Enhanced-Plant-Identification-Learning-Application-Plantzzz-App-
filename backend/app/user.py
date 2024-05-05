@@ -77,20 +77,20 @@ def logout():
 @user_blueprint.route('/update-profile', methods=['POST'])
 def update_profile():
     data = request.json
-    print(data)
     user_id = data.get('userId')  # 从前端发送的数据中获取用户ID
-    print(user_id)
     if not user_id:
         return jsonify({"message": "User ID not provided"}), 400
 
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
     try:
+        # 首先验证用户是否存在
         cursor.execute("SELECT Password FROM Users WHERE UserID = %s", (user_id,))
         user = cursor.fetchone()
         if not user:
             return jsonify({"message": "User not found"}), 404
 
+        # 更新密码，如果提供了新密码和当前密码
         if 'newPassword' in data and 'currentPassword' in data:
             if check_password_hash(user['Password'], data['currentPassword']):
                 new_password_hashed = generate_password_hash(data['newPassword'])
@@ -98,10 +98,16 @@ def update_profile():
             else:
                 return jsonify({"message": "Current password is incorrect"}), 401
 
+        # 更新用户名和邮箱
         if 'username' in data and 'email' in data:
             cursor.execute("UPDATE Users SET Username = %s, Email = %s WHERE UserID = %s", (data['username'], data['email'], user_id))
+
+        # 提交更改并重新获取用户数据
         connection.commit()
-        return jsonify(user), 200
+        cursor.execute("SELECT UserID, Username, Email, UserType FROM Users WHERE UserID = %s", (user_id,))
+        updated_user = cursor.fetchone()
+        return jsonify(updated_user), 200  # 返回更新后的用户信息
+
     except Exception as e:
         connection.rollback()
         return jsonify({"message": str(e)}), 500
