@@ -1,40 +1,54 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUserContext } from '../contexts/UserContext';
 import '../styles/Profile.css';
 import studentAvatar from '../images/student.png';
 
 const Profile = () => {
-    const { user, setUser } = useUserContext(); // Assuming setUser is used to update context
+    const { user, setUser } = useUserContext();
     const [editing, setEditing] = useState(false);
     const [username, setUsername] = useState(user ? user.username : '');
     const [email, setEmail] = useState(user ? user.email : '');
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+
+    useEffect(() => {
+        setUsername(user ? user.username : '');
+        setEmail(user ? user.email : '');
+    }, [user]);
 
     const handleEditToggle = () => setEditing(!editing);
 
     const handleSave = async () => {
         try {
+            const userData = { username, email, newPassword, userId: user.userId };
             const response = await fetch('http://localhost:5000/user/update-profile', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, email, newPassword })
+                body: JSON.stringify(userData)
             });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const result = await response.json();
-            setUser(result); // Update the user context
+            if (setUser) {
+                setUser(result);
+            }
             setEditing(false);
             setPassword('');
             setNewPassword('');
+            setErrorMessage('');
+            setSuccessMessage('Profile updated successfully');
+            setTimeout(() => {
+                setSuccessMessage('');
+            }, 3000); // Hide success message after 3 seconds
         } catch (error) {
             console.error('Failed to fetch:', error);
-            alert('Failed to update profile: ' + error.message);
+            setErrorMessage('Failed to update profile: ' + error.message);
         }
     };
-    
-   
+
     return (
         <div className="profile">
             <img src={studentAvatar} alt="Student Avatar" className="student-avatar"/>
@@ -46,14 +60,22 @@ const Profile = () => {
                 </>
             ) : (
                 <>
+                    <label>Username:</label>
                     <input value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
+                    <label>Email:</label>
                     <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
+                    <label>Current Password:</label>
                     <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Current Password" />
+                    <label>New Password:</label>
                     <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="New Password" />
-                    <button onClick={handleSave}>Save</button>
-                    <button onClick={handleEditToggle}>Cancel</button>
+                    <div className="button-group">
+                        <button onClick={handleSave}>Save</button>
+                        <button onClick={handleEditToggle}>Cancel</button>
+                    </div>
                 </>
             )}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {successMessage && <p className="success-message">{successMessage}</p>}
         </div>
     );
 };

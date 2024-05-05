@@ -78,40 +78,37 @@ def logout():
 def update_profile():
     data = request.json
     print(data)
-    user_id = session.get('user_info')['userId']
+    user_id = data.get('userId')  # 从前端发送的数据中获取用户ID
     print(user_id)
+    if not user_id:
+        return jsonify({"message": "User ID not provided"}), 400
+
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
+    try:
+        cursor.execute("SELECT Password FROM Users WHERE UserID = %s", (user_id,))
+        user = cursor.fetchone()
+        if not user:
+            return jsonify({"message": "User not found"}), 404
 
-    # First, fetch the current user details from the database
-    cursor.execute('''
-        SELECT Password FROM Users WHERE UserID = %s
-    ''', (user_id,))
-    user = cursor.fetchone()
+        if 'newPassword' in data and 'currentPassword' in data:
+            if check_password_hash(user['Password'], data['currentPassword']):
+                new_password_hashed = generate_password_hash(data['newPassword'])
+                cursor.execute("UPDATE Users SET Password = %s WHERE UserID = %s", (new_password_hashed, user_id))
+            else:
+                return jsonify({"message": "Current password is incorrect"}), 401
 
-    if not user:
-        return jsonify({"message": "User not found"}), 404
+        if 'username' in data and 'email' in data:
+            cursor.execute("UPDATE Users SET Username = %s, Email = %s WHERE UserID = %s", (data['username'], data['email'], user_id))
+        connection.commit()
+        return jsonify(user), 200
+    except Exception as e:
+        connection.rollback()
+        return jsonify({"message": str(e)}), 500
+    finally:
+        cursor.close()
+        connection.close()
 
-    # Update the user's password only if the current password matches
-    if 'newPassword' in data and 'currentPassword' in data:
-        if check_password_hash(user['Password'], data['currentPassword']):
-            new_password_hashed = generate_password_hash(data['newPassword'])
-            cursor.execute('''
-                UPDATE Users SET Password = %s WHERE UserID = %s
-            ''', (new_password_hashed, user_id))
-        else:
-            return jsonify({"message": "Current password is incorrect"}), 401
-
-    # Update username and email if provided
-    if 'username' in data and 'email' in data:
-        cursor.execute('''
-            UPDATE Users SET Username = %s, Email = %s WHERE UserID = %s
-        ''', (data['username'], data['email'], user_id))
-    
-    connection.commit()
-    cursor.close()
-    connection.close()
-    return jsonify({"message": "Profile updated successfully"}), 200
 
 @user_blueprint.route('/all-quizzes', methods=['GET'])
 def get_all_quizzes():
