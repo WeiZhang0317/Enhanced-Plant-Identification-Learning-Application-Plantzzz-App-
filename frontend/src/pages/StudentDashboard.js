@@ -7,7 +7,7 @@ import StudentReview from './StudentReview';
 import MistakeSummary from './MistakeSummary';
 import ScoreRanking from './ScoreRanking';
 import QuizDetails from './QuizDetails';  
-import '../styles/StudentDashboard.css';
+import '../styles/Dashboard.css';
 
 function StudentDashboard() {
   const [allQuizzes, setAllQuizzes] = useState([]); 

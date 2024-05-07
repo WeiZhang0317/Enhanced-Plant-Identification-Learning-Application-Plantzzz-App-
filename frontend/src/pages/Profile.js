@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useUserContext } from '../contexts/UserContext';
 import '../styles/Profile.css';
 import studentAvatar from '../images/student.png';
+import teacherAvatar from '../images/teacher.png'; // Make sure you have this image in your images directory
 
 const Profile = () => {
     const { user, setUser } = useUserContext();
@@ -49,9 +50,12 @@ const Profile = () => {
         }
     };
 
+    // Decide which avatar to use based on the user type
+    const avatar = user && user.userType === 'teacher' ? teacherAvatar : studentAvatar;
+
     return (
         <div className="profile">
-            <img src={studentAvatar} alt="Student Avatar" className="student-avatar"/>
+            <img src={avatar} alt={`${user && user.userType === 'teacher' ? 'Teacher' : 'Student'} Avatar`} className="student-avatar"/>
             {!editing ? (
                 <>
                     <h1>Welcome back, {username}!</h1>
