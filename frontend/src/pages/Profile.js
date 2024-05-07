@@ -34,7 +34,11 @@ const Profile = () => {
             }
             const result = await response.json();
             if (setUser) {
-                setUser(result);
+                setUser({
+                    ...user,
+                    email:result.Email,
+                    username:result.Username
+                });
             }
             setEditing(false);
             setPassword('');
