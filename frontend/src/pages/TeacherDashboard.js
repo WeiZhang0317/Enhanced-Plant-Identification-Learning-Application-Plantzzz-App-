@@ -15,11 +15,11 @@ function TeacherDashboard() {
           <NavLink to="edit-quiz" className={({ isActive }) => isActive ? 'active-link' : ''}>Edit Quiz</NavLink>
         </div>
         <div className="main-content" style={{ flexGrow: 1 }}>
-          <Routes>
-            <Route path="profile" element={<Profile />} />
-            <Route path="edit-quiz" element={<EditQuiz />} />
-            <Route index element={<Profile />} />
-          </Routes>
+        <Routes>
+          <Route path="profile" element={<Profile />} />
+          <Route path="edit-quiz" element={<EditQuiz />} />
+          <Route index element={<Profile />} />
+        </Routes>
         </div>
       </div>
     </div>
