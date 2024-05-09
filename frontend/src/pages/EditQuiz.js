@@ -56,7 +56,7 @@ const EditQuiz = () => {
             }
             const result = await response.json();
             alert(result.message);
-            navigate('/path-to-go-after-saving');
+            
         } catch (error) {
             console.error('Failed to save updates:', error);
             alert('Failed to save updates');
