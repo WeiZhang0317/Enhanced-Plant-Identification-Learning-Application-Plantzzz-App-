@@ -1,17 +1,22 @@
-import React from 'react'; // Remove unused imports
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useUserContext } from '../contexts/UserContext'; // Make sure to import useUserContext correctly
 import '../styles/AllQuizzes.css';
 
 const QuizCard = ({ quiz }) => {
-        const baseUrl = 'http://localhost:5000/static/';
-        return (
-            <div className="quiz-card">
-                <img src={`${baseUrl}${quiz.QuizImageURL}`} alt={`Quiz ${quiz.QuizName}`} className="quiz-image" />
-                <div className="quiz-title">{quiz.QuizName}</div>
-                <Link to={`/student/dashboard/quiz/${quiz.QuizID}`} className="start-quiz-btn">Start Quiz</Link>
-            </div>
-        );
-    };
+    const { user } = useUserContext(); // Accessing user context to determine the link path
+    const baseUrl = 'http://localhost:5000/static/';
+    const linkPath = user.userType === 'teacher' ? `/teacher/dashboard/edit-quiz/${quiz.QuizID}` : `/student/dashboard/quiz/${quiz.QuizID}`;
+    const linkText = user.userType === 'teacher' ? 'Edit Quiz' : 'Start Quiz';
+
+    return (
+        <div className="quiz-card">
+            <img src={`${baseUrl}${quiz.QuizImageURL}`} alt={`Quiz ${quiz.QuizName}`} className="quiz-image" />
+            <div className="quiz-title">{quiz.QuizName}</div>
+            <Link to={linkPath} className="start-quiz-btn">{linkText}</Link>
+        </div>
+    );
+};
 
 const AllQuizzes = ({ quizzes }) => {
     if (!quizzes.length) {
@@ -31,3 +36,4 @@ const AllQuizzes = ({ quizzes }) => {
 };
 
 export default AllQuizzes;
+

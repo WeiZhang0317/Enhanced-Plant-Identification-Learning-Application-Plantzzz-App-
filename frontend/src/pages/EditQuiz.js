@@ -1,80 +1,118 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
-function EditQuiz() {
-    // State to hold the quiz data
-    const [quiz, setQuiz] = useState({
-        title: '',
-        questions: [
-            {
-                questionText: '',
-                options: ['', '', '', ''],
-                correctOptionIndex: 0
+const EditQuiz = () => {
+    const [quizDetails, setQuizDetails] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const { quizId } = useParams(); // Destructure quizId from useParams
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchQuizDetails = async () => {
+            setLoading(true);
+            console.log(`Attempting to fetch quiz details for quiz ID: ${quizId}`);
+            try {
+                const response = await fetch(`http://localhost:5000/user/edit-quiz/${quizId}`);
+                console.log(`Response status: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP status ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('Quiz details received:', data);
+                setQuizDetails(data);
+            } catch (error) {
+                console.error('Failed to fetch quiz details:', error);
+            } finally {
+                setLoading(false);
             }
-        ]
-    });
+        };
+        fetchQuizDetails();
+    }, [quizId]);
+    
+    const handleSave = async () => {
+        console.log('Preparing to save updated quiz data:', quizDetails);
+        const updatedData = quizDetails.map(question => ({
+            questionId: question.QuestionID,
+            questionText: question.QuestionText,
+            correctAnswer: question.CorrectAnswer,
+            options: question.options,
+        }));
 
-    // Handle changes to quiz title
-    const handleTitleChange = (event) => {
-        setQuiz({ ...quiz, title: event.target.value });
+        try {
+            const response = await fetch(`http://localhost:5000/user/edit-quiz/${quizId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({questions: updatedData})
+            });
+            console.log(`Save operation status: ${response.status}`);
+            if (!response.ok) {
+                throw new Error(`HTTP status ${response.status}`);
+            }
+            const result = await response.json();
+            console.log('Save result:', result);
+            alert(result.message);
+            navigate('/path-to-go-after-saving'); // Redirect after saving
+        } catch (error) {
+            console.error('Failed to save updates:', error);
+            alert('Failed to save updates');
+        }
     };
 
-    // Handle changes to question text
-    const handleQuestionTextChange = (index, event) => {
-        const newQuestions = [...quiz.questions];
-        newQuestions[index].questionText = event.target.value;
-        setQuiz({ ...quiz, questions: newQuestions });
-    };
-
-    // Handle changes to options
-    const handleOptionChange = (questionIndex, optionIndex, event) => {
-        const newQuestions = [...quiz.questions];
-        newQuestions[questionIndex].options[optionIndex] = event.target.value;
-        setQuiz({ ...quiz, questions: newQuestions });
-    };
-
-    // Submit the updated quiz
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log('Submitting quiz:', quiz);
-        // Here you would typically send the quiz data to the backend
-    };
+    if (loading) return <div>Loading...</div>;
+    if (!quizDetails.length) return <div>No quiz found!</div>;
 
     return (
         <div>
             <h1>Edit Quiz</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Quiz Title:</label>
+            {quizDetails.map((question, index) => (
+                <div key={question.QuestionID}>
+                    <h2>Question: {question.QuestionText}</h2>
                     <input
                         type="text"
-                        value={quiz.title}
-                        onChange={handleTitleChange}
+                        value={question.QuestionText}
+                        onChange={e => {
+                            console.log(`Updating text for question ${question.QuestionID}`);
+                            const updatedQuestions = [...quizDetails];
+                            updatedQuestions[index].QuestionText = e.target.value;
+                            setQuizDetails(updatedQuestions);
+                        }}
                     />
-                </div>
-                {quiz.questions.map((question, index) => (
-                    <div key={index}>
-                        <label>Question {index + 1}:</label>
-                        <input
-                            type="text"
-                            value={question.questionText}
-                            onChange={(event) => handleQuestionTextChange(index, event)}
-                        />
-                        {question.options.map((option, optionIndex) => (
-                            <div key={optionIndex}>
-                                <label>Option {optionIndex + 1}:</label>
+                    {question.options.map((option, optIndex) => (
+                        <div key={option.OptionID}>
+                            <input
+                                type="text"
+                                value={option.OptionText}
+                                onChange={e => {
+                                    console.log(`Updating text for option ${option.OptionID} of question ${question.QuestionID}`);
+                                    const updatedOptions = [...question.options];
+                                    updatedOptions[optIndex].OptionText = e.target.value;
+                                    const updatedQuestions = [...quizDetails];
+                                    updatedQuestions[index].options = updatedOptions;
+                                    setQuizDetails(updatedQuestions);
+                                }}
+                            />
+                            <label>
+                                Correct:
                                 <input
-                                    type="text"
-                                    value={option}
-                                    onChange={(event) => handleOptionChange(index, optionIndex, event)}
+                                    type="checkbox"
+                                    checked={option.IsCorrect}
+                                    onChange={e => {
+                                        console.log(`Changing correct status for option ${option.OptionID} of question ${question.QuestionID}`);
+                                        const updatedOptions = [...question.options];
+                                        updatedOptions[optIndex].IsCorrect = e.target.checked;
+                                        const updatedQuestions = [...quizDetails];
+                                        updatedQuestions[index].options = updatedOptions;
+                                        setQuizDetails(updatedQuestions);
+                                    }}
                                 />
-                            </div>
-                        ))}
-                    </div>
-                ))}
-                <button type="submit">Save Changes</button>
-            </form>
+                            </label>
+                        </div>
+                    ))}
+                </div>
+            ))}
+            <button onClick={handleSave}>Save Quiz</button>
         </div>
     );
-}
+};
 
 export default EditQuiz;

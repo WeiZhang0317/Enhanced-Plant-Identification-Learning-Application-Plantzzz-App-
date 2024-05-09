@@ -467,3 +467,77 @@ def get_score_rankings():
         if connection.is_connected():
             cursor.close()
             connection.close()
+
+@user_blueprint.route('/edit-quiz/<int:quiz_id>', methods=['GET', 'POST'])
+def edit_quiz(quiz_id):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    
+    if request.method == 'GET':
+        try:
+            cursor.execute('''
+                SELECT 
+                    q.QuizID, q.QuizName, q.QuizImageURL, q.SemesterID,
+                    qi.QuestionID, qi.QuestionText, qi.QuestionType, qi.CorrectAnswer, qi.PlantID,
+                    pn.LatinName, pn.CommonName,
+                    pi.ImageID, pi.ImageURL
+                FROM Quizzes q
+                JOIN Questions qi ON q.QuizID = qi.QuizID
+                LEFT JOIN PlantNames pn ON qi.PlantID = pn.PlantID
+                LEFT JOIN PlantImages pi ON pn.PlantID = pi.PlantID
+                WHERE q.QuizID = %s
+            ''', (quiz_id,))
+            quiz_details = cursor.fetchall()
+           
+
+            for question in quiz_details:
+                cursor.execute('''
+                    SELECT OptionID, OptionLabel, OptionText, IsCorrect
+                    FROM QuestionOptions
+                    WHERE QuestionID = %s
+                ''', (question['QuestionID'],))
+                question['options'] = cursor.fetchall()
+
+            return jsonify(quiz_details), 200
+        except Exception as e:
+            print(str(e))
+            return jsonify({"message": "Failed to retrieve quiz details"}), 500
+        finally:
+            cursor.close()
+            connection.close()
+
+    elif request.method == 'POST':
+        data = request.json
+        try:
+            # Update quiz details such as name or image URL
+            cursor.execute('''
+                UPDATE Quizzes
+                SET QuizName = %s, QuizImageURL = %s
+                WHERE QuizID = %s
+            ''', (data['quizName'], data['quizImageURL'], quiz_id))
+
+            for question in data['questions']:
+                # Update each question details
+                cursor.execute('''
+                    UPDATE Questions
+                    SET QuestionText = %s, CorrectAnswer = %s
+                    WHERE QuestionID = %s
+                ''', (question['questionText'], question['correctAnswer'], question['questionID']))
+
+                for option in question['options']:
+                    # Update options for each question
+                    cursor.execute('''
+                        UPDATE QuestionOptions
+                        SET OptionText = %s, IsCorrect = %s
+                        WHERE OptionID = %s
+                    ''', (option['optionText'], option['isCorrect'], option['optionID']))
+
+            connection.commit()
+            return jsonify({"message": "Quiz updated successfully"}), 200
+        except Exception as e:
+            connection.rollback()
+            print(str(e))
+            return jsonify({"message": "Failed to update quiz"}), 500
+        finally:
+            cursor.close()
+            connection.close()
