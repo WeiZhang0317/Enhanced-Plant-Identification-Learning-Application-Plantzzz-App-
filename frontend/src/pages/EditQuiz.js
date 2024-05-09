@@ -67,6 +67,26 @@ const EditQuiz = () => {
         setCurrentQuestionIndex(index);
     };
 
+    const moveToNext = () => {
+        if (currentQuestionIndex < quizDetails.length - 1) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+        }
+    };
+
+    const moveToPrevious = () => {
+        if (currentQuestionIndex > 0) {
+            setCurrentQuestionIndex(currentQuestionIndex - 1);
+        }
+    };
+
+    const moveToFirst = () => {
+        setCurrentQuestionIndex(0);
+    };
+
+    const moveToLast = () => {
+        setCurrentQuestionIndex(quizDetails.length - 1);
+    };
+
     if (loading) return <div>Loading...</div>;
     if (!quizDetails.length) return <div>No quiz found!</div>;
 
@@ -75,16 +95,12 @@ const EditQuiz = () => {
     return (
         <div className="edit-quiz-container">
             <h1>Edit Quiz: {quizDetails[0].QuizName}</h1>
-            <div className="question-navigation">
-                {quizDetails.map((_, index) => (
-                    <button
-                        key={index}
-                        className={`nav-button ${index === currentQuestionIndex ? 'active' : ''}`}
-                        onClick={() => handleQuestionChange(index)}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
+            <div className="question-pagination">
+                <button onClick={moveToFirst} disabled={currentQuestionIndex === 0}>First</button>
+                <button onClick={moveToPrevious} disabled={currentQuestionIndex === 0}>Previous</button>
+                <span>Question {currentQuestionIndex + 1} of {quizDetails.length}</span>
+                <button onClick={moveToNext} disabled={currentQuestionIndex === quizDetails.length - 1}>Next</button>
+                <button onClick={moveToLast} disabled={currentQuestionIndex === quizDetails.length - 1}>Last</button>
             </div>
             <div className="question-details">
                 <h2>Question {currentQuestionIndex + 1}: {currentQuestion.QuestionText}</h2>
