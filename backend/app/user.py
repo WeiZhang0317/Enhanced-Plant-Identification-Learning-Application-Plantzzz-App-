@@ -467,12 +467,12 @@ def get_score_rankings():
         if connection.is_connected():
             cursor.close()
             connection.close()
-            
+
 @user_blueprint.route('/edit-quiz/<int:quiz_id>', methods=['GET', 'POST'])
 def edit_quiz(quiz_id):
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
-    
+
     if request.method == 'GET':
         try:
             cursor.execute('''
@@ -490,12 +490,18 @@ def edit_quiz(quiz_id):
             quiz_details = cursor.fetchall()
 
             for question in quiz_details:
-                cursor.execute('''
-                    SELECT OptionID, OptionLabel, OptionText, IsCorrect
-                    FROM QuestionOptions
-                    WHERE QuestionID = %s
-                ''', (question['QuestionID'],))
-                question['options'] = cursor.fetchall()
+                if question['QuestionType'] == 'true_false':
+                    question['options'] = [
+                        {"OptionID": "T", "OptionText": "True", "IsCorrect": question['CorrectAnswer'] == "True"},
+                        {"OptionID": "F", "OptionText": "False", "IsCorrect": question['CorrectAnswer'] == "False"}
+                    ]
+                else:
+                    cursor.execute('''
+                        SELECT OptionID, OptionLabel, OptionText, IsCorrect
+                        FROM QuestionOptions
+                        WHERE QuestionID = %s
+                    ''', (question['QuestionID'],))
+                    question['options'] = cursor.fetchall()
 
             return jsonify(quiz_details), 200
         except Exception as e:
@@ -521,12 +527,21 @@ def edit_quiz(quiz_id):
                     WHERE QuestionID = %s
                 ''', (question['questionText'], question['correctAnswer'], question['questionId']))
 
-                for option in question['options']:
-                    cursor.execute('''
-                        UPDATE QuestionOptions
-                        SET OptionText = %s, IsCorrect = %s
-                        WHERE OptionID = %s
-                    ''', (option['optionText'], option['isCorrect'], option['optionId']))
+                if question['questionType'] == 'true_false':
+                    for option in question['options']:
+                        cursor.execute('''
+                            INSERT INTO QuestionOptions (QuestionID, OptionText, IsCorrect)
+                            VALUES (%s, %s, %s)
+                            ON DUPLICATE KEY UPDATE
+                            OptionText = VALUES(OptionText), IsCorrect = VALUES(IsCorrect)
+                        ''', (question['questionId'], option['optionText'], option['isCorrect']))
+                else:
+                    for option in question['options']:
+                        cursor.execute('''
+                            UPDATE QuestionOptions
+                            SET OptionText = %s, IsCorrect = %s
+                            WHERE OptionID = %s
+                        ''', (option['optionText'], option['isCorrect'], option['optionId']))
 
             connection.commit()
             return jsonify({"message": "Quiz updated successfully"}), 200
