@@ -32,7 +32,7 @@ const EditQuiz = () => {
         const updatedData = quizDetails.map(question => ({
             questionId: question.QuestionID,
             questionText: question.QuestionText,
-            correctAnswer: question.CorrectAnswer,
+            correctAnswer: question.options.find(option => option.IsCorrect)?.OptionLabel || question.CorrectAnswer,
             questionType: question.QuestionType,
             options: question.options.map(option => ({
                 optionId: option.OptionID,
@@ -63,28 +63,44 @@ const EditQuiz = () => {
         }
     };
 
+    const handleOptionChange = (questionIndex, optionIndex) => {
+        const updatedOptions = quizDetails[questionIndex].options.map((option, idx) => ({
+            ...option,
+            IsCorrect: idx === optionIndex
+        }));
+
+        const updatedQuizDetails = quizDetails.map((question, idx) => {
+            if (idx === questionIndex) {
+                return { ...question, options: updatedOptions };
+            }
+            return question;
+        });
+
+        setQuizDetails(updatedQuizDetails);
+    };
+
     const handleQuestionChange = (index) => {
         setCurrentQuestionIndex(index);
     };
 
     const moveToNext = () => {
         if (currentQuestionIndex < quizDetails.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
+            handleQuestionChange(currentQuestionIndex + 1);
         }
     };
 
     const moveToPrevious = () => {
         if (currentQuestionIndex > 0) {
-            setCurrentQuestionIndex(currentQuestionIndex - 1);
+            handleQuestionChange(currentQuestionIndex - 1);
         }
     };
 
     const moveToFirst = () => {
-        setCurrentQuestionIndex(0);
+        handleQuestionChange(0);
     };
 
     const moveToLast = () => {
-        setCurrentQuestionIndex(quizDetails.length - 1);
+        handleQuestionChange(quizDetails.length - 1);
     };
 
     if (loading) return <div>Loading...</div>;
@@ -127,17 +143,13 @@ const EditQuiz = () => {
                             }}
                         />
                         <label>
+                            {option.OptionLabel ? `${option.OptionLabel}: ` : ''}
                             Correct:
                             <input
-                                type="checkbox"
+                                type="radio"
+                                name={`correct-option-${currentQuestion.QuestionID}`}
                                 checked={option.IsCorrect}
-                                onChange={e => {
-                                    const updatedOptions = [...currentQuestion.options];
-                                    updatedOptions[optIndex].IsCorrect = e.target.checked;
-                                    const updatedQuestions = [...quizDetails];
-                                    updatedQuestions[currentQuestionIndex].options = updatedOptions;
-                                    setQuizDetails(updatedQuestions);
-                                }}
+                                onChange={() => handleOptionChange(currentQuestionIndex, optIndex)}
                             />
                         </label>
                     </div>
