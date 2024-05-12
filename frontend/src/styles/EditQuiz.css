@@ -1,44 +1,43 @@
-/* 容器样式 */
 .edit-quiz-container {
-    max-width: 800px;
-    margin: 20px auto;
+    margin: 20px;
     padding: 20px;
-    background-color: #ffffff; /* 设置背景颜色 */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 设置阴影以提高立体感 */
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* 为子元素设置间距 */
-}
-
-/* 导航按钮样式 */
-.navigation-buttons {
-    display: flex;
-    justify-content: space-between; /* 按钮间距平均分布 */
-    margin-bottom: 20px; /* 与下方内容的间距 */
-}
-
-.nav-button, .save-button {
-    padding: 10px 16px;
     border: 1px solid #ccc;
-    background-color: #f8f9fa; /* 浅灰色背景 */
-    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* subtle shadow for depth */
+    background-color: #fff; /* ensures readability */
+    animation: fadeIn 1s;  
+}
+
+
+.edit-quiz-container h1 {
+    color: #000000;
+    margin: 20px 0;
+    font-size: 24px;
+  }
+
+
+  .nav-button, .save-button, .input-file-trigger {
+    padding: 10px 20px;
+    font-size: 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
     border-radius: 4px;
-    transition: background-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
-.nav-button:disabled, .save-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background-color: #eceeef;
+.nav-button:hover, .save-button:hover, .input-file-trigger:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.nav-button:hover:not(:disabled), .save-button:hover:not(:disabled) {
-    background-color: #dee2e6;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+.nav-button:disabled, .save-button:disabled, .input-file-trigger:disabled {
+    opacity: 0.6;
+    cursor: default;
+    box-shadow: none;
 }
-
-/* 问题详情样式 */
 .question-details {
     padding: 20px;
     background-color: #fff;
@@ -47,7 +46,7 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* 图片上传部分样式 */
+
 .image-upload-section {
     margin-top: 20px;
 }
@@ -59,12 +58,20 @@
     margin-bottom: 10px;
 }
 
-/* 输入框和选项样式 */
+
 .option-item {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-top: 10px;
+}
+
+.edit-quiz-container label {
+    display: block; 
+    margin-bottom: 5px; 
+    color: #333; 
+    font-size: 14px; 
+    font-weight: bold; 
 }
 
 .option-item input[type="text"], .question-details input[type="text"] {
@@ -76,14 +83,14 @@
 }
 
 .option-item input[type="text"]:focus, .question-details input[type="text"]:focus {
-    border-color: #80bdff;
+    border-color:#4CAF50;
     outline: none;
 }
 
-/* 保存按钮样式 */
+
 .save-button {
     padding: 12px 24px;
-    background-color: #007bff; /* Bootstrap主题蓝 */
+    background-color: #4CAF50;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -93,5 +100,84 @@
 }
 
 .save-button:hover {
-    background-color: #0056b3;
+    background-color: #45a049;
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #45a049;
+    outline: none;
+}
+
+
+
+
+@media (max-width: 768px) {
+    .edit-quiz-container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .nav-button, .save-button {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+}
+
+.input-file-container {
+    position: relative;
+    width: auto;
+    margin: 10px 0; 
+    display: inline-block; 
+}
+
+
+.input-file-trigger {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color:  #45a049;
+
+    color:#ccc; 
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #ddd; 
+    font-size: 14px; 
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.input-file-trigger:hover, .input-file-trigger:focus {
+    background-color:  #45a049;
+
+    color:#ccc; 
+    border-color: #a3a3a3;
+    outline: none; 
+}
+
+
+.input-file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; 
+    cursor: pointer; 
+}
+
+
+@media (max-width: 768px) {
+    .input-file-trigger {
+        padding: 4px 10px;
+        font-size: 12px;
+    }
 }

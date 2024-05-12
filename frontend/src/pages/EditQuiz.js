@@ -205,7 +205,17 @@ const EditQuiz = () => {
               className="question-image"
             />
           )}
-          <input type="file" onChange={handleFileUpload} />
+          <div className="input-file-container">
+            <label htmlFor="file-upload" className="input-file-trigger">
+              Choose File to Upload
+            </label>
+            <input
+              type="file"
+              id="file-upload"
+              className="input-file"
+              onChange={handleFileUpload}
+            />
+          </div>
         </div>
         {currentQuestion.options.map((option, optIndex) => (
           <div key={option.OptionID} className="option-item">
