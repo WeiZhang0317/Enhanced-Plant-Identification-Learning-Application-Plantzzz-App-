@@ -5,6 +5,8 @@ import connect
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
 from datetime import datetime
+from werkzeug.utils import secure_filename
+import os
 
 user_blueprint = Blueprint('user', __name__)
 CORS(user_blueprint)
@@ -488,6 +490,7 @@ def edit_quiz(quiz_id):
                 WHERE q.QuizID = %s
             ''', (quiz_id,))
             quiz_details = cursor.fetchall()
+            print(quiz_details)
 
             # Modify the logic to handle both true_false and other question types correctly
             for question in quiz_details:
@@ -551,3 +554,30 @@ def edit_quiz(quiz_id):
         finally:
             cursor.close()
             connection.close()
+
+@user_blueprint.route('/user/upload-image/<int:quiz_id>/<int:question_id>', methods=['POST'])
+def upload_image(quiz_id, question_id):
+    if 'image' not in request.files:
+        return jsonify({'message': 'No file part'}), 400
+
+    file = request.files['image']
+    if file.filename == '':
+        return jsonify({'message': 'No selected file'}), 400
+
+    if file:
+        filename = secure_filename(file.filename)
+        filepath = os.path.join('http://localhost:5000/static/plantpics/', filename)
+        file.save(filepath)
+
+        # Update image URL in the database
+        cursor = get_db_connection().cursor()
+        cursor.execute(
+            "UPDATE Questions SET ImageURL = %s WHERE QuestionID = %s",
+            (filepath, question_id)
+        )
+        cursor.connection.commit()
+        cursor.close()
+
+        return jsonify({'imageUrl': filepath}), 200
+
+    return jsonify({'message': 'File upload failed'}), 500

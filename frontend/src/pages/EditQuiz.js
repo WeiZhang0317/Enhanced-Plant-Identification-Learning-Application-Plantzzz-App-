@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/EditQuiz.css'; // Import the CSS file
 
+
 const EditQuiz = () => {
     const [quizDetails, setQuizDetails] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const { quizId } = useParams();
     const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchQuizDetails = async () => {
@@ -32,7 +34,7 @@ const EditQuiz = () => {
         const updatedData = quizDetails.map(question => ({
             questionId: question.QuestionID,
             questionText: question.QuestionText,
-            correctAnswer: question.options.find(option => option.IsCorrect)?.OptionLabel || question.CorrectAnswer,
+            correctAnswer: question.options.find(option => option.IsCorrect)?.OptionText,
             questionType: question.QuestionType,
             options: question.options.map(option => ({
                 optionId: option.OptionID,
@@ -82,32 +84,63 @@ const EditQuiz = () => {
     const handleQuestionChange = (index) => {
         setCurrentQuestionIndex(index);
     };
-
+    
+    const handleFileUpload = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('image', file);
+    
+            try {
+                const response = await fetch(`http://localhost:5000/user/upload-image/${quizId}/${currentQuestion.QuestionID}`, {
+                    method: 'POST',
+                    body: formData,
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Failed to upload image.');
+                }
+    
+                const result = await response.json();
+                const updatedQuizDetails = [...quizDetails];
+                updatedQuizDetails[currentQuestionIndex].ImageURL = result.imageUrl;
+                setQuizDetails(updatedQuizDetails);
+    
+                alert('Image uploaded successfully!');
+            } catch (error) {
+                console.error('Error uploading image:', error);
+                alert('Failed to upload image.');
+            }
+        }
+    };
+    
     const moveToNext = () => {
         if (currentQuestionIndex < quizDetails.length - 1) {
-            handleQuestionChange(currentQuestionIndex + 1);
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
         }
     };
 
     const moveToPrevious = () => {
         if (currentQuestionIndex > 0) {
-            handleQuestionChange(currentQuestionIndex - 1);
+            setCurrentQuestionIndex(currentQuestionIndex - 1);
         }
     };
 
     const moveToFirst = () => {
-        handleQuestionChange(0);
+        setCurrentQuestionIndex(0);
     };
 
     const moveToLast = () => {
-        handleQuestionChange(quizDetails.length - 1);
+        setCurrentQuestionIndex(quizDetails.length - 1);
     };
-
+     
+    
     if (loading) return <div>Loading...</div>;
     if (!quizDetails.length) return <div>No quiz found!</div>;
 
     const currentQuestion = quizDetails[currentQuestionIndex];
-
+    const baseUrl = 'http://localhost:5000/static/';      
+        
     return (
         <div className="edit-quiz-container">
             <h1>Edit Quiz: {quizDetails[0].QuizName}</h1>
@@ -120,6 +153,14 @@ const EditQuiz = () => {
             </div>
             <div className="question-details">
                 <h2>Question {currentQuestionIndex + 1}: {currentQuestion.QuestionText}</h2>
+                {currentQuestion.ImageURL && (
+                <img
+                src={`${baseUrl}${currentQuestion.ImageURL}`}
+                alt="Question Image"
+                className="question-image"
+                />
+                )}
+                <input type="file" onChange={handleFileUpload} />
                 <input
                     type="text"
                     value={currentQuestion.QuestionText}
@@ -128,6 +169,7 @@ const EditQuiz = () => {
                         updatedQuestions[currentQuestionIndex].QuestionText = e.target.value;
                         setQuizDetails(updatedQuestions);
                     }}
+                    disabled={currentQuestion.QuestionType === 'true_false'}
                 />
                 {currentQuestion.options.map((option, optIndex) => (
                     <div key={option.OptionID} className="option-item">
@@ -141,6 +183,7 @@ const EditQuiz = () => {
                                 updatedQuestions[currentQuestionIndex].options = updatedOptions;
                                 setQuizDetails(updatedQuestions);
                             }}
+                            disabled={currentQuestion.QuestionType === 'true_false'}
                         />
                         <label>
                             {option.OptionLabel ? `${option.OptionLabel}: ` : ''}
