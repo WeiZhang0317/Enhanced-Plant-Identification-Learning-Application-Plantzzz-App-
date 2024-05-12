@@ -84,6 +84,8 @@ const EditQuiz = () => {
     const handleQuestionChange = (index) => {
         setCurrentQuestionIndex(index);
     };
+
+    const timestamp = new Date().getTime();
     
     const handleFileUpload = async (event) => {
         const file = event.target.files[0];
@@ -92,7 +94,7 @@ const EditQuiz = () => {
             formData.append('image', file);
     
             try {
-                const response = await fetch(`http://localhost:5000/user/upload-image/${quizId}/${currentQuestion.QuestionID}`, {
+                const response = await fetch(`http://localhost:5000/user/upload-image/${quizDetails[currentQuestionIndex].QuestionID}`, {
                     method: 'POST',
                     body: formData,
                 });
@@ -102,8 +104,11 @@ const EditQuiz = () => {
                 }
     
                 const result = await response.json();
-                const updatedQuizDetails = [...quizDetails];
-                updatedQuizDetails[currentQuestionIndex].ImageURL = result.imageUrl;
+                // 创建一个新数组来确保React检测到状态变化
+                const updatedQuizDetails = quizDetails.map((question, index) =>
+                    index === currentQuestionIndex ? { ...question, ImageURL: result.imageUrl } : question
+                );
+    
                 setQuizDetails(updatedQuizDetails);
     
                 alert('Image uploaded successfully!');
@@ -113,6 +118,7 @@ const EditQuiz = () => {
             }
         }
     };
+    
     
     const moveToNext = () => {
         if (currentQuestionIndex < quizDetails.length - 1) {
@@ -139,7 +145,7 @@ const EditQuiz = () => {
     if (!quizDetails.length) return <div>No quiz found!</div>;
 
     const currentQuestion = quizDetails[currentQuestionIndex];
-    const baseUrl = 'http://localhost:5000/static/';      
+    const baseUrl = 'http://localhost:5000/';   
         
     return (
         <div className="edit-quiz-container">
@@ -152,12 +158,12 @@ const EditQuiz = () => {
                 <button onClick={moveToLast} disabled={currentQuestionIndex === quizDetails.length - 1}>Last</button>
             </div>
             <div className="question-details">
-                <h2>Question {currentQuestionIndex + 1}: {currentQuestion.QuestionText}</h2>
-                {currentQuestion.ImageURL && (
+            <h2>Question {currentQuestionIndex + 1}: {currentQuestion.QuestionText}</h2>
+            {currentQuestion.ImageURL && (
                 <img
-                src={`${baseUrl}${currentQuestion.ImageURL}`}
-                alt="Question Image"
-                className="question-image"
+                    src={`${baseUrl}${currentQuestion.ImageURL}?${timestamp}`}  // 使用时间戳避免缓存问题
+                    alt="Question Image"
+                    className="question-image"
                 />
                 )}
                 <input type="file" onChange={handleFileUpload} />

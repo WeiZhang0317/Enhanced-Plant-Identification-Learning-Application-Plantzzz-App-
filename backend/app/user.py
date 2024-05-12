@@ -7,6 +7,8 @@ from flask_cors import CORS
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
+from flask import current_app
+
 
 user_blueprint = Blueprint('user', __name__)
 CORS(user_blueprint)
@@ -490,10 +492,12 @@ def edit_quiz(quiz_id):
                 WHERE q.QuizID = %s
             ''', (quiz_id,))
             quiz_details = cursor.fetchall()
-            print(quiz_details)
+            # print(quiz_details)
 
             # Modify the logic to handle both true_false and other question types correctly
             for question in quiz_details:
+                if question['ImageURL']:
+                    question['ImageURL'] = '/static/' + question['ImageURL']
                 if question['QuestionType'] == 'true_false':
                     question['options'] = [
                         {"OptionID": None, "OptionText": "True", "IsCorrect": question['CorrectAnswer'] == "True"},
@@ -555,8 +559,8 @@ def edit_quiz(quiz_id):
             cursor.close()
             connection.close()
 
-@user_blueprint.route('/user/upload-image/<int:quiz_id>/<int:question_id>', methods=['POST'])
-def upload_image(quiz_id, question_id):
+@user_blueprint.route('/upload-image/<int:question_id>', methods=['POST'])
+def upload_image(question_id):
     if 'image' not in request.files:
         return jsonify({'message': 'No file part'}), 400
 
@@ -564,20 +568,43 @@ def upload_image(quiz_id, question_id):
     if file.filename == '':
         return jsonify({'message': 'No selected file'}), 400
 
-    if file:
-        filename = secure_filename(file.filename)
-        filepath = os.path.join('http://localhost:5000/static/plantpics/', filename)
-        file.save(filepath)
+    filename = secure_filename(file.filename)
+    # 只包含要存入数据库的路径部分
+    filepath = os.path.join('plantpics', filename)
+    # 计算文件在服务器上的完整路径
+    full_server_path = os.path.abspath(os.path.join(current_app.root_path, '..', 'static', filepath))
+    
+    # 确保目录存在
+    os.makedirs(os.path.dirname(full_server_path), exist_ok=True)
+    # 保存文件到完整路径
+    file.save(full_server_path)
+    print(full_server_path)  # 可以打印查看生成的完整路径
 
-        # Update image URL in the database
-        cursor = get_db_connection().cursor()
-        cursor.execute(
-            "UPDATE Questions SET ImageURL = %s WHERE QuestionID = %s",
-            (filepath, question_id)
-        )
-        cursor.connection.commit()
+    # 获取数据库连接和创建游标
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+        # 首先通过 QuestionID 获取 PlantID
+        cursor.execute("SELECT PlantID FROM Questions WHERE QuestionID = %s", (question_id,))
+        plant_id_record = cursor.fetchone()
+        if plant_id_record:
+            plant_id = plant_id_record['PlantID']
+            # 更新 PlantImages 表中的 ImageURL
+            cursor.execute(
+                "UPDATE PlantImages SET ImageURL = %s WHERE PlantID = %s",
+                (filepath, plant_id)
+            )
+            connection.commit()
+        else:
+            return jsonify({'message': 'No plant associated with this question'}), 404
+
+    except Exception as e:
+        connection.rollback()
+        print(f"Failed to update database: {str(e)}")
+        return jsonify({'message': 'Database update failed'}), 500
+
+    finally:
         cursor.close()
 
-        return jsonify({'imageUrl': filepath}), 200
-
-    return jsonify({'message': 'File upload failed'}), 500
+    return jsonify({'imageUrl': f'/static/{filepath}'}), 200
