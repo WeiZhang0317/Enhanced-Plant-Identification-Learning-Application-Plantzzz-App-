@@ -1,75 +1,97 @@
+/* 容器样式 */
 .edit-quiz-container {
-          max-width: 800px;
-          margin: 0 auto;
-          padding: 20px;
-          background-color: #f9f9f9;
-          border-radius: 8px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-      }
-      
-      .question-pagination {
-          display: flex;
-          justify-content: center;
-          gap: 10px;
-          margin-top: 10px;
-          margin-bottom: 20px;
-      }
-      
-      .nav-button {
-          padding: 8px 16px;
-          border: 1px solid #ccc;
-          background-color: #fff;
-          cursor: pointer;
-          border-radius: 4px;
-          transition: background-color 0.3s, box-shadow 0.3s;
-      }
-      
-      .nav-button:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-      }
-      
-      .nav-button:hover:not(:disabled) {
-          background-color: #e6e6e6;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      }
-      
-      .question-details {
-          padding: 15px;
-          background-color: #fff;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      }
-      
-      .option-item {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-      }
-      
-      .option-item input[type="text"] {
-          flex-grow: 1;
-          padding: 8px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-      }
-      
-      .save-button {
-          padding: 10px 20px;
-          background-color: #28a745;
-          color: #fff;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-          align-self: center;
-      }
-      
-      .save-button:hover {
-          background-color: #218838;
-      }
-      
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff; /* 设置背景颜色 */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 设置阴影以提高立体感 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 为子元素设置间距 */
+}
+
+/* 导航按钮样式 */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between; /* 按钮间距平均分布 */
+    margin-bottom: 20px; /* 与下方内容的间距 */
+}
+
+.nav-button, .save-button {
+    padding: 10px 16px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa; /* 浅灰色背景 */
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.nav-button:disabled, .save-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #eceeef;
+}
+
+.nav-button:hover:not(:disabled), .save-button:hover:not(:disabled) {
+    background-color: #dee2e6;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* 问题详情样式 */
+.question-details {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* 图片上传部分样式 */
+.image-upload-section {
+    margin-top: 20px;
+}
+
+.question-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* 输入框和选项样式 */
+.option-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.option-item input[type="text"], .question-details input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.2s;
+}
+
+.option-item input[type="text"]:focus, .question-details input[type="text"]:focus {
+    border-color: #80bdff;
+    outline: none;
+}
+
+/* 保存按钮样式 */
+.save-button {
+    padding: 12px 24px;
+    background-color: #007bff; /* Bootstrap主题蓝 */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: center;
+}
+
+.save-button:hover {
+    background-color: #0056b3;
+}

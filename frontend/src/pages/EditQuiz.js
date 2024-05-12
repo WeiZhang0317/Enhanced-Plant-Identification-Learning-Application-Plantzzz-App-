@@ -158,7 +158,8 @@ const EditQuiz = () => {
   return (
     <div className="edit-quiz-container">
       <h1>Edit Quiz: {quizDetails[0].QuizName}</h1>
-      <div className="question-pagination">
+
+      <div className="navigation-buttons">
         <button onClick={moveToFirst} disabled={currentQuestionIndex === 0}>
           First
         </button>
@@ -181,18 +182,11 @@ const EditQuiz = () => {
           Last
         </button>
       </div>
+
       <div className="question-details">
         <h2>
           Question {currentQuestionIndex + 1}: {currentQuestion.QuestionText}
         </h2>
-        {currentQuestion.ImageURL && (
-          <img
-            src={`${baseUrl}${currentQuestion.ImageURL}?${timestamp}`} // 使用时间戳避免缓存问题
-            alt="Question Image"
-            className="question-image"
-          />
-        )}
-        <input type="file" onChange={handleFileUpload} />
         <input
           type="text"
           value={currentQuestion.QuestionText}
@@ -203,7 +197,16 @@ const EditQuiz = () => {
             setQuizDetails(updatedQuestions);
           }}
         />
-
+        <div className="image-upload-section">
+          {currentQuestion.ImageURL && (
+            <img
+              src={`${baseUrl}${currentQuestion.ImageURL}?${timestamp}`}
+              alt="Question Image"
+              className="question-image"
+            />
+          )}
+          <input type="file" onChange={handleFileUpload} />
+        </div>
         {currentQuestion.options.map((option, optIndex) => (
           <div key={option.OptionID} className="option-item">
             <input
@@ -233,6 +236,7 @@ const EditQuiz = () => {
           </div>
         ))}
       </div>
+
       <button onClick={handleSave} className="save-button">
         Save Quiz
       </button>
