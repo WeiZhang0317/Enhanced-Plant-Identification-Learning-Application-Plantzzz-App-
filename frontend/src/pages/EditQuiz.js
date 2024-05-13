@@ -36,7 +36,7 @@ const EditQuiz = () => {
       console.log("Current Question:", currentQuestion);
       console.log("Base URL:", "http://localhost:5000/");
     }
-  }, [quizDetails, currentQuestionIndex]); 
+  }, [quizDetails, currentQuestionIndex]);
 
   const handleSave = async () => {
     const updatedData = quizDetails.map((question) => ({
@@ -120,7 +120,7 @@ const EditQuiz = () => {
         }
 
         const result = await response.json();
-  
+
         const updatedQuizDetails = quizDetails.map((question, index) =>
           index === currentQuestionIndex
             ? { ...question, ImageURL: result.imageUrl }
@@ -143,6 +143,26 @@ const EditQuiz = () => {
     }
   };
 
+  // guid function: prevent duplicate keys （debug uses）
+  const guid = () => {
+    function S4() {
+      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    }
+    return (
+      S4() +
+      S4() +
+      "-" +
+      S4() +
+      "-" +
+      S4() +
+      "-" +
+      S4() +
+      "-" +
+      S4() +
+      S4() +
+      S4()
+    );
+  };
   const moveToPrevious = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
@@ -226,7 +246,7 @@ const EditQuiz = () => {
           </div>
         </div>
         {currentQuestion.options.map((option, optIndex) => (
-          <div key={option.OptionID} className="option-item">
+          <div key={guid()} className="option-item">
             <input
               type="text"
               value={option.OptionText}
