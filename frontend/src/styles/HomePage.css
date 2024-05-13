@@ -9,17 +9,35 @@
           animation: fadeIn 1.5s ease-out;
         }
         
+        /* Container to hold both the logo and the leaf gif */
+        .logo-container {
+          position: relative; /* Establishes a positioning context for absolute positioning inside */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        
         /* Styling for the logo with a simple fade-in effect */
         .homepage-logo {
           max-width: 400px;
-          margin-bottom: 20px;
+          margin-bottom: 40px;
+          width: 100%; /* Ensures the logo scales based on its container */
+        }
+        
+        /* Styling for the leaf gif, positioned relative to the logo */
+        .leaf-gif {
+          position: absolute; /* Positioned absolutely within its relative parent */
+          bottom: 0px; /* Position it towards the bottom of the logo */
+          right: -10px; /* Position it to the right of the logo */
+          width: 20%; /* Set the size to be 1/5 of the logo's width */
+          max-width: 80px; /* Ensure it doesn't get too large on bigger screens */
         }
         
         /* General button styling with modern aesthetics */
         .homepage-button {
           width: 200px;
           padding: 10px;
-          margin: 10px 0;
+          margin: 20px 0 10px;
           border: none;
           border-radius: 5px;
           background: linear-gradient(145deg, #43A047, #4CAF50);
