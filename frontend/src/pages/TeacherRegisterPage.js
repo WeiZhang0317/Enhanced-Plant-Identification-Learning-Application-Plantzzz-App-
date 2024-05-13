@@ -9,10 +9,10 @@ function TeacherRegisterPage() {
     email: "",
     password: "",
     teacherId: "",
-    title: "", // 修改名称为 title
+    title: "", 
   });
 
-  const [title, setTitle] = useState(""); // 修改名称为 title
+  const [title, setTitle] = useState(""); 
   const [error, setError] = useState("");
 
   const hintStyle = {
@@ -27,7 +27,7 @@ function TeacherRegisterPage() {
     setError(""); // Clear error message on new input
   };
 
-  // 新增处理 title 变化的函数，同时更新数据到 teacherData
+  
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
     setTeacherData({ ...teacherData, title: e.target.value });
@@ -40,7 +40,7 @@ function TeacherRegisterPage() {
       !teacherData.email ||
       !teacherData.password ||
       !teacherData.teacherId ||
-      !title // 确保 title 有选择
+      !title 
     ) {
       setError("All fields must be filled out");
       return;
@@ -51,7 +51,7 @@ function TeacherRegisterPage() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(teacherData), // 直接发送 teacherData
+      body: JSON.stringify(teacherData), 
     })
       .then(response => {
         if (!response.ok) {
@@ -202,19 +202,19 @@ function TeacherRegisterPage() {
             />
           </div>
 
-          {/* 新添加的下拉选择框 */}
+         
           <div style={formFieldStyle}>
             <label htmlFor="title" style={labelStyle}>
-              Title: {/* 标签显示为 Title */}
+              Title: 
             </label>
             <select
               id="title"
-              name="title" // 修改为 title
+              name="title" 
               value={title}
-              onChange={handleTitleChange} // 修改为 handleTitleChange
+              onChange={handleTitleChange} 
               style={inputStyle}
             >
-              <option value="">Select title</option> {/* 修改为 Select title */}
+              <option value="">Select title</option> 
               <option value="tutor">Tutor</option>
               <option value="professor">Professor</option>
             </select>

@@ -1,0 +1,53 @@
+/* General styling for the HomePage container */
+.homepage {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin-top: -50px;
+          animation: fadeIn 1.5s ease-out;
+        }
+        
+        /* Styling for the logo with a simple fade-in effect */
+        .homepage-logo {
+          max-width: 400px;
+          margin-bottom: 20px;
+        }
+        
+        /* General button styling with modern aesthetics */
+        .homepage-button {
+          width: 200px;
+          padding: 10px;
+          margin: 10px 0;
+          border: none;
+          border-radius: 5px;
+          background: linear-gradient(145deg, #43A047, #4CAF50);
+          color: white;
+          font-size: 16px;
+          font-weight: bold;
+          cursor: pointer;
+          outline: none;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+          transition: all 0.3s ease;
+        }
+        
+        /* Hover effects for the button, including scale and background change */
+        .homepage-button:hover {
+          background: linear-gradient(145deg, #388E3C, #43A047);
+          box-shadow: 0 5px 9px rgba(0, 0, 0, 0.25);
+          transform: translateY(-2px) scale(1.03);
+        }
+        
+        /* Keyframe animation for the entire container fade-in */
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        

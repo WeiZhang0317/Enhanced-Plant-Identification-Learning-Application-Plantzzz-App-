@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useUserContext } from '../contexts/UserContext';
 import '../styles/Profile.css';
 import studentAvatar from '../images/student.png';
-import teacherAvatar from '../images/teacher.png'; // Make sure you have this image in your images directory
+import teacherAvatar from '../images/teacher.png'; 
 
 const Profile = () => {
     const { user, setUser } = useUserContext();

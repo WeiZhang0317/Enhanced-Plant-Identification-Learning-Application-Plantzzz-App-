@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, request, jsonify, session, current_app, send_from_directory
+from flask import  Blueprint, request, jsonify, session, current_app, send_from_directory
 import mysql.connector
 from mysql.connector import Error
 import connect
@@ -81,20 +81,20 @@ def logout():
 @user_blueprint.route('/update-profile', methods=['POST'])
 def update_profile():
     data = request.json
-    user_id = data.get('userId')  # 从前端发送的数据中获取用户ID
+    user_id = data.get('userId')  
     if not user_id:
         return jsonify({"message": "User ID not provided"}), 400
 
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
     try:
-        # 首先验证用户是否存在
+       
         cursor.execute("SELECT Password FROM Users WHERE UserID = %s", (user_id,))
         user = cursor.fetchone()
         if not user:
             return jsonify({"message": "User not found"}), 404
 
-        # 更新密码，如果提供了新密码和当前密码
+      
         if 'newPassword' in data and 'currentPassword' in data:
             if check_password_hash(user['Password'], data['currentPassword']):
                 new_password_hashed = generate_password_hash(data['newPassword'])
@@ -102,15 +102,14 @@ def update_profile():
             else:
                 return jsonify({"message": "Current password is incorrect"}), 401
 
-        # 更新用户名和邮箱
         if 'username' in data and 'email' in data:
             cursor.execute("UPDATE Users SET Username = %s, Email = %s WHERE UserID = %s", (data['username'], data['email'], user_id))
 
-        # 提交更改并重新获取用户数据
+        
         connection.commit()
         cursor.execute("SELECT UserID, Username, Email, UserType FROM Users WHERE UserID = %s", (user_id,))
         updated_user = cursor.fetchone()
-        return jsonify(updated_user), 200  # 返回更新后的用户信息
+        return jsonify(updated_user), 200 
 
     except Exception as e:
         connection.rollback()
@@ -241,23 +240,23 @@ def check_progress(quiz_id):
 @user_blueprint.route('/save-progress/<int:quiz_id>', methods=['POST'])
 def save_progress(quiz_id):
     data = request.json
-    print("Received data:", data)  # 打印接收到的全部数据
+    print("Received data:", data)  
     connection = get_db_connection()
     try:
         cursor = get_cursor(connection, dictionary_cursor=True)
-        # 检查是否已经存在进度
+        
         cursor.execute('''
             SELECT ProgressID, Score FROM StudentQuizProgress
             WHERE StudentID = %s AND QuizID = %s AND EndTimestamp IS NULL
         ''', (data['studentId'], quiz_id))
         progress = cursor.fetchone()
 
-        # 如果进度存在，则检索当前得分；否则，从0开始
+       
         if progress:
             progress_id = progress['ProgressID']
             current_score = progress.get('Score', 0) 
         else:
-            # 如果不存在进度，插入新的进度记录并从0开始
+            
             cursor.execute('''
                 INSERT INTO StudentQuizProgress (StudentID, QuizID, Score, StartTimestamp)
                 VALUES (%s, %s, 0, NOW())
@@ -268,20 +267,19 @@ def save_progress(quiz_id):
 
         total_score = current_score
 
-        # 插入或更新答案并计算新分数
         for answer in data['answers']:
-            selected_option_id = answer['selectedOptionId']  # 直接使用传入的ID或'T'/'F'
+            selected_option_id = answer['selectedOptionId']  
 
             cursor.execute('''
     INSERT INTO StudentQuizAnswers (ProgressID, QuestionID, SelectedOptionId, IsCorrect, StudentId, QuizId)
     VALUES (%s, %s, %s, %s, %s, %s)
     ON DUPLICATE KEY UPDATE SelectedOptionId = VALUES(SelectedOptionId), IsCorrect = VALUES(IsCorrect)
 ''', (progress_id, answer['questionId'], selected_option_id, answer['isCorrect'], data['studentId'], quiz_id))
-            # 仅在答案正确时更新分数
+            
             if answer['isCorrect']:
                 total_score += 1
 
-        # 更新 StudentQuizProgress 表中的总分
+        
         cursor.execute('''
             UPDATE StudentQuizProgress
             SET Score = %s
@@ -342,7 +340,7 @@ def get_progress_list():
     connection = get_db_connection()
     try:
         cursor = get_cursor(connection)
-        # 联接 StudentQuizProgress 和 Quizzes 表来获取所需信息
+       
         cursor.execute('''
             SELECT 
                 p.ProgressID,
@@ -353,7 +351,7 @@ def get_progress_list():
         ''')
         progresses = cursor.fetchall()
 
-        # 格式化返回前端的数据
+        
         progress_list = [{
             'progressId': progress['ProgressID'],
             'quizName': progress['QuizName'],
@@ -569,28 +567,27 @@ def upload_image(question_id):
         return jsonify({'message': 'No selected file'}), 400
 
     filename = secure_filename(file.filename)
-    # 只包含要存入数据库的路径部分
+    
     filepath = os.path.join('plantpics', filename)
-    # 计算文件在服务器上的完整路径
+   
     full_server_path = os.path.abspath(os.path.join(current_app.root_path, '..', 'static', filepath))
     
-    # 确保目录存在
     os.makedirs(os.path.dirname(full_server_path), exist_ok=True)
-    # 保存文件到完整路径
+    
     file.save(full_server_path)
-    print(full_server_path)  # 可以打印查看生成的完整路径
+    print(full_server_path)  
 
-    # 获取数据库连接和创建游标
+    
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
 
     try:
-        # 首先通过 QuestionID 获取 PlantID
+      
         cursor.execute("SELECT PlantID FROM Questions WHERE QuestionID = %s", (question_id,))
         plant_id_record = cursor.fetchone()
         if plant_id_record:
             plant_id = plant_id_record['PlantID']
-            # 更新 PlantImages 表中的 ImageURL
+         
             cursor.execute(
                 "UPDATE PlantImages SET ImageURL = %s WHERE PlantID = %s",
                 (filepath, plant_id)

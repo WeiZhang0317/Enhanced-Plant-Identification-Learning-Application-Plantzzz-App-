@@ -44,7 +44,7 @@ function StudentDashboard() {
             <Route path="profile" element={<Profile />} />
             <Route path="all-quizzes" element={<AllQuizzes quizzes={allQuizzes} />} />
             <Route path="quiz/:quizId" element={<QuizDetails />} />
-            <Route path="question-review" element={<StudentReview />} />  {/* 已更新，不再传递 quizzes */}
+            <Route path="question-review" element={<StudentReview />} /> 
             <Route path="question-review/incorrect-answers/:progressId" element={<MistakeSummary />} />
             <Route path="score-ranking" element={<ScoreRanking />} />
             <Route index element={<Profile />} />

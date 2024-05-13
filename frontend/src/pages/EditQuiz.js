@@ -30,6 +30,14 @@ const EditQuiz = () => {
     fetchQuizDetails();
   }, [quizId]);
 
+  useEffect(() => {
+    if (quizDetails.length > 0 && currentQuestionIndex < quizDetails.length) {
+      const currentQuestion = quizDetails[currentQuestionIndex];
+      console.log("Current Question:", currentQuestion);
+      console.log("Base URL:", "http://localhost:5000/");
+    }
+  }, [quizDetails, currentQuestionIndex]); 
+
   const handleSave = async () => {
     const updatedData = quizDetails.map((question) => ({
       questionId: question.QuestionID,
@@ -112,7 +120,7 @@ const EditQuiz = () => {
         }
 
         const result = await response.json();
-        // 创建一个新数组来确保React检测到状态变化
+  
         const updatedQuizDetails = quizDetails.map((question, index) =>
           index === currentQuestionIndex
             ? { ...question, ImageURL: result.imageUrl }
