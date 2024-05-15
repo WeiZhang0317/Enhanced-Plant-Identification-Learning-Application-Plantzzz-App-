@@ -72,10 +72,10 @@ def register_student():
 
 @student_blueprint.route('/ongoing-quizzes', methods=['GET'])
 def get_ongoing_quizzes():
-    logging.debug("Fetching ongoing quizzes...")  # 使用logging替代print
+    logging.debug("Fetching ongoing quizzes...")  
     student_id = session.get('user_info', {}).get('studentId')
     if not student_id:
-        logging.warning("No student ID in session")  # 使用logging
+        logging.warning("No student ID in session")  
         return jsonify({"error": "Student ID not found in session"}), 400
 
     try:

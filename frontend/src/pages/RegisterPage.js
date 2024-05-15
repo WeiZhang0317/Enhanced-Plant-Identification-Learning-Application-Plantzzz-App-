@@ -31,7 +31,7 @@ function RegisterPage() {
 
   return (
     <div style={{ backgroundColor: "#F0F2F5", minHeight: "100vh" }}>
-      <Navigation /> {/* Use the Navigation component */}
+      <Navigation /> 
       <div
         style={{
           display: "flex",
