@@ -90,6 +90,8 @@ body {
   background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
   width: 100%;
   max-width: 500px;
+  font-style: italic;
+  font-family: 'Cinzel', serif; 
 }
 
 .login-form-field {
