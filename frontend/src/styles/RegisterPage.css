@@ -1,0 +1,74 @@
+/* RegisterPage.css */
+
+body {
+          margin: 0;
+          padding: 0;
+          font-family: Arial, sans-serif;
+        }
+        
+        .register-page {
+          background: url('../images/background.png') repeat;
+          min-height: 100vh;
+          animation: fadeIn 1s;
+          display: flex;
+          flex-direction: column;
+        }
+        
+        
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        .register-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .register-container {
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background-color: rgba(255, 255, 255, 0.7); /* Adjusted transparency to 70% opaque */
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .register-title {
+          margin-bottom: 40px;
+        }
+        
+        .register-title h1 {
+          color: #4CAF50;
+        }
+        
+        .register-buttons {
+          display: flex;
+        }
+        
+        .register-button {
+          margin: 10px;
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid #ddd;
+          cursor: pointer;
+          background-color: #FFF;
+          border-radius: 10px;
+          transition: all 0.3s ease-in-out;
+        }
+        
+        .register-image {
+          width: 100px;
+          margin-bottom: 10px;
+        }
+        
+        .register-button:hover {
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation"; // Import Navigation component
 import studentImage from "../images/student.png";
 import teacherImage from "../images/teacher.png";
+import '../styles/RegisterPage.css'; // Import the CSS file
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -15,38 +16,18 @@ function RegisterPage() {
     navigate("/register/teacher");
   };
 
-  const buttonStyle = {
-    margin: "10px",
-    padding: "20px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    border: "1px solid #ddd",
-    cursor: "pointer",
-    backgroundColor: "#FFF",
-    borderRadius: "10px",
-    transition: "all 0.3s ease-in-out",
-  };
-
   return (
-    <div style={{ backgroundColor: "#F0F2F5", minHeight: "100vh" }}>
-      <Navigation /> 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginTop: "40px",
-        }}
-      >
-        <div style={{ marginBottom: "40px" }}>
-          <h1 style={{ color: "#4CAF50" }}>Register as...</h1>
+    <div className="register-page">
+      <Navigation />
+      <div className="register-container">
+      <div className="register-content">
+        <div className="register-title">
+          <h1>Register as...</h1>
         </div>
-        <div style={{ display: "flex" }}>
+        <div className="register-buttons">
           <div
             onClick={handleStudentRegister}
-            style={buttonStyle}
+            className="register-button"
             onMouseOver={(e) =>
               (e.currentTarget.style.boxShadow = "0 8px 16px rgba(0,0,0,0.1)")
             }
@@ -55,13 +36,13 @@ function RegisterPage() {
             <img
               src={studentImage}
               alt="Student"
-              style={{ width: "100px", marginBottom: "10px" }}
+              className="register-image"
             />
             <span>Student</span>
           </div>
           <div
             onClick={handleTeacherRegister}
-            style={buttonStyle}
+            className="register-button"
             onMouseOver={(e) =>
               (e.currentTarget.style.boxShadow = "0 8px 16px rgba(0,0,0,0.1)")
             }
@@ -70,12 +51,13 @@ function RegisterPage() {
             <img
               src={teacherImage}
               alt="Teacher"
-              style={{ width: "100px", marginBottom: "10px" }}
+              className="register-image"
             />
             <span>Teacher</span>
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
