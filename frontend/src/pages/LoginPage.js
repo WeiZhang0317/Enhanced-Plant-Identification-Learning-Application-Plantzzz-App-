@@ -63,10 +63,11 @@ function LoginPage() {
     <div className="login-page">
       <Navigation />
       <div className="login-container">
-        <h1 className="login-title">Login</h1>
+        
         {error && <div className="login-error">{error}</div>}
         <form onSubmit={handleSubmit} className="login-form">
           <div className="login-form-field">
+          <h1 className="login-title">Login</h1>
             <label htmlFor="email" className="login-label">
               Email:
             </label>
@@ -100,7 +101,11 @@ function LoginPage() {
           >
             Login
           </button>
+          <div className="login-footer">
+          <p>Don't have an account? <a href="/register" className="register-link">Register here</a></p>
+        </div>
         </form>
+       
       </div>
     </div>
   );
