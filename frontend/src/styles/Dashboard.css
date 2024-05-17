@@ -11,6 +11,7 @@
         .dashboard-body {
           display: flex;
           margin-top: 20px; /* Space above for the navbar */
+         
         }
         
         /* Styling for the sidebar with a modern navigation look */
@@ -23,6 +24,7 @@
           flex-direction: column;
           height: calc(100vh - 60px); /* Assuming navbar height */
           overflow-y: auto;
+         
         }
         
         .sidebar a {
@@ -45,8 +47,11 @@
           padding: 20px;
           background-color: #fff;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          border-radius: 10px;
+          
           margin-left: 20px; /* Space between sidebar and main content */
+          background-image: url('../images/background.png');
+    background-repeat: repeat;
+    background-size: 100px 100px;
         }
         
         /* Styling for forms and inputs within the main content area */
@@ -90,15 +95,7 @@
             flex-direction: column;
           }
         
-          .sidebar {
-            width: 100%; /* Full width on small screens */
-            height: auto;
-            order: -1; /* Sidebar goes above content on small screens */
-          }
-        
-          .main-content {
-            margin-left: 0;
-            margin-top: 20px;
-          }
+  
+     
         }
         
