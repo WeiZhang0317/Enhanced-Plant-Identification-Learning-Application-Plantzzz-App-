@@ -1,5 +1,6 @@
 /* General styling for the HomePage container */
 .homepage {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,9 +8,51 @@
   height: 100vh;
   animation: fadeIn 1.5s ease-out;
   background-size: 400% 400%;
-
 }
 
+.homepage::before,
+.homepage::after {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(45deg, white, #4CAF50);
+  z-index: -1; /* Make sure the gradients are behind the content */
+}
+
+.homepage::before {
+  top: 0;
+  left: 0;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.homepage::after {
+  bottom: 0;
+  right: 0;
+  clip-path: polygon(100% 100%, 0 100%, 100% 0);
+}
+
+.homepage::before::after,
+.homepage::before::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(45deg, white, #4CAF50);
+  z-index: -1; /* Make sure the gradients are behind the content */
+}
+
+.homepage::before::before {
+  bottom: 0;
+  left: 0;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.homepage::before::after {
+  top: 0;
+  right: 0;
+  clip-path: polygon(100% 100%, 0 100%, 100% 0);
+}
 
 /* Container to hold both the logo and the leaf gif */
 .logo-container {
