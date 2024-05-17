@@ -34,9 +34,14 @@ body {
           flex-direction: column;
           align-items: center;
           background-color: rgba(255, 255, 255, 0.7); /* Adjusted transparency to 70% opaque */
-          border-radius: 8px;
+          border-radius: 20px 50px 20px 50px; /* Asymmetrical rounded corners */
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          width: 500px; /* Slightly wider width */
+          max-width: 100%; /* Ensure it doesn't overflow its container */
+          margin: 50px auto; /* Move down 50px and center horizontally */
         }
+        
+        
         .register-title {
           margin-bottom: 40px;
         }

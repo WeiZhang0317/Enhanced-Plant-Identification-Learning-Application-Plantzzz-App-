@@ -20,17 +20,23 @@
     }
     
     .thank-you-container button {
-      padding: 10px 20px;
-      font-size: 16px;
+      width: 30%;
+      height: 50px;
+      padding: 10px;
+      background: linear-gradient(45deg, #4CAF50, #81C784);
       color: white;
-      background-color: #007bff;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.2s;
+      margin-top: 10px;
+      transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+      font-weight: bold;
+      font-size: 18px;
     }
     
     .thank-you-container button:hover {
-      background-color: #0056b3;
+      background: linear-gradient(145deg, #388E3C, #43A047);
+      box-shadow: 0 5px 9px rgba(0, 0, 0, 0.25);
+      transform: translateY(-2px) scale(1.03);
     }
     
