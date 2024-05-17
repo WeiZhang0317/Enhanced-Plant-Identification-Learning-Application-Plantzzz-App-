@@ -10,6 +10,8 @@ npm start
 # install frontawsome
 npm install @fortawesome/react-fontawesome @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons
 
+# 安装canvas-confetti 
+npm install canvas-confetti
 
 
 # 更新react script到最新
