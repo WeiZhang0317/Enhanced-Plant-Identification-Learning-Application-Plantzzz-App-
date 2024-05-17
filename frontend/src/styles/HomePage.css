@@ -1,71 +1,114 @@
 /* General styling for the HomePage container */
 .homepage {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          margin-top: -50px;
-          animation: fadeIn 1.5s ease-out;
-        }
-        
-        /* Container to hold both the logo and the leaf gif */
-        .logo-container {
-          position: relative; /* Establishes a positioning context for absolute positioning inside */
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        
-        /* Styling for the logo with a simple fade-in effect */
-        .homepage-logo {
-          max-width: 400px;
-          margin-bottom: 40px;
-          width: 100%; /* Ensures the logo scales based on its container */
-        }
-        
-        /* Styling for the leaf gif, positioned relative to the logo */
-        .leaf-gif {
-          position: absolute; /* Positioned absolutely within its relative parent */
-          bottom: 0px; /* Position it towards the bottom of the logo */
-          right: -10px; /* Position it to the right of the logo */
-          width: 20%; /* Set the size to be 1/5 of the logo's width */
-          max-width: 80px; /* Ensure it doesn't get too large on bigger screens */
-        }
-        
-        /* General button styling with modern aesthetics */
-        .homepage-button {
-          width: 200px;
-          padding: 10px;
-          margin: 20px 0 10px;
-          border: none;
-          border-radius: 5px;
-          background: linear-gradient(145deg, #43A047, #4CAF50);
-          color: white;
-          font-size: 16px;
-          font-weight: bold;
-          cursor: pointer;
-          outline: none;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-          transition: all 0.3s ease;
-        }
-        
-        /* Hover effects for the button, including scale and background change */
-        .homepage-button:hover {
-          background: linear-gradient(145deg, #388E3C, #43A047);
-          box-shadow: 0 5px 9px rgba(0, 0, 0, 0.25);
-          transform: translateY(-2px) scale(1.03);
-        }
-        
-        /* Keyframe animation for the entire container fade-in */
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  animation: fadeIn 1.5s ease-out;
+  background-size: 400% 400%;
+
+}
+
+
+/* Container to hold both the logo and the leaf gif */
+.logo-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+
+/* Styling for the logo with a simple fade-in effect */
+.homepage-logo {
+  max-width: 400px;
+  margin-bottom: 40px;
+  width: 100%; /* Ensures the logo scales based on its container */
+}
+
+/* Styling for the leaf gif, positioned relative to the logo */
+.leaf-gif {
+  position: absolute;
+  bottom: 0px;
+  right: -10px;
+  width: 20%;
+  max-width: 80px;
+  animation: leafFloat 3s ease-in-out infinite;
+}
+
+@keyframes leafFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* General button styling with modern aesthetics */
+.homepage-button {
+  width: 200px;
+  padding: 10px;
+  margin: 20px 0 10px;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(145deg, #43A047, #4CAF50);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.homepage-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(45deg);
+  transition: all 0.3s ease;
+}
+
+.homepage-button:hover::before {
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+}
+
+/* Hover effects for the button, including scale and background change */
+.homepage-button:hover {
+  background: linear-gradient(145deg, #388E3C, #43A047);
+  box-shadow: 0 5px 9px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* Keyframe animation for the entire container fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
