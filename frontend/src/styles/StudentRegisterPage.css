@@ -1,5 +1,7 @@
 .student-register-page {
-          background: url('../images/background.png') repeat;
+          background-image: url('../images/background.png');
+    background-repeat: repeat;
+    background-size: 100px 100px;
           min-height: 100vh;
           animation: fadeIn 1s;
           display: flex;

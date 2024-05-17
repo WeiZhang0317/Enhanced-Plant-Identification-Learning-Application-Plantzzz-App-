@@ -47,8 +47,6 @@
           padding: 20px;
           background-color: #fff;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          
-          margin-left: 20px; /* Space between sidebar and main content */
           background-image: url('../images/background.png');
     background-repeat: repeat;
     background-size: 100px 100px;
