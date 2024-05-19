@@ -7,6 +7,19 @@
     from { opacity: 0; }
     to { opacity: 1; }
 }
+
+
+.student-review-title {
+    color: #027906;
+      margin: 20px 0;
+      font-size: 30px;
+      text-align: center;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      font-style: italic;
+      font-family: 'Cinzel', serif; 
+    }
+
 .progress-list {
     list-style: none;
     padding: 0;
