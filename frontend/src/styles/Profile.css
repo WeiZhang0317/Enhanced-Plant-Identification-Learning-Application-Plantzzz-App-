@@ -48,7 +48,7 @@
 
 .profile input {
   width: 100%;
-  padding: 12px; /* 增加输入框内边距 */
+  padding: 12px; 
   margin: 10px 0;
   border-radius: 5px;
   border: 1px solid #ddd;
@@ -56,15 +56,22 @@
   font-size: 16px;
 }
 
+.masked-password {
+  font-size: 16px;
+  color: black;
+  text-align: left;
+  margin: 0; /* Ensure it aligns well with the input fields */
+}
+
 .profile input[type="password"] {
   margin-bottom: 20px;
 }
 
 .profile label {
-  text-align: left; /* 左对齐输入字段标签 */
-  margin-bottom: 5px; /* 增加标签底部间距 */
-  font-size: 18px; /* 调整标签字体大小 */
-  color: #4caf50; /* 设置标签文字颜色为绿色 */
+  text-align: left;
+  margin-bottom: 5px; 
+  font-size: 18px; 
+  color: #4caf50; 
 }
 
 .profile .button-group {
@@ -73,7 +80,7 @@
 }
 
 .profile button {
-  padding: 12px 24px; /* 增加按钮内边距 */
+  padding: 12px 24px; 
   margin: 10px;
   border: none;
   border-radius: 5px;
@@ -88,8 +95,15 @@
   background-color: #45a049;
 }
 
+
 .error-message {
   color: #ff0000;
   margin-top: 10px;
-  font-size: 14px; /* 调整错误信息字体大小 */
+  font-size: 14px; 
+}
+
+.success-message {
+  color: #4caf50;
+  margin-top: 10px;
+  font-size: 14px;
 }
