@@ -101,12 +101,10 @@ def update_profile():
         if 'newPassword' in data and 'currentPassword' in data:
             if check_password_hash(user['Password'], data['currentPassword']):
                 new_password_hashed = generate_password_hash(data['newPassword'])
-                print(f"Old password hash: {user['Password']}")  
-
-                print(f"New password hash: {new_password_hashed}")  
                 cursor.execute("UPDATE Users SET Password = %s WHERE UserID = %s", (new_password_hashed, user_id))
             else:
                 return jsonify({"message": "Current password is incorrect"}), 401
+
 
         if 'username' in data and 'email' in data:
             cursor.execute("UPDATE Users SET Username = %s, Email = %s WHERE UserID = %s", (data['username'], data['email'], user_id))
