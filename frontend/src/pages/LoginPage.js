@@ -14,6 +14,9 @@ function LoginPage() {
 
   const [error, setError] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
@@ -85,8 +88,9 @@ function LoginPage() {
             <label htmlFor="password" className="login-label">
               Password:
             </label>
+            <div className="password-input-container">
             <input
-              type="password"
+               type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               placeholder="Password"
@@ -94,7 +98,16 @@ function LoginPage() {
               onChange={handleChange}
               className="login-input"
             />
-          </div>
+        
+          <button
+      type="button"
+      className="show-password-button"
+      onClick={() => setShowPassword(!showPassword)}
+    >
+      {showPassword ? "Hide" : "Show"}
+    </button>
+    </div>
+    </div>
           <button
             type="submit"
             className="login-button"
