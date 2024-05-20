@@ -114,6 +114,14 @@ const QuizDetails = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
 }, [currentQuestionIndex, quizDetails, changeQuestion]);
 
+const handleProgressBarClick = (e) => {
+  const progressBar = e.currentTarget;
+  const clickPosition = e.nativeEvent.offsetX;
+  const progressBarWidth = progressBar.offsetWidth;
+  const clickPercentage = clickPosition / progressBarWidth;
+  const questionIndex = Math.floor(clickPercentage * quizDetails.questions.length);
+  changeQuestion(questionIndex);
+};
 
 
 
@@ -223,7 +231,7 @@ const submitQuiz = async () => {
     <div className="quiz-container">
       <h1>{quizDetails.quizName}</h1>
       <div>Time Elapsed: {formatTime(timer)}</div>
-      <div className="progress-bar">
+      <div className="progress-bar" onClick={handleProgressBarClick}>
         <div className="progress-bar-fill" style={{ width: `${progress}%` }}>{Math.round(progress)}%</div>
       </div>
       {question && question.questionId ? <div className="question-card">

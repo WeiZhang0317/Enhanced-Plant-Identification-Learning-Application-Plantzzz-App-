@@ -54,6 +54,7 @@
         border: 1px solid #ddd;
         padding: 3px;
         border-radius: 4px; /* rounded corners for the progress bar */
+        cursor: pointer;
     }
     
     .progress-bar-fill {
