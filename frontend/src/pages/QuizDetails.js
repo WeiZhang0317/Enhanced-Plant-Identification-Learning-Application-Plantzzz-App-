@@ -4,8 +4,11 @@ import { useUserContext } from '../contexts/UserContext';
 import { useQuiz } from '../contexts/QuizContext';
 import '../styles/QuizDetails.css';
 import { useNavigate } from 'react-router-dom';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 
+const questionTime = 20; 
+// maximum 20s
 const QuizDetails = () => {
   const { quizId } = useParams();
   const { user } = useUserContext();
@@ -29,7 +32,7 @@ const QuizDetails = () => {
   const [showLightbox, setShowLightbox] = useState(false);
   const [lightboxImage, setLightboxImage] = useState('');
   const [showInstructions, setShowInstructions] = useState(true); // Add this state
-
+  const [questionTimerKey, setQuestionTimerKey] = useState(0);
   
    // Handlers for lightbox functionality
    const handleImageClick = (imageUrl) => {
@@ -41,10 +44,10 @@ const QuizDetails = () => {
     setShowLightbox(false);
   };
 
-   useEffect(() => {
+  useEffect(() => {
     const startTime = Date.now();
     timerRef.current = setInterval(() => {
-      setTimer(Date.now() - startTime);
+      setTimer(Math.floor((Date.now() - startTime) / 1000)); // Update timer in seconds
     }, 1000);
 
     async function fetchQuizDetails() {
@@ -90,7 +93,7 @@ const QuizDetails = () => {
     const currentQuestion = quizDetails.questions[newIndex]
     setQuestion(currentQuestion)
     const questionId = currentQuestion.questionId;
-
+    setQuestionTimerKey(prevKey => prevKey + 1); 
     if (answers[questionId]) {
       setSelectedOption(answers[questionId].selectedOptionId);
       setFeedback(answers[questionId].feedback);
@@ -213,12 +216,7 @@ const submitQuiz = async () => {
 
 
 
-  const formatTime = (ms) => {
-    const seconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-  };
+
 
 
   if (loading) return <div>Loading...</div>;
@@ -244,8 +242,29 @@ const submitQuiz = async () => {
       </div>
     )}
 
-      <h1>{quizDetails.quizName}</h1>
-      <div>Time Elapsed: {formatTime(timer)}</div>
+<div className="quiz-header">
+  <h1>{quizDetails.quizName}</h1>
+  <div className="time-elapsed">
+ 
+        <CountdownCircleTimer
+    key={questionTimerKey} // Add this key to reset timer
+    isPlaying
+    duration={questionTime}
+    colors={['#4CAF50', '#F7B801', '#A30000']}
+    colorsTime={[30, 15, 0]}
+    onComplete={() => ({ shouldRepeat: false, delay: 1 })}
+  >
+    {({ remainingTime }) =>
+      remainingTime === 0 ? (
+        <div className="timer">You should be faster, keep it up!</div>
+      ) : (
+        <div className="timer">{remainingTime}</div>
+      )
+    }
+  </CountdownCircleTimer>
+  </div>
+</div>
+
       <div className="progress-bar" onClick={handleProgressBarClick}>
         <div className="progress-bar-fill" style={{ width: `${progress}%` }}>{Math.round(progress)}%</div>
       </div>

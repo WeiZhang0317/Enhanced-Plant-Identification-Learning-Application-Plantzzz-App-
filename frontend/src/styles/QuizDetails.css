@@ -8,7 +8,26 @@
         background-color: #fff; /* ensures readability */
         animation: fadeIn 1s;  
     }
+    .quiz-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      
+      .time-elapsed {
+        width: 50px;  /* Adjust the width as needed */
+        height: 50px; /* Adjust the height as needed */
+        margin-top: -20px;
 
+  
+  position: relative;
+      }
+      
+      .time-elapsed .CircularProgressbar {
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
+      }
+      
     
 @keyframes fadeIn {
   from { opacity: 0; }
