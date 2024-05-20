@@ -41,7 +41,7 @@ def login():
         ''', (data['email'],))
         user = cursor.fetchone()
         
-        if user: # and check_password_hash(user['Password'], data['password']):
+        if user and check_password_hash(user['Password'], data['password']):
             # Set up the basic user info
             session['user_info'] = {
                 "userId": user['UserID'],
