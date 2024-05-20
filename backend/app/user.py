@@ -7,7 +7,10 @@ from flask_cors import CORS
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
-from flask import current_app
+
+
+
+
 
 
 user_blueprint = Blueprint('user', __name__)
@@ -98,6 +101,9 @@ def update_profile():
         if 'newPassword' in data and 'currentPassword' in data:
             if check_password_hash(user['Password'], data['currentPassword']):
                 new_password_hashed = generate_password_hash(data['newPassword'])
+                print(f"Old password hash: {user['Password']}")  
+
+                print(f"New password hash: {new_password_hashed}")  
                 cursor.execute("UPDATE Users SET Password = %s WHERE UserID = %s", (new_password_hashed, user_id))
             else:
                 return jsonify({"message": "Current password is incorrect"}), 401
