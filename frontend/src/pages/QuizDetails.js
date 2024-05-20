@@ -28,6 +28,8 @@ const QuizDetails = () => {
   const [progressing, setProgressing] = useState(false);
   const [showLightbox, setShowLightbox] = useState(false);
   const [lightboxImage, setLightboxImage] = useState('');
+  const [showInstructions, setShowInstructions] = useState(true); // Add this state
+
   
    // Handlers for lightbox functionality
    const handleImageClick = (imageUrl) => {
@@ -229,6 +231,19 @@ const submitQuiz = async () => {
   
   return (
     <div className="quiz-container">
+
+    {showInstructions && (
+      <div className="modal-backdrop">
+        <div className="score-modal">
+          <h2>Instructions</h2>
+          <p>Questions 1-50 are True/False.</p>
+          <p>Questions 51-100 are multiple-choice.</p>
+          <p>You can click "Save Progress" to save your progress and continue later, but note that the total time spent will affect your ranking. Click "Submit Quiz" to submit your results to the leaderboard.</p>
+          <button onClick={() => setShowInstructions(false)}>I Understand</button>
+        </div>
+      </div>
+    )}
+
       <h1>{quizDetails.quizName}</h1>
       <div>Time Elapsed: {formatTime(timer)}</div>
       <div className="progress-bar" onClick={handleProgressBarClick}>
