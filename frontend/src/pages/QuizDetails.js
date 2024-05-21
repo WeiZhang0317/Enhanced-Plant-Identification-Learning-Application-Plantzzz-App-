@@ -6,9 +6,10 @@ import '../styles/QuizDetails.css';
 import { useNavigate } from 'react-router-dom';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
-
 const questionTime = 20; 
 // maximum 20s
+
+
 const QuizDetails = () => {
   const { quizId } = useParams();
   const { user } = useUserContext();
@@ -33,7 +34,8 @@ const QuizDetails = () => {
   const [lightboxImage, setLightboxImage] = useState('');
   const [showInstructions, setShowInstructions] = useState(true); // Add this state
   const [questionTimerKey, setQuestionTimerKey] = useState(0);
-  
+  // Add this state for resetting timer
+  const [timeUp, setTimeUp] = useState(false);
    // Handlers for lightbox functionality
    const handleImageClick = (imageUrl) => {
     setShowLightbox(true);
@@ -93,7 +95,10 @@ const QuizDetails = () => {
     const currentQuestion = quizDetails.questions[newIndex]
     setQuestion(currentQuestion)
     const questionId = currentQuestion.questionId;
-    setQuestionTimerKey(prevKey => prevKey + 1); 
+
+     setQuestionTimerKey(prevKey => prevKey + 1); // Reset timer by changing the key
+     setTimeUp(false); 
+
     if (answers[questionId]) {
       setSelectedOption(answers[questionId].selectedOptionId);
       setFeedback(answers[questionId].feedback);
@@ -242,26 +247,46 @@ const submitQuiz = async () => {
       </div>
     )}
 
+
 <div className="quiz-header">
   <h1>{quizDetails.quizName}</h1>
   <div className="time-elapsed">
- 
-        <CountdownCircleTimer
-    key={questionTimerKey} // Add this key to reset timer
-    isPlaying
-    duration={questionTime}
-    colors={['#4CAF50', '#F7B801', '#A30000']}
-    colorsTime={[30, 15, 0]}
-    onComplete={() => ({ shouldRepeat: false, delay: 1 })}
-  >
-    {({ remainingTime }) =>
-      remainingTime === 0 ? (
-        <div className="timer">You should be faster, keep it up!</div>
-      ) : (
+    {!timeUp ? (
+      <CountdownCircleTimer
+      key={questionTimerKey}
+      isPlaying
+      duration={questionTime}
+      colors={['#4CAF50', '#F7B801', '#A30000']}
+      colorsTime={[30, 15, 0]}
+      onComplete={() => {
+        setTimeUp(true);
+        return { shouldRepeat: false, delay: 1 };
+      }}
+      size={189} /* Adjust the size if the component supports this prop for direct sizing */
+      style={{
+        width: '100%',  /* Ensures that the timer fills its container */
+        height: '100%',
+      }}
+    >
+      {({ remainingTime }) => (
         <div className="timer">{remainingTime}</div>
-      )
-    }
-  </CountdownCircleTimer>
+      )}
+    </CountdownCircleTimer>
+    ) : (
+      <div className="bubble" style={{ 
+        backgroundColor: '#fff', 
+        borderRadius: '25px', 
+        padding: '10px 20px', 
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        height: '100%', 
+        textAlign: 'center' 
+      }}>
+        <div className="bubble-text" style={{ fontSize: '14px', color: '#f44336' }}>You should be faster, keep it up!</div>
+      </div>
+    )}
   </div>
 </div>
 

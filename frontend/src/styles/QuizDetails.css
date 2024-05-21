@@ -10,23 +10,13 @@
     }
     .quiz-header {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative; 
       }
       
-      .time-elapsed {
-        width: 50px;  /* Adjust the width as needed */
-        height: 50px; /* Adjust the height as needed */
-        margin-top: -20px;
-
   
-  position: relative;
-      }
-      
-      .time-elapsed .CircularProgressbar {
-        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
-      }
       
     
 @keyframes fadeIn {
@@ -255,3 +245,42 @@
         z-index: 999;
     }
     
+    .timer {
+        font-size: 20px; /* Adjust font size if needed */
+        color: #ff0000;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+   
+      
+      .bubble {
+        background-color: #fff !important;
+        border-radius: 25px !important;
+        padding: 10px 20px !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 100% !important;
+        text-align: center !important;
+      }
+      
+      .bubble-text {
+        font-size: 14px !important;
+        color: #f44336 !important;
+      }
+      
+      .time-elapsed {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 189px; /* 5 cm in pixels */
+        height: 189px; /* 5 cm in pixels */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }

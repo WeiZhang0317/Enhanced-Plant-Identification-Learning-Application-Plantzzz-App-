@@ -13,6 +13,8 @@ npm install @fortawesome/react-fontawesome @fortawesome/fontawesome-svg-core @fo
 # 安装canvas-confetti 
 npm install canvas-confetti
 
+# 安装react-countdown-circle-timer
+npm install react-countdown-circle-timer
 
 # 更新react script到最新
 npm install react-scripts@latest
