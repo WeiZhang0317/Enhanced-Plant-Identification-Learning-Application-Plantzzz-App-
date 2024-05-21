@@ -6,6 +6,8 @@ cd C:\Users\zhang\Documents\GitHub\plantzzz\frontend
 set NODE_OPTIONS=--openssl-legacy-provider
 npm start
 
+cd "C:\Users\zhang\Downloads\plantzzz-main (1)\plantzzz-main\frontend"
+
 # 安装frontawsome  
 # install frontawsome
 npm install @fortawesome/react-fontawesome @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons
