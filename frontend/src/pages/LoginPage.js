@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
-import { useUserContext } from '../contexts/UserContext';
-import '../styles/LoginPage.css';
-
+import { useUserContext } from "../contexts/UserContext";
+import "../styles/LoginPage.css";
+import { Input } from "antd";
 function LoginPage() {
   const { login } = useUserContext(); // Using the custom hook to access the user context
   const navigate = useNavigate();
@@ -15,7 +15,6 @@ function LoginPage() {
   const [error, setError] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,23 +28,23 @@ function LoginPage() {
       setError("All fields must be filled out");
       return;
     }
-  
+
     try {
-      const response = await fetch('http://localhost:5000/user/login', { 
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/user/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: loginData.email,
           password: loginData.password,
         }),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
-        console.log(data); 
-        login(data)
+        console.log(data);
+        login(data);
         if (data.userType === "teacher") {
           navigate("/teacher/dashboard");
         } else if (data.userType === "student") {
@@ -61,20 +60,19 @@ function LoginPage() {
       setError("Failed to login. Please try again later.");
     }
   };
-  
+
   return (
     <div className="login-page">
       <Navigation />
       <div className="login-container">
-        
         {error && <div className="login-error">{error}</div>}
         <form onSubmit={handleSubmit} className="login-form">
           <div className="login-form-field">
-          <h1 className="login-title">Login</h1>
+            <h1 className="login-title">Login</h1>
             <label htmlFor="email" className="login-label">
               Email:
             </label>
-            <input
+            <Input
               type="email"
               id="email"
               name="email"
@@ -89,7 +87,15 @@ function LoginPage() {
               Password:
             </label>
             <div className="password-input-container">
-            <input
+              <Input.Password
+                id="password"
+                name="password"
+                className="login-input"
+                onChange={handleChange}
+                value={loginData.password}
+                placeholder="Password"
+              />
+              {/* <input
                type={showPassword ? "text" : "password"}
               id="password"
               name="password"
@@ -104,21 +110,22 @@ function LoginPage() {
       className="show-password-button"
       onClick={() => setShowPassword(!showPassword)}
     >
-      {showPassword ? "Hide" : "Show"}
-    </button>
-    </div>
-    </div>
-          <button
-            type="submit"
-            className="login-button"
-          >
+      {showPassword ? "Hide" : "Show"} */}
+              {/* </button> */}
+            </div>
+          </div>
+          <button type="submit" className="login-button">
             Login
           </button>
           <div className="login-footer">
-          <p>Don't have an account? <a href="/register" className="register-link">Register here</a></p>
-        </div>
+            <p>
+              Don't have an account?{" "}
+              <a href="/register" className="register-link">
+                Register here
+              </a>
+            </p>
+          </div>
         </form>
-       
       </div>
     </div>
   );
