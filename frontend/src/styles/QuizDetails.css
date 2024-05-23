@@ -8,6 +8,11 @@
         background-color: #fff; /* ensures readability */
         animation: fadeIn 1s;  
     }
+    .timer-wrapper{
+      display:flex;
+      justify-content: end;
+      margin-bottom:10px;
+    }
     .quiz-header {
         display: flex;
   justify-content: space-between;

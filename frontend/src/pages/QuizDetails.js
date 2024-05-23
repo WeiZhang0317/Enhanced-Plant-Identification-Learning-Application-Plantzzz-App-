@@ -1,9 +1,13 @@
 import React, { useCallback, useState, useEffect, useRef } from "react";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useParams } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
 import { useQuiz } from "../contexts/QuizContext";
 import "../styles/QuizDetails.css";
 import { useNavigate } from "react-router-dom";
+import { Statistic, message } from "antd";
+
+const { Countdown } = Statistic;
 
 const QuizDetails = () => {
   const { quizId } = useParams();
@@ -28,7 +32,14 @@ const QuizDetails = () => {
   const [showLightbox, setShowLightbox] = useState(false);
   const [lightboxImage, setLightboxImage] = useState("");
   const [showInstructions, setShowInstructions] = useState(true); // Add this state
+  const [questionTime] = useState(15);
+  const [questionTimerKey, setQuestionTimerKey] = useState(0);
+  // const [deadline, setdeadline] = useState(Date.now() + 1000 * 15);
+  const onFinish = () => {
+    message.info("finished");
 
+    console.log("finished!");
+  };
   // Handlers for lightbox functionality
   const handleImageClick = (imageUrl) => {
     setShowLightbox(true);
@@ -124,6 +135,8 @@ const QuizDetails = () => {
           isCorrect: quizAnswers[questionId].IsCorrect,
         });
       }
+      // setdeadline(Date.now() + 1000 * 15);
+      setQuestionTimerKey((prevKey) => prevKey + 1); // Reset timer by changing the key
     },
     [quizDetails, answers]
   );
@@ -280,7 +293,27 @@ const QuizDetails = () => {
       )}
 
       <h1>{quizDetails.quizName}</h1>
-      <div>Time Elapsed: {formatTime(timer)}</div>
+      <div className="timer-wrapper">
+        <CountdownCircleTimer
+          key={questionTimerKey}
+          isPlaying
+          size={50}
+          strokeWidth={5}
+          duration={questionTime}
+          onComplete={onFinish}
+          colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+          colorsTime={[7, 5, 2, 0]}
+        >
+          {({ remainingTime }) => remainingTime}
+        </CountdownCircleTimer>
+      </div>
+
+      {/* <div>Time Elapsed: {formatTime(timer)}</div> */}
+      {/* <div style={{ display: "flex", ["align-items"]: "center" }}>
+        <div>Time Elapsed:</div>
+
+        <Countdown value={deadline} onFinish={onFinish} format="ss" />
+      </div> */}
       <div className="progress-bar" onClick={handleProgressBarClick}>
         <div className="progress-bar-fill" style={{ width: `${progress}%` }}>
           {Math.round(progress)}%
