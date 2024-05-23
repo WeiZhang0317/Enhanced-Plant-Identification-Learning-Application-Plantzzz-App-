@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Upload, Button, message } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import "../styles/EditQuiz.css"; // Import the CSS file
 
 const EditQuiz = () => {
@@ -100,40 +102,37 @@ const EditQuiz = () => {
 
   const timestamp = new Date().getTime();
 
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append("image", file);
+  const handleFileUpload = async ({ file }) => {
+    const formData = new FormData();
+    formData.append("image", file);
 
-      try {
-        const response = await fetch(
-          `http://localhost:5000/user/upload-image/${quizDetails[currentQuestionIndex].QuestionID}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to upload image.");
+    try {
+      const response = await fetch(
+        `http://localhost:5000/user/upload-image/${quizDetails[currentQuestionIndex].QuestionID}`,
+        {
+          method: "POST",
+          body: formData,
         }
+      );
 
-        const result = await response.json();
-
-        const updatedQuizDetails = quizDetails.map((question, index) =>
-          index === currentQuestionIndex
-            ? { ...question, ImageURL: result.imageUrl }
-            : question
-        );
-
-        setQuizDetails(updatedQuizDetails);
-
-        alert("Image uploaded successfully!");
-      } catch (error) {
-        console.error("Error uploading image:", error);
-        alert("Failed to upload image.");
+      if (!response.ok) {
+        throw new Error("Failed to upload image.");
       }
+
+      const result = await response.json();
+
+      const updatedQuizDetails = quizDetails.map((question, index) =>
+        index === currentQuestionIndex
+          ? { ...question, ImageURL: result.imageUrl }
+          : question
+      );
+
+      setQuizDetails(updatedQuizDetails);
+
+      message.success("Image uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      message.error("Failed to upload image.");
     }
   };
 
@@ -233,17 +232,16 @@ const EditQuiz = () => {
               className="question-image"
             />
           )}
-          <div className="input-file-container">
-            <label htmlFor="file-upload" className="input-file-trigger">
-              Choose File to Upload
-            </label>
-            <input
-              type="file"
-              id="file-upload"
-              className="input-file"
-              onChange={handleFileUpload}
-            />
-          </div>
+          <Upload
+          customRequest={handleFileUpload}
+          showUploadList={false}
+          accept="image/*"
+        >
+          <Button icon={<UploadOutlined />} className="custom-upload-button">
+            Click to Upload
+          </Button>
+        </Upload>
+
         </div>
         {currentQuestion.options.map((option, optIndex) => (
           <div key={guid()} className="option-item">
