@@ -75,10 +75,11 @@
     display: block; 
     margin-bottom: 5px; 
     color: #333; 
-    font-size: 14px; 
-    font-weight: bold; 
+    font-size: 13px; 
+
 }
 
+  
 .option-item input[type="text"], .question-details input[type="text"] {
     flex-grow: 1;
     padding: 10px;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Upload, Button, message } from "antd";
+import { Upload, Button, message, Input, Radio } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import "../styles/EditQuiz.css"; // Import the CSS file
 
@@ -214,8 +214,7 @@ const EditQuiz = () => {
         <h2>
           Question {currentQuestionIndex + 1}: {currentQuestion.QuestionText}
         </h2>
-        <input
-          type="text"
+        <Input
           value={currentQuestion.QuestionText}
           onChange={(e) => {
             const updatedQuestions = [...quizDetails];
@@ -233,44 +232,41 @@ const EditQuiz = () => {
             />
           )}
           <Upload
-          customRequest={handleFileUpload}
-          showUploadList={false}
-          accept="image/*"
-        >
-          <Button icon={<UploadOutlined />} className="custom-upload-button">
-            Click to Upload
-          </Button>
-        </Upload>
-
+            customRequest={handleFileUpload}
+            showUploadList={false}
+            accept="image/*"
+          >
+            <Button icon={<UploadOutlined />} className="custom-upload-button">
+              Click to Upload
+            </Button>
+          </Upload>
         </div>
         {currentQuestion.options.map((option, optIndex) => (
-          <div key={guid()} className="option-item">
-            <input
-              type="text"
-              value={option.OptionText}
-              onChange={(e) => {
-                const updatedOptions = [...currentQuestion.options];
-                updatedOptions[optIndex].OptionText = e.target.value;
-                const updatedQuestions = [...quizDetails];
-                updatedQuestions[currentQuestionIndex].options = updatedOptions;
-                setQuizDetails(updatedQuestions);
-              }}
-              disabled={currentQuestion.QuestionType === "true_false"}
-            />
-            <label>
-              {option.OptionLabel ? `${option.OptionLabel}: ` : ""}
-              Correct:
-              <input
-                type="radio"
-                name={`correct-option-${currentQuestion.QuestionID}`}
-                checked={option.IsCorrect}
-                onChange={() =>
-                  handleOptionChange(currentQuestionIndex, optIndex)
-                }
-              />
-            </label>
-          </div>
-        ))}
+  <div key={guid()} className="option-item">
+    <label className="option-item-label">
+      {option.OptionLabel ? `${option.OptionLabel}: ` : ""}
+    </label>
+    <Radio
+      checked={option.IsCorrect}
+      onChange={() =>
+        handleOptionChange(currentQuestionIndex, optIndex)
+      }
+    />
+    <Input
+      value={option.OptionText}
+      onChange={(e) => {
+        const updatedOptions = [...currentQuestion.options];
+        updatedOptions[optIndex].OptionText = e.target.value;
+        const updatedQuestions = [...quizDetails];
+        updatedQuestions[currentQuestionIndex].options = updatedOptions;
+        setQuizDetails(updatedQuestions);
+      }}
+      disabled={currentQuestion.QuestionType === "true_false"}
+    />
+  </div>
+))}
+
+     
       </div>
 
       <button onClick={handleSave} className="save-button">
