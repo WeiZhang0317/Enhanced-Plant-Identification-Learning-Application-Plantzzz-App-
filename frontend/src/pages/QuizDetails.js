@@ -32,13 +32,13 @@ const QuizDetails = () => {
   const [showLightbox, setShowLightbox] = useState(false);
   const [lightboxImage, setLightboxImage] = useState("");
   const [showInstructions, setShowInstructions] = useState(true); // Add this state
-  const [questionTime] = useState(15);
+  const [questionTime] = useState(10);
   const [questionTimerKey, setQuestionTimerKey] = useState(0);
   // const [deadline, setdeadline] = useState(Date.now() + 1000 * 15);
   const onFinish = () => {
-    message.info("finished");
+    message.info("Time is up, please speed up!");
 
-    console.log("finished!");
+    console.log("Time is up, please speed up!");
   };
   // Handlers for lightbox functionality
   const handleImageClick = (imageUrl) => {
@@ -256,12 +256,12 @@ const QuizDetails = () => {
     }
   };
 
-  const formatTime = (ms) => {
-    const seconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
-  };
+  // const formatTime = (ms) => {
+  //   const seconds = Math.floor(ms / 1000);
+  //   const minutes = Math.floor(seconds / 60);
+  //   const remainingSeconds = seconds % 60;
+  //   return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  // };
 
   if (loading) return <div>Loading...</div>;
   if (!quizDetails || quizDetails.questions.length === 0)
@@ -291,8 +291,8 @@ const QuizDetails = () => {
           </div>
         </div>
       )}
-
-      <h1>{quizDetails.quizName}</h1>
+      <div class="header-container">
+      <div class="quiz-header">{quizDetails.quizName}</div>
       <div className="timer-wrapper">
         <CountdownCircleTimer
           key={questionTimerKey}
@@ -301,13 +301,13 @@ const QuizDetails = () => {
           strokeWidth={5}
           duration={questionTime}
           onComplete={onFinish}
-          colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-          colorsTime={[7, 5, 2, 0]}
+          colors={["#4CAF50", "#7FFF00", "#FFFF00", "#FF7F00", "#FF0000"]}
+          colorsTime={[10, 7, 5, 2, 0]}
         >
           {({ remainingTime }) => remainingTime}
         </CountdownCircleTimer>
       </div>
-
+      </div>
       {/* <div>Time Elapsed: {formatTime(timer)}</div> */}
       {/* <div style={{ display: "flex", ["align-items"]: "center" }}>
         <div>Time Elapsed:</div>
