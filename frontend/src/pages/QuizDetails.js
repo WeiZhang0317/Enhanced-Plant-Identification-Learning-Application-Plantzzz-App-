@@ -284,10 +284,13 @@ const QuizDetails = () => {
               later, but note that the total time spent will affect your
               ranking. Click "Submit Quiz" to submit your results to the
               leaderboard.
+             
             </p>
+            <br />
             <button onClick={() => setShowInstructions(false)}>
               I Understand
             </button>
+          
           </div>
         </div>
       )}
