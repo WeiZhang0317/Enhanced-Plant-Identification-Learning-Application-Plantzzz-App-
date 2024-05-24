@@ -1,99 +1,116 @@
 /* Overall layout for the teacher dashboard */
 .teacher-dashboard {
-          display: flex;
-          flex-direction: column;
-          background-color: #F0F2F5;
-          min-height: 100vh;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        /* Layout below the navigation bar */
-        .dashboard-body {
-          display: flex;
-          margin-top: 20px; /* Space above for the navbar */
-         
-        }
-        
-        /* Styling for the sidebar with a modern navigation look */
-        .sidebar {
-          width: 200px; /* Narrower than student's for fewer items */
-          background-color: #ffffff;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          padding: 20px;
-          display: flex;
-          flex-direction: column;
-          height: calc(100vh - 60px); /* Assuming navbar height */
-          overflow-y: auto;
-         
-        }
-        
-        .sidebar a {
-          text-decoration: none;
-          color: #333;
-          padding: 10px;
-          margin: 10px 0;
-          border-radius: 5px;
-          transition: background-color 0.2s ease-in-out;
-        }
-        
-        .sidebar a:hover, .sidebar a.active {
-          background-color: #4CAF50;
-          color: #ffffff;
-        }
-        
-        /* Main content area, where forms and content will be displayed */
-        .main-content {
-          flex-grow: 1;
-          padding: 20px;
-          background-color: #fff;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          background-image: url('../images/background.png');
-    background-repeat: repeat;
-    background-size: 100px 100px;
-        }
-        
-        /* Styling for forms and inputs within the main content area */
-        .form-section {
-          background-color: #fff;
-          padding: 20px;
-          border-radius: 8px;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        
-        .form-section h1 {
-          color: #4CAF50;
-        }
-        
-        .input-field {
-          width: 100%;
-          padding: 8px;
-          margin: 10px 0;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-        }
-        
-        .submit-button {
-          width: 100%;
-          padding: 10px;
-          background-color: #4CAF50;
-          color: white;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          margin-top: 10px;
-        }
-        
-        .submit-button:hover {
-          background-color: #367c39;
-        }
-        
-        /* Responsive adjustments for smaller screens */
-        @media (max-width: 768px) {
-          .dashboard-body {
-            flex-direction: column;
-          }
-        
-  
-     
-        }
-        
+  display: flex;
+  flex-direction: column;
+  background-color: #F0F2F5;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Layout below the navigation bar */
+.dashboard-body {
+  display: flex;
+  margin-top: 20px; /* Space above for the navbar */
+  flex: 1; /* Ensure the body takes the remaining space */
+}
+
+.sidebar {
+  width: 200px; /* Narrower than student's for fewer items */
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 866.61px; /* Adjust the height as needed */
+  overflow-y: auto;
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #4CAF50 #ffffff; /* For Firefox */
+}
+
+/* Webkit scrollbar styles */
+.sidebar::-webkit-scrollbar {
+  width: 8px; /* Adjust scrollbar width */
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #ffffff; /* Scrollbar track color */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #4CAF50; /* Scrollbar thumb color */
+  border-radius: 10px; /* Rounded corners for scrollbar thumb */
+  border: 2px solid #ffffff; /* Border around scrollbar thumb */
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background-color: #4CAF50;
+  color: #ffffff;
+}
+
+/* Main content area, where forms and content will be displayed */
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-image: url('../images/background.png');
+  background-repeat: repeat;
+  background-size: 100px 100px;
+}
+
+/* Styling for forms and inputs within the main content area */
+.form-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h1 {
+  color: #4CAF50;
+}
+
+.input-field {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.submit-button:hover {
+  background-color: #367c39;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .dashboard-body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%; /* Sidebar takes full width on smaller screens */
+    height: auto; /* Height adjusts to content on smaller screens */
+  }
+}

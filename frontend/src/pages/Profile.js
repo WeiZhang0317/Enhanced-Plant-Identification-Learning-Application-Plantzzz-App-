@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useUserContext } from '../contexts/UserContext';
+import { message } from 'antd';
 import '../styles/Profile.css';
 import studentAvatar from '../images/student.png';
-import teacherAvatar from '../images/teacher.png'; 
+import teacherAvatar from '../images/teacher.png';
 
 const Profile = () => {
     const { user, setUser } = useUserContext();
@@ -12,7 +13,6 @@ const Profile = () => {
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
 
     useEffect(() => {
@@ -37,21 +37,19 @@ const Profile = () => {
             if (setUser) {
                 setUser({
                     ...user,
-                    email:result.Email,
-                    username:result.Username
+                    email: result.Email,
+                    username: result.Username
                 });
             }
             setEditing(false);
             setPassword('');
             setNewPassword('');
             setErrorMessage('');
-            setSuccessMessage('Profile updated successfully');
-            setTimeout(() => {
-                setSuccessMessage('');
-            }, 3000); // Hide success message after 3 seconds
+            message.success('Profile updated successfully');
         } catch (error) {
             console.error('Failed to fetch:', error);
             setErrorMessage('Failed to update profile: ' + error.message);
+            message.error('Failed to update profile: ' + error.message);
         }
     };
 
@@ -85,7 +83,6 @@ const Profile = () => {
                 </>
             )}
             {errorMessage && <p className="error-message">{errorMessage}</p>}
-            {successMessage && <p className="success-message">{successMessage}</p>}
         </div>
     );
 };

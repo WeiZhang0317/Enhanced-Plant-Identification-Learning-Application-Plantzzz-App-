@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Upload, Button, message, Input, Radio } from "antd";
+import { Upload, Button, message, Input, Radio, Modal } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import "../styles/EditQuiz.css"; // Import the CSS file
 
@@ -25,6 +25,7 @@ const EditQuiz = () => {
         const data = await response.json();
         setQuizDetails(data);
       } catch (error) {
+        message.error("Failed to fetch quiz details");
         console.error("Failed to fetch quiz details:", error);
       } finally {
         setLoading(false);
@@ -72,10 +73,10 @@ const EditQuiz = () => {
         throw new Error(`HTTP status ${response.status}`);
       }
       const result = await response.json();
-      alert(result.message);
+      message.success(result.message);
     } catch (error) {
+      message.error("Failed to save updates");
       console.error("Failed to save updates:", error);
-      alert("Failed to save updates");
     }
   };
 
@@ -132,8 +133,8 @@ const EditQuiz = () => {
 
       message.success("Image uploaded successfully!");
     } catch (error) {
+      message.error("Failed to upload image");
       console.error("Error uploading image:", error);
-      message.error("Failed to upload image.");
     }
   };
 
@@ -198,31 +199,29 @@ const EditQuiz = () => {
           Previous
         </button>
         <span className="question-navigation">
-  Question{" "}
-  <input
-    className="small-input"
-    type="number"
-    value={inputQuestionIndex}
-    onChange={(e) => setInputQuestionIndex(e.target.value)}
-    onKeyDown={(e) => {
-      if (e.key === 'Enter') {
-        const questionIndex = parseInt(inputQuestionIndex, 10) - 1;
-        if (
-          !isNaN(questionIndex) &&
-          questionIndex >= 0 &&
-          questionIndex < quizDetails.length
-        ) {
-          handleQuestionChange(questionIndex);
-        } else {
-          message.error("Invalid question number");
-        }
-      }
-    }}
-  />{" "}
-  of {quizDetails.length}
-</span>
-
-
+          Question{" "}
+          <input
+            className="small-input"
+            type="number"
+            value={inputQuestionIndex}
+            onChange={(e) => setInputQuestionIndex(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                const questionIndex = parseInt(inputQuestionIndex, 10) - 1;
+                if (
+                  !isNaN(questionIndex) &&
+                  questionIndex >= 0 &&
+                  questionIndex < quizDetails.length
+                ) {
+                  handleQuestionChange(questionIndex);
+                } else {
+                  message.error("Invalid question number");
+                }
+              }
+            }}
+          />{" "}
+          of {quizDetails.length}
+        </span>
         <button
           onClick={moveToNext}
           disabled={currentQuestionIndex === quizDetails.length - 1}
@@ -295,7 +294,9 @@ const EditQuiz = () => {
       </div>
 
       <button onClick={handleSave} className="save-button">
-        Save Quiz
+
+      Save Quiz
+
       </button>
     </div>
   );
