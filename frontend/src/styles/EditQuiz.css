@@ -79,6 +79,22 @@
 
 }
 
+.question-navigation {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .small-input {
+    width: 40px;
+    height: 30px;
+    margin: 0 5px;
+    padding: 2px;
+    text-align: center;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+  }
+  
+
   
 .option-item input[type="text"], .question-details input[type="text"] {
     flex-grow: 1;

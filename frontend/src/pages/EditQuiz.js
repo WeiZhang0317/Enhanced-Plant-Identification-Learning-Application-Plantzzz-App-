@@ -10,6 +10,7 @@ const EditQuiz = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const { quizId } = useParams();
   const navigate = useNavigate();
+  const [inputQuestionIndex, setInputQuestionIndex] = useState(currentQuestionIndex + 1);
 
   useEffect(() => {
     const fetchQuizDetails = async () => {
@@ -139,10 +140,10 @@ const EditQuiz = () => {
   const moveToNext = () => {
     if (currentQuestionIndex < quizDetails.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setInputQuestionIndex(currentQuestionIndex + 2); // Update the input field as well
     }
   };
 
-  // guid function: prevent duplicate keys （debug uses）
   const guid = () => {
     function S4() {
       return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
@@ -165,15 +166,18 @@ const EditQuiz = () => {
   const moveToPrevious = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
+      setInputQuestionIndex(currentQuestionIndex); // Update the input field as well
     }
   };
 
   const moveToFirst = () => {
     setCurrentQuestionIndex(0);
+    setInputQuestionIndex(1); // Update the input field as well
   };
 
   const moveToLast = () => {
     setCurrentQuestionIndex(quizDetails.length - 1);
+    setInputQuestionIndex(quizDetails.length); // Update the input field as well
   };
 
   if (loading) return <div>Loading...</div>;
@@ -193,9 +197,32 @@ const EditQuiz = () => {
         <button onClick={moveToPrevious} disabled={currentQuestionIndex === 0}>
           Previous
         </button>
-        <span>
-          Question {currentQuestionIndex + 1} of {quizDetails.length}
-        </span>
+        <span className="question-navigation">
+  Question{" "}
+  <input
+    className="small-input"
+    type="number"
+    value={inputQuestionIndex}
+    onChange={(e) => setInputQuestionIndex(e.target.value)}
+    onKeyDown={(e) => {
+      if (e.key === 'Enter') {
+        const questionIndex = parseInt(inputQuestionIndex, 10) - 1;
+        if (
+          !isNaN(questionIndex) &&
+          questionIndex >= 0 &&
+          questionIndex < quizDetails.length
+        ) {
+          handleQuestionChange(questionIndex);
+        } else {
+          message.error("Invalid question number");
+        }
+      }
+    }}
+  />{" "}
+  of {quizDetails.length}
+</span>
+
+
         <button
           onClick={moveToNext}
           disabled={currentQuestionIndex === quizDetails.length - 1}
@@ -242,31 +269,29 @@ const EditQuiz = () => {
           </Upload>
         </div>
         {currentQuestion.options.map((option, optIndex) => (
-  <div key={guid()} className="option-item">
-    <label className="option-item-label">
-      {option.OptionLabel ? `${option.OptionLabel}: ` : ""}
-    </label>
-    <Radio
-      checked={option.IsCorrect}
-      onChange={() =>
-        handleOptionChange(currentQuestionIndex, optIndex)
-      }
-    />
-    <Input
-      value={option.OptionText}
-      onChange={(e) => {
-        const updatedOptions = [...currentQuestion.options];
-        updatedOptions[optIndex].OptionText = e.target.value;
-        const updatedQuestions = [...quizDetails];
-        updatedQuestions[currentQuestionIndex].options = updatedOptions;
-        setQuizDetails(updatedQuestions);
-      }}
-      disabled={currentQuestion.QuestionType === "true_false"}
-    />
-  </div>
-))}
-
-     
+          <div key={guid()} className="option-item">
+            <label className="option-item-label">
+              {option.OptionLabel ? `${option.OptionLabel}: ` : ""}
+            </label>
+            <Radio
+              checked={option.IsCorrect}
+              onChange={() =>
+                handleOptionChange(currentQuestionIndex, optIndex)
+              }
+            />
+            <Input
+              value={option.OptionText}
+              onChange={(e) => {
+                const updatedOptions = [...currentQuestion.options];
+                updatedOptions[optIndex].OptionText = e.target.value;
+                const updatedQuestions = [...quizDetails];
+                updatedQuestions[currentQuestionIndex].options = updatedOptions;
+                setQuizDetails(updatedQuestions);
+              }}
+              disabled={currentQuestion.QuestionType === "true_false"}
+            />
+          </div>
+        ))}
       </div>
 
       <button onClick={handleSave} className="save-button">
