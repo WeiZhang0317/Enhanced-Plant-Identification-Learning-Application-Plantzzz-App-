@@ -61,6 +61,7 @@ teacher3@example.com / password123
 Supports multiple-choice and true/false questions, allowing flexibility in quiz design.
 #  Timer/Save Progress:
 Each quiz can be timed, and users have the ability to save their progress and resume later, enhancing the usability for varying quiz lengths and user schedules.
+
 ## Data Management
 #  Database: 
 Centralized storage for all quiz data, user responses, and scores.
@@ -71,12 +72,17 @@ Advanced data filtering options to retrieve quiz results, track progress, and an
 Secure login and registration system for users to access personalized dashboards.
 #  Edit User Information:
 Users can update their personal information, ensuring up-to-date records.
+
 ## Dashboards
 ##  Student Dashboard:
-#  Access Quizzes: Students can access and take quizzes.
-#  Review Completed Quizzes: Allows students to review completed quizzes, see correct answers, and learn from mistakes.
-#  Progress Record: Students can track their learning progress over time, view past scores, and identify areas of improvement.
-#  Score Ranking: Leaderboard feature to view rankings based on quiz scores, fostering a competitive learning environment.
+#  Access Quizzes:
+Students can access and take quizzes.
+#  Review Completed Quizzes:
+Allows students to review completed quizzes, see correct answers, and learn from mistakes.
+#  Progress Record: 
+Students can track their learning progress over time, view past scores, and identify areas of improvement.
+#  Score Ranking: 
+Leaderboard feature to view rankings based on quiz scores, fostering a competitive learning environment.
 ## Teacher Dashboard:
 # Modify Quizzes:
 Teachers can create, modify, and delete quiz questions and answers, tailoring the content to current learning objectives.
