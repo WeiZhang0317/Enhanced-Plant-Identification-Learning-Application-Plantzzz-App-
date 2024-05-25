@@ -55,18 +55,19 @@ teacher1@example.com / password123
 teacher2@example.com / password123
 teacher3@example.com / password123
 
-### Project Features
+# Project Features
 ## Quiz Interface
-#  Question Types:
+###  Question Types:
 Supports multiple-choice and true/false questions, allowing flexibility in quiz design.
-#  Timer/Save Progress:
+###   Timer/Save Progress:
 Each quiz can be timed, and users have the ability to save their progress and resume later, enhancing the usability for varying quiz lengths and user schedules.
 
-## Data Management
-#  Database: 
+# Data Management
+## Database: 
 Centralized storage for all quiz data, user responses, and scores.
-#  Filter Data:
+###   Filter Data:
 Advanced data filtering options to retrieve quiz results, track progress, and analyze user performance efficiently.
+
 ## User Interaction
 #  Login/Register:
 Secure login and registration system for users to access personalized dashboards.
