@@ -8,87 +8,77 @@ npm start
 
 cd "C:\Users\zhang\Downloads\plantzzz-main (1)\plantzzz-main\frontend"
 
-# 安装frontawsome  
-# install frontawsome
-npm install @fortawesome/react-fontawesome @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons
+# Enhanced Plant Identification Learning Application (Plantzzz App)
 
-# 安装canvas-confetti 
+## Project Overview
+The Enhanced Plant Identification Learning Application, commonly referred to as Plantzzz App, is an independent study project developed by the School of Landscape Architecture at Lincoln University. Classified under Educational Technology (EdTech), this initiative focuses on overhauling the existing Plantzzz App to make plant identification learning more interactive and engaging. By utilizing modern technology, Plantzzz Innovations strives to offer a user-friendly platform that significantly enhances the educational journey for students learning about plant names and characteristics.
+
+## Technologies Used
+- **Frontend:** React, Ant Design (antd)
+- **Backend:** Python Blueprint, CORS
+- **Database:** MySQL
+
+## Installation
+Follow these steps to set up the necessary environment to run the application:
+
+
+### Install Canvas Confetti for celebratory effects
 npm install canvas-confetti
 
-# 安装react-countdown-circle-timer
+### Install React Countdown Circle Timer for timing events
 npm install react-countdown-circle-timer
 
-# 更新react script到最新
+### Update React Scripts to the latest version
 npm install react-scripts@latest
 
+### Install Ant Design (antd) for UI components
+npm install antd
 
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Starting the frontend application:
+npm start
+This command runs the app in development mode. Open http://localhost:3000 to view it in your browser. 
 
-## Available Scripts
+### Starting the backend application:
+python app.py
 
-In the project directory, you can run:
+### Login Credentials
+For demonstration purposes, use the following login credentials:
 
-### `npm start`
+### Students
+student1@example.com / password123
+student2@example.com / password123
+student3@example.com / password123
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Teachers
+teacher1@example.com / password123
+teacher2@example.com / password123
+teacher3@example.com / password123
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Project Features
+## Quiz Interface
+#  Question Types:
+Supports multiple-choice and true/false questions, allowing flexibility in quiz design.
+#  Timer/Save Progress:
+Each quiz can be timed, and users have the ability to save their progress and resume later, enhancing the usability for varying quiz lengths and user schedules.
+## Data Management
+#  Database: 
+Centralized storage for all quiz data, user responses, and scores.
+#  Filter Data:
+Advanced data filtering options to retrieve quiz results, track progress, and analyze user performance efficiently.
+## User Interaction
+#  Login/Register:
+Secure login and registration system for users to access personalized dashboards.
+#  Edit User Information:
+Users can update their personal information, ensuring up-to-date records.
+## Dashboards
+##  Student Dashboard:
+#  Access Quizzes: Students can access and take quizzes.
+#  Review Completed Quizzes: Allows students to review completed quizzes, see correct answers, and learn from mistakes.
+#  Progress Record: Students can track their learning progress over time, view past scores, and identify areas of improvement.
+#  Score Ranking: Leaderboard feature to view rankings based on quiz scores, fostering a competitive learning environment.
+## Teacher Dashboard:
+# Modify Quizzes:
+Teachers can create, modify, and delete quiz questions and answers, tailoring the content to current learning objectives.
+# View Study Reports:
+Teachers can generate reports on student performance, helping to identify common difficulties or assess the effectiveness of teaching materials.
