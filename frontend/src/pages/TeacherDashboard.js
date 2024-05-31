@@ -33,7 +33,7 @@ function TeacherDashboard() {
       <div className="content" style={{ display: 'flex', flexDirection: 'row' }}>
         <div className="sidebar">
           <NavLink to="profile" className={getNavLinkClass}>Profile</NavLink>
-          <NavLink to="all-quizzes" className={getNavLinkClass}>All Quizzes</NavLink>
+          <NavLink to="all-quizzes" className={getNavLinkClass}>Edit Quizzes</NavLink>
         </div>
         <div className="main-content" style={{ flexGrow: 1 }}>
         <Routes>
