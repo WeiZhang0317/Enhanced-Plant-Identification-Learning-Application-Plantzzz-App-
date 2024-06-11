@@ -91,13 +91,11 @@ def update_profile():
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
     try:
-       
         cursor.execute("SELECT Password FROM Users WHERE UserID = %s", (user_id,))
         user = cursor.fetchone()
         if not user:
             return jsonify({"message": "User not found"}), 404
 
-      
         if 'newPassword' in data and 'currentPassword' in data:
             if check_password_hash(user['Password'], data['currentPassword']):
                 new_password_hashed = generate_password_hash(data['newPassword'])
@@ -105,15 +103,23 @@ def update_profile():
             else:
                 return jsonify({"message": "Current password is incorrect"}), 401
 
-
         if 'username' in data and 'email' in data:
             cursor.execute("UPDATE Users SET Username = %s, Email = %s WHERE UserID = %s", (data['username'], data['email'], user_id))
 
-        
         connection.commit()
+        
         cursor.execute("SELECT UserID, Username, Email, UserType FROM Users WHERE UserID = %s", (user_id,))
         updated_user = cursor.fetchone()
-        return jsonify(updated_user), 200 
+        
+        # Update session with the latest user info
+        session['user_info'] = {
+            "userId": updated_user['UserID'],
+            "username": updated_user['Username'],
+            "email": updated_user['Email'],
+            "userType": updated_user['UserType']
+        }
+        
+        return jsonify(updated_user), 200
 
     except Exception as e:
         connection.rollback()
