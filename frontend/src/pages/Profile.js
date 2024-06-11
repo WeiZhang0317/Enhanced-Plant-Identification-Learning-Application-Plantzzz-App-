@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUserContext } from '../contexts/UserContext';
-import { message } from 'antd';
+import { message, Input } from 'antd';
 import '../styles/Profile.css';
 import studentAvatar from '../images/student.png';
 import teacherAvatar from '../images/teacher.png';
@@ -68,14 +68,13 @@ const Profile = () => {
             ) : (
                 <>
                     <label>Username:</label>
-                    <input value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
+                    <Input value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
                     <label>Email:</label>
-                    <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
+                    <Input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
                     <label>Current Password:</label> 
-                    <input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} placeholder="Current Password" />
-
+                    <Input.Password value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} placeholder="Current Password" />
                     <label>New Password:</label>
-                    <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="New Password" />
+                    <Input.Password value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="New Password" />
                     <div className="button-group">
                         <button onClick={handleSave}>Save</button>
                         <button onClick={handleEditToggle}>Cancel</button>
