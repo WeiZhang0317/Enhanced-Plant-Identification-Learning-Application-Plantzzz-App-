@@ -103,14 +103,12 @@ const Profile = () => {
             className="fixed-size-input"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
-            placeholder="Current Password"
           />
           <Text>New Password:</Text>
           <Input.Password
             className="fixed-size-input"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            placeholder="New Password"
           />
           <div className="button-group">
             <button onClick={handleSave}>Save</button>
