@@ -112,7 +112,7 @@
 
 
 
-input[type="text"] {
+/* input[type="text"] {
     width: 80%;
     padding: 10px;
     margin: 8px 0;
@@ -120,12 +120,9 @@ input[type="text"] {
     border: 2px solid #ccc;
     border-radius: 4px;
     transition: border-color 0.3s;
-}
+} */
 
-input[type="text"]:focus {
-    border-color: #45a049;
-    outline: none;
-}
+
 
 
 
