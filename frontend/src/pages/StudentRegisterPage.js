@@ -97,6 +97,7 @@ function StudentRegisterPage() {
               value={studentData.email}
               onChange={handleChange}
               className="student-register-form-input"
+              autoComplete="off"
             />
           </div>
           <div className="student-register-form-field">
@@ -108,6 +109,7 @@ function StudentRegisterPage() {
               id="password"
               name="password"
               placeholder="Password"
+              autoComplete="off"
               value={studentData.password}
               onChange={handleChange}
               className="student-register-form-input"

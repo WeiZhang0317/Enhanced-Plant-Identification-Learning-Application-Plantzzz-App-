@@ -102,6 +102,7 @@ function TeacherRegisterPage() {
               value={teacherData.email}
               onChange={handleChange}
               className="teacher-register-form-input"
+              autoComplete="off"
             />
           </div>
           <div className="teacher-register-form-field">
@@ -115,6 +116,7 @@ function TeacherRegisterPage() {
               placeholder="Password"
               value={teacherData.password}
               onChange={handleChange}
+              autoComplete="off"
               className="teacher-register-form-input"
               pattern="(?=.*\d)(?=.*[a-zA-Z]).{5,}"
               title="Password must be at least 5 characters long and include both letters and numbers"
