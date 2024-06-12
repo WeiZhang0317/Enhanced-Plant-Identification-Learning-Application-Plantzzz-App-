@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import { useUserContext } from "../contexts/UserContext";
-import { TextField, InputAdornment, IconButton } from "@mui/material";
+import { TextField, InputAdornment, IconButton, Alert } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import "../styles/LoginPage.css";
 
@@ -67,7 +67,11 @@ function LoginPage() {
     <div className="login-page">
       <Navigation />
       <div className="login-container">
-        {error && <div className="login-error">{error}</div>}
+        {error && (
+          <Alert severity="error" >
+            {error}
+          </Alert>
+        )}
         <form onSubmit={handleSubmit} className="login-form">
           <div className="login-form-field">
             <h1 className="login-title">Login</h1>
@@ -158,4 +162,3 @@ function LoginPage() {
 }
 
 export default LoginPage;
-
