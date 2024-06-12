@@ -86,7 +86,7 @@ function LoginPage() {
             <label htmlFor="password" className="login-label">
               Password:
             </label>
-            <div className="password-input-container">
+            {/* <div className="password-input-container"> */}
               <Input.Password
                 id="password"
                 name="password"
@@ -95,24 +95,8 @@ function LoginPage() {
                 value={loginData.password}
                 placeholder="Password"
               />
-              {/* <input
-               type={showPassword ? "text" : "password"}
-              id="password"
-              name="password"
-              placeholder="Password"
-              value={loginData.password}
-              onChange={handleChange}
-              className="login-input"
-            />
-        
-          <button
-      type="button"
-      className="show-password-button"
-      onClick={() => setShowPassword(!showPassword)}
-    >
-      {showPassword ? "Hide" : "Show"} */}
-              {/* </button> */}
-            </div>
+{/*               
+            </div> */}
           </div>
           <button type="submit" className="login-button">
             Login
