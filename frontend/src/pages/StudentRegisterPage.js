@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import "../styles/StudentRegisterPage.css"; // Import the CSS file
+import { Input, Select, message } from 'antd';
 
 function StudentRegisterPage() {
   const navigate = useNavigate();
@@ -60,7 +61,8 @@ function StudentRegisterPage() {
     })
     .catch(error => {
       console.error('Error:', error);
-      setError(error.message); 
+      setError(error.message);
+      message.error(error.message);
     });
   };
 
@@ -75,7 +77,7 @@ function StudentRegisterPage() {
             <label htmlFor="name" className="student-register-form-label">
               Name:
             </label>
-            <input
+            <Input
               type="text"
               id="name"
               name="name"
@@ -89,7 +91,7 @@ function StudentRegisterPage() {
             <label htmlFor="email" className="student-register-form-label">
               Email:
             </label>
-            <input
+            <Input
               type="email"
               id="email"
               name="email"
@@ -104,12 +106,11 @@ function StudentRegisterPage() {
             <label htmlFor="password" className="student-register-form-label">
               Password:
             </label>
-            <input
-              type="password"
+            <Input.Password
               id="password"
               name="password"
               placeholder="Password"
-              autoComplete="off"
+              autoComplete="new-password"
               value={studentData.password}
               onChange={handleChange}
               className="student-register-form-input"
@@ -125,7 +126,7 @@ function StudentRegisterPage() {
             <label htmlFor="studentId" className="student-register-form-label">
               Student ID:
             </label>
-            <input
+            <Input
               type="text"
               id="studentId"
               name="studentId"
@@ -141,22 +142,22 @@ function StudentRegisterPage() {
             <label htmlFor="enrollmentYear" className="student-register-form-label">
               Year:
             </label>
-            <select
+            <Select
               id="enrollmentYear"
               name="enrollmentYear"
               value={studentData.enrollmentYear}
-              onChange={handleChange}
-              className="student-register-form-input"
+              onChange={(value) => setStudentData({ ...studentData, enrollmentYear: value })}
+              // className="student-register-form-input"
             >
               {Array.from(
                 { length: currentYear - 1999 },
                 (_, index) => 2000 + index
               ).map((year) => (
-                <option key={year} value={year}>
+                <Select.Option key={year} value={year}>
                   {year}
-                </option>
+                </Select.Option>
               ))}
-            </select>
+            </Select>
           </div>
 
           <button type="submit" className="student-register-submit-button">
