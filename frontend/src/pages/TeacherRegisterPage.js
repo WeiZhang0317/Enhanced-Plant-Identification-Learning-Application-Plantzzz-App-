@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import "../styles/TeacherRegisterPage.css"; // Import the CSS file
+import { Input, Select, message } from 'antd';
 
 function TeacherRegisterPage() {
   const navigate = useNavigate();
@@ -13,7 +14,6 @@ function TeacherRegisterPage() {
     title: "", 
   });
 
-  const [title, setTitle] = useState(""); 
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -22,9 +22,9 @@ function TeacherRegisterPage() {
     setError(""); // Clear error message on new input
   };
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-    setTeacherData({ ...teacherData, title: e.target.value });
+  const handleTitleChange = (value) => {
+    setTeacherData({ ...teacherData, title: value });
+    setError(""); // Clear error message on new input
   };
 
   const handleSubmit = (e) => {
@@ -34,7 +34,7 @@ function TeacherRegisterPage() {
       !teacherData.email ||
       !teacherData.password ||
       !teacherData.teacherId ||
-      !title 
+      !teacherData.title 
     ) {
       setError("All fields must be filled out");
       return;
@@ -66,6 +66,7 @@ function TeacherRegisterPage() {
       .catch(error => {
         console.error('Error:', error);
         setError(error.message);
+        message.error(error.message);
       });
   };
 
@@ -80,7 +81,7 @@ function TeacherRegisterPage() {
             <label htmlFor="name" className="teacher-register-form-label">
               Name:
             </label>
-            <input
+            <Input
               type="text"
               id="name"
               name="name"
@@ -94,7 +95,7 @@ function TeacherRegisterPage() {
             <label htmlFor="email" className="teacher-register-form-label">
               Email:
             </label>
-            <input
+            <Input
               type="email"
               id="email"
               name="email"
@@ -109,14 +110,13 @@ function TeacherRegisterPage() {
             <label htmlFor="password" className="teacher-register-form-label">
               Password:
             </label>
-            <input
-              type="password"
+            <Input.Password
               id="password"
               name="password"
               placeholder="Password"
               value={teacherData.password}
               onChange={handleChange}
-              autoComplete="off"
+              autoComplete="new-password"
               className="teacher-register-form-input"
               pattern="(?=.*\d)(?=.*[a-zA-Z]).{5,}"
               title="Password must be at least 5 characters long and include both letters and numbers"
@@ -130,7 +130,7 @@ function TeacherRegisterPage() {
             <label htmlFor="teacherId" className="teacher-register-form-label">
               Teacher ID:
             </label>
-            <input
+            <Input
               type="text" // Keep as text to allow leading zeros
               id="teacherId"
               name="teacherId"
@@ -145,17 +145,16 @@ function TeacherRegisterPage() {
             <label htmlFor="title" className="teacher-register-form-label">
               Title: 
             </label>
-            <select
+            <Input
+              type="text"
               id="title"
-              name="title" 
-              value={title}
-              onChange={handleTitleChange} 
+              name="title"
+              placeholder="Title"
+              value={teacherData.title}
+              onChange={handleChange}
               className="teacher-register-form-input"
-            >
-              <option value="">Select title</option> 
-              <option value="tutor">Tutor</option>
-              <option value="professor">Professor</option>
-            </select>
+              maxLength={255}
+            />
           </div>
 
           <button type="submit" className="teacher-register-submit-button">
