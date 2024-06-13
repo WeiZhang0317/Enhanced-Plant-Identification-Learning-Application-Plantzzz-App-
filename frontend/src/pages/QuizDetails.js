@@ -219,15 +219,15 @@ const QuizDetails = () => {
             }),
           }
         );
-
+  
         const data = await response.json();
         if (data) {
           setHasSavedProgress(true); // Enable the submit button after progress is saved
-          alert(data.message); // Show backend message
+          message.success(data.message); // Show success message using Ant Design
         }
       } catch (error) {
         console.error("Failed to save progress:", error);
-        alert("Failed to save progress");
+        message.error("Failed to save progress"); // Show error message using Ant Design
       }
     }
   };
