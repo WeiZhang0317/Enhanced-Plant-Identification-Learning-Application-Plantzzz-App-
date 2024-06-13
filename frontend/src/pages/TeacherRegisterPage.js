@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import "../styles/TeacherRegisterPage.css"; // Import the CSS file
-import { Input, Select, message } from 'antd';
+import { Input, Alert } from 'antd';
 
 function TeacherRegisterPage() {
   const navigate = useNavigate();
@@ -19,11 +19,6 @@ function TeacherRegisterPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTeacherData({ ...teacherData, [name]: value });
-    setError(""); // Clear error message on new input
-  };
-
-  const handleTitleChange = (value) => {
-    setTeacherData({ ...teacherData, title: value });
     setError(""); // Clear error message on new input
   };
 
@@ -66,7 +61,6 @@ function TeacherRegisterPage() {
       .catch(error => {
         console.error('Error:', error);
         setError(error.message);
-        message.error(error.message);
       });
   };
 
@@ -75,7 +69,7 @@ function TeacherRegisterPage() {
       <Navigation />
       <div className="teacher-register-container">
         <h1 className="teacher-register-title">Teacher Registration</h1>
-        {error && <div className="teacher-register-error-message">{error}</div>}
+        {error && <Alert message={error} type="error" showIcon />}
         <form onSubmit={handleSubmit} className="teacher-register-form">
           <div className="teacher-register-form-field">
             <label htmlFor="name" className="teacher-register-form-label">
@@ -88,6 +82,7 @@ function TeacherRegisterPage() {
               placeholder="Name"
               value={teacherData.name}
               onChange={handleChange}
+              autoComplete="off"
               className="teacher-register-form-input"
             />
           </div>
@@ -131,13 +126,14 @@ function TeacherRegisterPage() {
               Teacher ID:
             </label>
             <Input
-              type="text" // Keep as text to allow leading zeros
+              type="number" 
               id="teacherId"
               name="teacherId"
               placeholder="Teacher ID"
               value={teacherData.teacherId}
               onChange={handleChange}
               className="teacher-register-form-input"
+              title="Teacher ID must be a number"
             />
           </div>
          

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import "../styles/StudentRegisterPage.css"; // Import the CSS file
-import { Input, Select, message } from 'antd';
+import { Input, Select, Alert } from 'antd';
 
 function StudentRegisterPage() {
   const navigate = useNavigate();
@@ -62,7 +62,6 @@ function StudentRegisterPage() {
     .catch(error => {
       console.error('Error:', error);
       setError(error.message);
-      message.error(error.message);
     });
   };
 
@@ -71,7 +70,7 @@ function StudentRegisterPage() {
       <Navigation />
       <div className="student-register-container">
         <h1 className="student-register-title">Student Registration</h1>
-        {error && <div className="student-register-error-message">{error}</div>}
+        {error && <Alert message={error} type="error" showIcon />}
         <form onSubmit={handleSubmit} className="student-register-form">
           <div className="student-register-form-field">
             <label htmlFor="name" className="student-register-form-label">
@@ -85,6 +84,7 @@ function StudentRegisterPage() {
               value={studentData.name}
               onChange={handleChange}
               className="student-register-form-input"
+              autoComplete="off"
             />
           </div>
           <div className="student-register-form-field">
@@ -127,7 +127,7 @@ function StudentRegisterPage() {
               Student ID:
             </label>
             <Input
-              type="text"
+              type="number"
               id="studentId"
               name="studentId"
               placeholder="Student ID"
@@ -147,7 +147,6 @@ function StudentRegisterPage() {
               name="enrollmentYear"
               value={studentData.enrollmentYear}
               onChange={(value) => setStudentData({ ...studentData, enrollmentYear: value })}
-              // className="student-register-form-input"
             >
               {Array.from(
                 { length: currentYear - 1999 },
