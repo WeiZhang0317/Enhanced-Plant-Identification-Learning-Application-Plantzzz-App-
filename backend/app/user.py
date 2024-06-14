@@ -84,9 +84,14 @@ def logout():
 @user_blueprint.route('/update-profile', methods=['POST'])
 def update_profile():
     data = request.json
-    user_id = data.get('userId')  
+    user_id = data.get('userId')
+    
     if not user_id:
         return jsonify({"message": "User ID not provided"}), 400
+
+    # 检查 email 和 username 是否为空
+    if not data.get('email') or not data.get('username'):
+        return jsonify({"message": "Email and username cannot be empty"}), 400
 
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
@@ -96,22 +101,20 @@ def update_profile():
         if not user:
             return jsonify({"message": "User not found"}), 404
 
-        if 'newPassword' in data and 'currentPassword' in data:
-            if check_password_hash(user['Password'], data['currentPassword']):
-                new_password_hashed = generate_password_hash(data['newPassword'])
-                cursor.execute("UPDATE Users SET Password = %s WHERE UserID = %s", (new_password_hashed, user_id))
-            else:
-                return jsonify({"message": "Current password is incorrect"}), 401
+        # 如果提供了 newPassword，则更新密码
+        if 'newPassword' in data and data['newPassword']:
+            new_password_hashed = generate_password_hash(data['newPassword'])
+            cursor.execute("UPDATE Users SET Password = %s WHERE UserID = %s", (new_password_hashed, user_id))
 
-        if 'username' in data and 'email' in data:
-            cursor.execute("UPDATE Users SET Username = %s, Email = %s WHERE UserID = %s", (data['username'], data['email'], user_id))
+        # 更新用户名和邮件
+        cursor.execute("UPDATE Users SET Username = %s, Email = %s WHERE UserID = %s", (data['username'], data['email'], user_id))
 
         connection.commit()
         
         cursor.execute("SELECT UserID, Username, Email, UserType FROM Users WHERE UserID = %s", (user_id,))
         updated_user = cursor.fetchone()
         
-        # Update session with the latest user info
+        # 更新 session 中的用户信息
         session['user_info'] = {
             "userId": updated_user['UserID'],
             "username": updated_user['Username'],

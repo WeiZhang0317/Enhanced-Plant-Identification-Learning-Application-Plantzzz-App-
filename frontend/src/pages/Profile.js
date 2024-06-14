@@ -12,10 +12,8 @@ const Profile = () => {
   const [editing, setEditing] = useState(false);
   const [username, setUsername] = useState(user ? user.username : "");
   const [email, setEmail] = useState(user ? user.email : "");
-  const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [currentPassword, setCurrentPassword] = useState("");
 
   useEffect(() => {
     setUsername(user ? user.username : "");
@@ -25,11 +23,16 @@ const Profile = () => {
   const handleEditToggle = () => setEditing(!editing);
 
   const handleSave = async () => {
+    if (!username || !email) {
+      setErrorMessage("Username and email cannot be empty");
+      message.error("Username and email cannot be empty");
+      return;
+    }
+
     try {
       const userData = {
         username,
         email,
-        currentPassword,
         newPassword,
         userId: user.userId,
       };
@@ -53,7 +56,6 @@ const Profile = () => {
         });
       }
       setEditing(false);
-      setPassword("");
       setNewPassword("");
       setErrorMessage("");
       message.success("Profile updated successfully");
@@ -98,14 +100,7 @@ const Profile = () => {
             placeholder="Email"
           />
 
-          <Text>Current Password:</Text>
-          <Input.Password
-            className="fixed-size-input"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            autocomplete="new-password"
-          />
-          <Text>New Password:</Text>
+          <Text>New Password (optional):</Text>
           <Input.Password
             className="fixed-size-input"
             value={newPassword}
