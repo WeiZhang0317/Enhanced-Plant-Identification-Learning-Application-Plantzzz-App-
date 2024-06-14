@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import {  Modal,message } from "antd";
 import "../styles/StudentReview.css";
 
 const StudentReview = () => {
@@ -15,6 +16,7 @@ const StudentReview = () => {
       setProgressList(data);
     } catch (error) {
       console.error("Failed to fetch progress:", error);
+      message.error("Failed to fetch progress");
     } finally {
       setLoading(false);
     }
@@ -25,19 +27,26 @@ const StudentReview = () => {
   }, []);
 
   const handleDelete = async (progressId) => {
-    if (window.confirm("Are you sure you want to delete this record?")) {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/user/delete-progress/${progressId}`,
-          { method: "DELETE" }
-        );
-        const data = await response.json();
-        alert(data.message);
-        fetchProgress(); // Reload the progress list to reflect the deletion
-      } catch (error) {
-        console.error("Failed to delete progress:", error);
-      }
-    }
+    Modal.confirm({
+      title: "Are you sure you want to delete this record?",
+      onOk: async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:5000/user/delete-progress/${progressId}`,
+            { method: "DELETE" }
+          );
+          const data = await response.json();
+          message.success(data.message);
+          fetchProgress(); // Reload the progress list to reflect the deletion
+        } catch (error) {
+          console.error("Failed to delete progress:", error);
+          message.error("Failed to delete progress");
+        }
+      },
+      onCancel() {
+        message.info("Deletion cancelled");
+      },
+    });
   };
 
   if (loading) {
