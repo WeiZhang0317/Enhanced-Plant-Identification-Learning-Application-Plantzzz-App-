@@ -115,3 +115,22 @@
 .input.ant-input:-webkit-autofill{
   box-shadow: 0 0 0px 1000px transparent inset !important;
 }
+
+.profile-form-hint {
+  font-size: 0.75rem;
+  color: #6c757d;
+  width: 100%;
+  font-style: italic;
+  text-align: left;
+  font-family: 'Cinzel', serif; 
+  margin-top: 0.5rem;
+}
+
+
+.profile-form-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 10px 0;
+  width: 100%;
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useUserContext } from "../contexts/UserContext";
-import { message, Input, Typography } from "antd";
+import { message, Input, Typography, Select } from "antd";
 import "../styles/Profile.css";
 import studentAvatar from "../images/student.png";
 import teacherAvatar from "../images/teacher.png";
@@ -10,58 +10,83 @@ const { Text } = Typography;
 const Profile = () => {
   const { user, setUser } = useUserContext();
   const [editing, setEditing] = useState(false);
-  const [username, setUsername] = useState(user ? user.username : "");
-  const [email, setEmail] = useState(user ? user.email : "");
-  const [newPassword, setNewPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const currentYear = new Date().getFullYear();
+  const [profileData, setProfileData] = useState({
+    username: user ? user.username : "",
+    email: user ? user.email : "",
+    newPassword: "",
+    enrollmentYear: user && user.enrollmentYear ? user.enrollmentYear : `${currentYear}`,
+    title: user && user.title ? user.title : "",
+  });
 
   useEffect(() => {
-    setUsername(user ? user.username : "");
-    setEmail(user ? user.email : "");
+    setProfileData({
+      username: user ? user.username : "",
+      email: user ? user.email : "",
+      newPassword: "",
+      enrollmentYear: user && user.enrollmentYear ? user.enrollmentYear : `${currentYear}`,
+      title: user && user.title ? user.title : "",
+    });
   }, [user]);
 
-  const handleEditToggle = () => setEditing(!editing);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProfileData({ ...profileData, [name]: value });
+    message.destroy(); // Clear message on new input
+  };
 
-  const handleSave = async () => {
-    if (!username || !email) {
-      setErrorMessage("Username and email cannot be empty");
+  const handleSelectChange = (name, value) => {
+    setProfileData({ ...profileData, [name]: value });
+    message.destroy(); // Clear message on new input
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!profileData.username || !profileData.email) {
       message.error("Username and email cannot be empty");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profileData.email)) {
+      message.error("Invalid email format");
+      return;
+    }
+
+    if (profileData.newPassword && !/(?=.*\d)(?=.*[a-zA-Z]).{5,}/.test(profileData.newPassword)) {
+      message.error("Password must be at least 5 characters long and include both letters and numbers");
       return;
     }
 
     try {
       const userData = {
-        username,
-        email,
-        newPassword,
+        username: profileData.username,
+        email: profileData.email,
+        newPassword: profileData.newPassword,
         userId: user.userId,
       };
-      const response = await fetch(
-        "http://localhost:5000/user/update-profile",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(userData),
-        }
-      );
+      const response = await fetch("http://localhost:5000/user/update-profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const result = await response.json();
-      if (setUser) {
-        setUser({
-          ...user,
-          email: result.Email,
-          username: result.Username,
-        });
-      }
+      const updatedUser = {
+        ...user,
+        email: result.Email,
+        username: result.Username,
+        enrollmentYear: result.EnrollmentYear,
+        title: result.Title,
+      };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
       setEditing(false);
-      setNewPassword("");
-      setErrorMessage("");
+      setProfileData({ ...profileData, newPassword: "" });
       message.success("Profile updated successfully");
     } catch (error) {
       console.error("Failed to fetch:", error);
-      setErrorMessage("Failed to update profile: " + error.message);
       message.error("Failed to update profile: " + error.message);
     }
   };
@@ -81,39 +106,64 @@ const Profile = () => {
       />
       {!editing ? (
         <>
-          <h1>Welcome back, {username}!</h1>
-          <p>Email: {email}</p>
-          <button onClick={handleEditToggle}>Edit Profile</button>
+          <h1>Welcome back, {profileData.username}!</h1>
+          <p>Email: {profileData.email}</p>
+          
+          <button onClick={() => setEditing(true)}>Edit Profile</button>
         </>
       ) : (
         <>
-          <Text>Username:</Text>
-          <Input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-          />
-          <Text>Email:</Text>
-          <Input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-          />
-
-          <Text>New Password (optional):</Text>
-          <Input.Password
-            className="fixed-size-input"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            autocomplete="new-password"
-          />
-          <div className="button-group">
-            <button onClick={handleSave}>Save</button>
-            <button onClick={handleEditToggle}>Cancel</button>
-          </div>
+          <form onSubmit={handleSave} className="profile-form">
+            <div className="profile-form-field">
+              <Text>Username (required):</Text>
+              <Input
+                value={profileData.username}
+                onChange={handleChange}
+                placeholder="Username"
+                name="username"
+              />
+            </div>
+            <div className="profile-form-field">
+              <Text>Email (required):</Text>
+              <Input
+                value={profileData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                name="email"
+                type="email"
+                autoComplete="off"
+              />
+            </div>
+            <div className="profile-form-field">
+              <Text>New Password (optional):</Text>
+              <Input.Password
+                value={profileData.newPassword}
+                onChange={handleChange}
+                placeholder="New Password"
+                name="newPassword"
+                className="fixed-size-input"
+                autoComplete="new-password"
+              />
+              <div className="profile-form-hint">
+                Include letters and numbers, at least 5 chars.
+              </div>
+            </div>
+            
+            <div className="button-group">
+              <button type="submit" className="profile-save-button">
+                Save
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditing(false)}
+                className="profile-cancel-button"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
         </>
       )}
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
 };

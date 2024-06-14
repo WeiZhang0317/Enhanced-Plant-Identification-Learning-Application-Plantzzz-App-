@@ -88,15 +88,14 @@ def update_profile():
     
     if not user_id:
         return jsonify({"message": "User ID not provided"}), 400
-
-    # 检查 email 和 username 是否为空
+    
     if not data.get('email') or not data.get('username'):
         return jsonify({"message": "Email and username cannot be empty"}), 400
-
+    
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
     try:
-        cursor.execute("SELECT Password FROM Users WHERE UserID = %s", (user_id,))
+        cursor.execute("SELECT Password, UserType FROM Users WHERE UserID = %s", (user_id,))
         user = cursor.fetchone()
         if not user:
             return jsonify({"message": "User not found"}), 404
@@ -108,6 +107,14 @@ def update_profile():
 
         # 更新用户名和邮件
         cursor.execute("UPDATE Users SET Username = %s, Email = %s WHERE UserID = %s", (data['username'], data['email'], user_id))
+
+        # 更新入学年份
+        if 'enrollmentYear' in data:
+            cursor.execute("UPDATE Students SET EnrollmentYear = %s WHERE UserID = %s", (data['enrollmentYear'], user_id))
+
+        # 更新教师的 title
+        if user['UserType'] == 'teacher' and 'title' in data:
+            cursor.execute("UPDATE Teachers SET Title = %s WHERE UserID = %s", (data['title'], user_id))
 
         connection.commit()
         
@@ -122,6 +129,16 @@ def update_profile():
             "userType": updated_user['UserType']
         }
         
+        if updated_user['UserType'] == 'student':
+            cursor.execute("SELECT EnrollmentYear FROM Students WHERE UserID = %s", (user_id,))
+            student_info = cursor.fetchone()
+            session['user_info']['enrollmentYear'] = student_info['EnrollmentYear']
+        
+        if updated_user['UserType'] == 'teacher':
+            cursor.execute("SELECT Title FROM Teachers WHERE UserID = %s", (user_id,))
+            teacher_info = cursor.fetchone()
+            session['user_info']['title'] = teacher_info['Title']
+
         return jsonify(updated_user), 200
 
     except Exception as e:
