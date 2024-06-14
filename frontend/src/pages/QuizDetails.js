@@ -27,11 +27,12 @@ const QuizDetails = () => {
   const [showScoreModal, setShowScoreModal] = useState(false); // State to control the visibility of the score modal
   const [finalScore, setFinalScore] = useState(0); // State to store the final score
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isTimerStarted, setIsTimerStarted] = useState(false);
   const [question, setQuestion] = useState({});
   const [progressing, setProgressing] = useState(false);
   const [showLightbox, setShowLightbox] = useState(false);
   const [lightboxImage, setLightboxImage] = useState("");
-  const [showInstructions, setShowInstructions] = useState(true); // Add this state
+  const [showInstructions, setShowInstructions] = useState(true); 
   const [questionTime] = useState(10);
   const [questionTimerKey, setQuestionTimerKey] = useState(0);
   // const [deadline, setdeadline] = useState(Date.now() + 1000 * 15);
@@ -287,7 +288,12 @@ const QuizDetails = () => {
              
             </p>
             <br />
-            <button onClick={() => setShowInstructions(false)}>
+            <button
+              onClick={() => {
+                setShowInstructions(false);
+                setIsTimerStarted(true);
+              }}
+            >
               I Understand
             </button>
           
@@ -299,7 +305,7 @@ const QuizDetails = () => {
       <div className="timer-wrapper">
         <CountdownCircleTimer
           key={questionTimerKey}
-          isPlaying
+          isPlaying={isTimerStarted}
           size={50}
           strokeWidth={5}
           duration={questionTime}
