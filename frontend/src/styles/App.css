@@ -26,7 +26,7 @@
 
 .App-link {
   color: #61dafb;
-}
+} 
 
 @keyframes App-logo-spin {
   from {
@@ -40,3 +40,35 @@
 .hidden {
   display: none;
 }
+
+
+.ant-input:hover,
+.ant-input-affix-wrapper:hover {
+  border-color: #4CAF50;
+}
+
+.ant-input:focus,
+.ant-input-affix-wrapper:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+
+.ant-input-password .ant-input,
+.ant-input-password .ant-input-affix-wrapper {
+  border-color: #4CAF50;
+}
+
+.ant-input-password .ant-input:hover,
+.ant-input-password .ant-input-affix-wrapper:hover,
+.ant-input-password .ant-input:focus,
+.ant-input-password .ant-input-affix-wrapper:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.ant-input-affix-wrapper-focused {
+  border-color: #4CAF50 !important;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2) !important;
+}
+
