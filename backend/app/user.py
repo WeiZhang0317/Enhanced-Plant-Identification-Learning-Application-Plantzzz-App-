@@ -100,19 +100,17 @@ def update_profile():
         if not user:
             return jsonify({"message": "User not found"}), 404
 
-        # 如果提供了 newPassword，则更新密码
         if 'newPassword' in data and data['newPassword']:
             new_password_hashed = generate_password_hash(data['newPassword'])
             cursor.execute("UPDATE Users SET Password = %s WHERE UserID = %s", (new_password_hashed, user_id))
 
-        # 更新用户名和邮件
         cursor.execute("UPDATE Users SET Username = %s, Email = %s WHERE UserID = %s", (data['username'], data['email'], user_id))
 
-        # 更新入学年份
+      
         if 'enrollmentYear' in data:
             cursor.execute("UPDATE Students SET EnrollmentYear = %s WHERE UserID = %s", (data['enrollmentYear'], user_id))
 
-        # 更新教师的 title
+       
         if user['UserType'] == 'teacher' and 'title' in data:
             cursor.execute("UPDATE Teachers SET Title = %s WHERE UserID = %s", (data['title'], user_id))
 
@@ -121,7 +119,7 @@ def update_profile():
         cursor.execute("SELECT UserID, Username, Email, UserType FROM Users WHERE UserID = %s", (user_id,))
         updated_user = cursor.fetchone()
         
-        # 更新 session 中的用户信息
+    
         session['user_info'] = {
             "userId": updated_user['UserID'],
             "username": updated_user['Username'],
