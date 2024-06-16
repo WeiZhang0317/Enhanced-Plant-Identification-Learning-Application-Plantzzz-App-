@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import { useUserContext } from "../contexts/UserContext";
-import { TextField, InputAdornment, IconButton, Alert } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import "../styles/LoginPage.css";
-
+import { Input } from "antd";
 function LoginPage() {
   const { login } = useUserContext(); // Using the custom hook to access the user context
   const navigate = useNavigate();
@@ -67,18 +65,14 @@ function LoginPage() {
     <div className="login-page">
       <Navigation />
       <div className="login-container">
-        {error && (
-          <Alert severity="error" >
-            {error}
-          </Alert>
-        )}
+        {error && <div className="login-error">{error}</div>}
         <form onSubmit={handleSubmit} className="login-form">
           <div className="login-form-field">
             <h1 className="login-title">Login</h1>
             <label htmlFor="email" className="login-label">
               Email:
             </label>
-            <TextField
+            <Input
               type="email"
               id="email"
               name="email"
@@ -86,63 +80,23 @@ function LoginPage() {
               value={loginData.email}
               onChange={handleChange}
               className="login-input"
-              variant="outlined"
-              fullWidth
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'green',
-                  },
-                  '&:hover fieldset': {
-                    borderColor: 'green',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: 'green',
-                  },
-                },
-              }}
             />
           </div>
           <div className="login-form-field">
             <label htmlFor="password" className="login-label">
               Password:
             </label>
-            <TextField
-              type={showPassword ? "text" : "password"}
+            {/* <div className="password-input-container"> */}
+            <Input.Password
               id="password"
               name="password"
               className="login-input"
               onChange={handleChange}
               value={loginData.password}
               placeholder="Password"
-              variant="outlined"
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      onMouseDown={(e) => e.preventDefault()}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': {
-                    borderColor: 'green',
-                  },
-                  '&:hover fieldset': {
-                    borderColor: 'green',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: 'green',
-                  },
-                },
-              }}
             />
+            {/*               
+            </div> */}
           </div>
           <button type="submit" className="login-button">
             Login
