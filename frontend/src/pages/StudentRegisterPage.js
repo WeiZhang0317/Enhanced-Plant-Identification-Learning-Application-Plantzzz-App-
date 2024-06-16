@@ -145,7 +145,7 @@ function StudentRegisterPage() {
               htmlFor="enrollmentYear"
               className="student-register-form-label"
             >
-              Year:
+              Enrollment Year:
             </label>
             <Select
               id="enrollmentYear"

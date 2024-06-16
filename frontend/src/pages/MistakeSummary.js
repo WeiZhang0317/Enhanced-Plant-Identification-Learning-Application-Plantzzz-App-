@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import '../styles/MistakeSummary.css'; 
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import "../styles/MistakeSummary.css";
 
 const MistakeSummary = () => {
   const { progressId } = useParams();
@@ -10,15 +10,17 @@ const MistakeSummary = () => {
   useEffect(() => {
     const fetchIncorrectAnswers = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/user/incorrect-answers/${progressId}`);
+        const response = await fetch(
+          `http://localhost:5000/user/incorrect-answers/${progressId}`
+        );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const data = await response.json();
         setIncorrectAnswers(data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching incorrect answers:', error);
+        console.error("Error fetching incorrect answers:", error);
         setLoading(false);
       }
     };
@@ -28,8 +30,10 @@ const MistakeSummary = () => {
 
   const handleNameClick = (latinName, commonName) => {
     const query = latinName || commonName; // Prefer Latin name if available, otherwise use common name
-    const url = `https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(query)}`;
-    window.open(url, '_blank'); // Opens the search in a new tab
+    const url = `https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(
+      query
+    )}`;
+    window.open(url, "_blank"); // Opens the search in a new tab
   };
 
   if (loading) {
@@ -48,13 +52,13 @@ const MistakeSummary = () => {
   return (
     <div className="mistake-summary">
       <h2>Review Incorrect Answers</h2>
-      <p>Click on bold plant name to learn more about it on Wikipedia.</p> {/* Instructional text */}
+      <p>Click on bold plant name to learn more about it on Wikipedia.</p>{" "}
+      {/* Instructional text */}
       <table>
         <thead>
           <tr>
             <th>Question</th>
-            <th>Your Answer</th>
-            <th>Correct Answer</th>
+
             <th>Latin Name</th>
             <th>Common Name</th>
           </tr>
@@ -63,14 +67,23 @@ const MistakeSummary = () => {
           {incorrectAnswers.map((answer, index) => (
             <tr key={index}>
               <td>{answer.questionText}</td>
-              <td>{answer.selectedOption}</td>
-              <td>{answer.correctAnswer}</td>
-              <td className="latin-name" onClick={() => handleNameClick(answer.latinName, answer.commonName)}>
+
+              <td
+                className="latin-name"
+                onClick={() =>
+                  handleNameClick(answer.latinName, answer.commonName)
+                }
+              >
                 <span className="icon-leaf"></span>
                 {answer.latinName}
               </td>
-              <td className="common-name" onClick={() => handleNameClick(answer.latinName, answer.commonName)}>
-               <span className="icon-leaf"></span>
+              <td
+                className="common-name"
+                onClick={() =>
+                  handleNameClick(answer.latinName, answer.commonName)
+                }
+              >
+                <span className="icon-leaf"></span>
                 {answer.commonName}
               </td>
             </tr>

@@ -80,6 +80,7 @@ function LoginPage() {
               value={loginData.email}
               onChange={handleChange}
               className="login-input"
+              autoComplete="off"
             />
           </div>
           <div className="login-form-field">
@@ -94,6 +95,7 @@ function LoginPage() {
               onChange={handleChange}
               value={loginData.password}
               placeholder="Password"
+              autoComplete="off"
             />
             {/*               
             </div> */}
