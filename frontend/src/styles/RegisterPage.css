@@ -113,3 +113,14 @@ body {
   border-color: #4CAF50;
   box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
 }
+
+.custom-select .ant-select-selector {
+  border-color: #d9d9d9; 
+}
+
+.custom-select.ant-select-focused .ant-select-selector,
+.custom-select .ant-select-selector:focus,
+.custom-select .ant-select-selector:hover {
+  border-color: #4CAF50 !important;
+  box-shadow: 0 0 0 2px rgba(0, 128, 0, 0.2) !important;
+}

@@ -10,7 +10,9 @@ const EditQuiz = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const { quizId } = useParams();
   const navigate = useNavigate();
-  const [inputQuestionIndex, setInputQuestionIndex] = useState(currentQuestionIndex + 1);
+  const [inputQuestionIndex, setInputQuestionIndex] = useState(
+    currentQuestionIndex + 1
+  );
 
   useEffect(() => {
     const fetchQuizDetails = async () => {
@@ -206,7 +208,7 @@ const EditQuiz = () => {
             value={inputQuestionIndex}
             onChange={(e) => setInputQuestionIndex(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 const questionIndex = parseInt(inputQuestionIndex, 10) - 1;
                 if (
                   !isNaN(questionIndex) &&
@@ -294,9 +296,7 @@ const EditQuiz = () => {
       </div>
 
       <button onClick={handleSave} className="save-button">
-
-      Save Quiz
-
+        Save Quiz
       </button>
     </div>
   );

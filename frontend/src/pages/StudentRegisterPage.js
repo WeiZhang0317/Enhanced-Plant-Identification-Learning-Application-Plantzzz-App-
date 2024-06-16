@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import "../styles/StudentRegisterPage.css"; // Import the CSS file
-import { Input, Select, Alert } from 'antd';
+import { Input, Select, Alert } from "antd";
 
 function StudentRegisterPage() {
   const navigate = useNavigate();
@@ -36,33 +36,35 @@ function StudentRegisterPage() {
       return;
     }
 
-    fetch('http://localhost:5000/student/register/student', {
-      method: 'POST',
+    fetch("http://localhost:5000/student/register/student", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(studentData),
     })
-    .then(response => {
-      if (!response.ok) { 
-        if (response.status === 409) {
-          return response.json().then(data => {
-            throw new Error(data.message || 'There is a conflict with the existing data.');
-          });
-        } else {
-          throw new Error('Failed to register. Please try again later.');
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 409) {
+            return response.json().then((data) => {
+              throw new Error(
+                data.message || "There is a conflict with the existing data."
+              );
+            });
+          } else {
+            throw new Error("Failed to register. Please try again later.");
+          }
         }
-      }
-      return response.json(); 
-    })
-    .then(data => {
-      console.log(data);
-      navigate("/thank-you");
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      setError(error.message);
-    });
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        navigate("/thank-you");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setError(error.message);
+      });
   };
 
   return (
@@ -139,14 +141,20 @@ function StudentRegisterPage() {
             />
           </div>
           <div className="student-register-form-field">
-            <label htmlFor="enrollmentYear" className="student-register-form-label">
+            <label
+              htmlFor="enrollmentYear"
+              className="student-register-form-label"
+            >
               Year:
             </label>
             <Select
               id="enrollmentYear"
               name="enrollmentYear"
               value={studentData.enrollmentYear}
-              onChange={(value) => setStudentData({ ...studentData, enrollmentYear: value })}
+              className="custom-select"
+              onChange={(value) =>
+                setStudentData({ ...studentData, enrollmentYear: value })
+              }
             >
               {Array.from(
                 { length: currentYear - 1999 },
