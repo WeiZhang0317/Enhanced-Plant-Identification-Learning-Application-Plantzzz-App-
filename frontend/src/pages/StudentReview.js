@@ -1,30 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {  Modal,message } from "antd";
+import { Modal, message } from "antd";
 import "../styles/StudentReview.css";
+import { useUserContext } from "../contexts/UserContext";
 
 const StudentReview = () => {
   const [progressList, setProgressList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useUserContext(); // 获取当前登录用户信息
   const navigate = useNavigate();
 
-  // Define fetchProgress here to use it inside useEffect and handleDelete
   const fetchProgress = async () => {
     try {
-      const response = await fetch("http://localhost:5000/user/progress-list");
+      const studentId = user.studentId;
+      console.log("Sending studentId:", studentId); // 打印 studentId 以进行调试
+      const response = await fetch(
+        `http://localhost:5000/user/progress-list?studentId=${studentId}`,
+        {
+          method: "GET",
+        }
+      );
       const data = await response.json();
-      setProgressList(data);
+      console.log("Response data:", data); // 打印响应数据以进行调试
+      if (Array.isArray(data)) {
+        setProgressList(data);
+      } else {
+        setProgressList([]);
+      }
     } catch (error) {
       console.error("Failed to fetch progress:", error);
       message.error("Failed to fetch progress");
+      setProgressList([]);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchProgress();
-  }, []);
+    if (user) {
+      fetchProgress();
+    }
+  }, [user]);
 
   const handleDelete = async (progressId) => {
     Modal.confirm({
@@ -33,7 +49,9 @@ const StudentReview = () => {
         try {
           const response = await fetch(
             `http://localhost:5000/user/delete-progress/${progressId}`,
-            { method: "DELETE" }
+            {
+              method: "DELETE",
+            }
           );
           const data = await response.json();
           message.success(data.message);

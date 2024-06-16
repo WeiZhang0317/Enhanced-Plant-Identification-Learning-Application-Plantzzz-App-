@@ -363,12 +363,19 @@ def submit_quiz(quiz_id):
             cursor.close()
             connection.close()
 
-@user_blueprint.route('/progress-list', methods=['GET'])
+@user_blueprint.route('/progress-list', methods=['POST', 'GET'])
 def get_progress_list():
+    student_id = request.args.get('studentId')
+    
+    # 打印接收到的 studentId
+    print(f"Received studentId: {student_id}")
+    
+    if not student_id:
+        return jsonify({'message': 'Unauthorized access'}), 401
+
     connection = get_db_connection()
     try:
         cursor = get_cursor(connection)
-       
         cursor.execute('''
             SELECT 
                 p.ProgressID,
@@ -376,10 +383,10 @@ def get_progress_list():
                 p.StartTimestamp
             FROM StudentQuizProgress p
             JOIN Quizzes q ON p.QuizID = q.QuizID
-        ''')
+            WHERE p.StudentID = %s
+        ''', (student_id,))
         progresses = cursor.fetchall()
 
-        
         progress_list = [{
             'progressId': progress['ProgressID'],
             'quizName': progress['QuizName'],
