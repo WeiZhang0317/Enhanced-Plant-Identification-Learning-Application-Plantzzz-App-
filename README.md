@@ -1,12 +1,4 @@
-安装依赖：
-# install flask-cors
-pip install flask-cors
-cd C:\Users\Fernanda\Documents\GitHub\plantzzz\frontend
-cd C:\Users\zhang\Documents\GitHub\plantzzz\frontend
-set NODE_OPTIONS=--openssl-legacy-provider
-npm start
 
-cd "C:\Users\zhang\Downloads\plantzzz-main (1)\plantzzz-main\frontend"
 
 # Enhanced Plant Identification Learning Application (Plantzzz App)
 
@@ -89,3 +81,13 @@ Leaderboard feature to view rankings based on quiz scores, fostering a competiti
 Teachers can create, modify, and delete quiz questions and answers, tailoring the content to current learning objectives.
 ###   View Study Reports:
 Teachers can generate reports on student performance, helping to identify common difficulties or assess the effectiveness of teaching materials.
+
+
+# install flask-cors
+pip install flask-cors
+cd C:\Users\Fernanda\Documents\GitHub\plantzzz\frontend
+cd C:\Users\zhang\Documents\GitHub\plantzzz\frontend
+set NODE_OPTIONS=--openssl-legacy-provider
+npm start
+
+cd "C:\Users\zhang\Downloads\plantzzz-main (1)\plantzzz-main\frontend"
